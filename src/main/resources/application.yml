@@ -1,8 +1,11 @@
 spring:
   datasource:
+    driverClassName: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5432/postgres
-    username: admin
-    password: admin
+    username: sa
+    password:
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.xml
   jpa:
     generate-ddl: true
     show-sql: true

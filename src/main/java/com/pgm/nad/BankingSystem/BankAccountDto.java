@@ -1,20 +1,17 @@
 package com.pgm.nad.BankingSystem;
 
-import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
-@Entity
+@NoArgsConstructor
 @AllArgsConstructor
-@RequiredArgsConstructor
-public class BankAccount {
+public class BankAccountDto {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    private double balance;
     private String type;
+    private double balance;
     private String name;
     private String surname;
     private String passport;
