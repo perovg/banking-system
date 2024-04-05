@@ -2,9 +2,35 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Banking System Registration</title>
+    <title>Banking System</title>
 </head>
 <body>
-<h1>Registration</h1>
+<br><br><br><br><br><br><br>
+<center><h1>Registration</h1></center>
+<form method="POST" th:action="@{/signUp}" th:object="${client}">
+
+    <center><label for="clientName"><font color="red">*</font>Name:</label><br>
+    <label>
+        <input th:field="*{name}" type="text"/>
+    </label><br>
+    <label for="clientSurname"><font color="red">*</font>Surname:</label><br>
+    <label>
+        <input th:field="*{surname}" type="text"/>
+    </label><br>
+    <label for="clientPassport">Passport:</label><br>
+    <label>
+        <input th:field="*{passport}" type="text"/>
+    </label><br>
+    <label for="clientAddress">Address:</label><br>
+    <label>
+        <input th:field="*{address}" type="text"/>
+    </label>
+    <br><br>
+    <button style="width: 170px; height: 25px">register</button>
+    <br>
+    <br>
+    <br>
+    <font color="red">* </font><a>mandatory field</a></center>
+</form>
 </body>
 </html>

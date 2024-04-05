@@ -1,4 +1,4 @@
-package com.pgm.nad.BankingSystem.controller;
+package com.pgm.nad.BankingSystem;
 
 import com.pgm.nad.BankingSystem.service.BankAccountService;
 import com.pgm.nad.BankingSystem.dto.BankAccountDto;

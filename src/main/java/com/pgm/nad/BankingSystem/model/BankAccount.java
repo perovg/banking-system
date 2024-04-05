@@ -16,4 +16,9 @@ public class BankAccount {
     private String type;
     private boolean confirmed;
 
+    @ManyToOne
+    Client client;
+
+    @ManyToOne
+    Bank bank;
 }

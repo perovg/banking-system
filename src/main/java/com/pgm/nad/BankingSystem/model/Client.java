@@ -14,26 +14,14 @@ import java.util.HashSet;
 public class Client {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long clientId;
+    private long clientId;
 
-    private String password;
     private String name;
     private String surname;
     private String passport;
     private String address;
 
-    @OneToMany
-    @JoinColumn(name = "clientId")
-    HashSet<BankAccount> bankAccounts;
-
-    @ManyToMany
-    HashSet<Bank> banks;
-
-    public Client(Long id, String password) {
+    public Client(Long id) {
         this.clientId = id;
-        this.password = password;
-        this.bankAccounts = new HashSet<>();
-        this.banks = new HashSet<>();
     }
 }

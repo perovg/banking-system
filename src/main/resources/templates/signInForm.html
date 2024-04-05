@@ -5,16 +5,19 @@
     <title>BankingSystem</title>
 </head>
 <body>
-<h1>Sign In</h1>
-<form method="POST" th:action="@{/signIn}">
-    <h3>Your id</h3>
+<br><br><br><br><br><br><br>
+<center><h1>Sign In</h1></center>
+<form method="POST" th:action="@{/signIn}" th:object="${check}">
+    <center><a>Your id:</a><br>
+        <label for="clientCheckId"></label>
     <label>
-        <input th:field="*{clientId}" type="text"/>
-    </label>
+        <input th:field="*{clientCheckId}" type="text"/>
+    </label></center>
 </form>
-<form method="GET" th:action="@{/registration}">
-    <h3>I don't have an account</h3>
-    <button>registration</button>
+<form method="GET" th:action="@{/signUp}">
+    <center><h4>I don't have an account</h4>
+        <button style="width: 150px; height: 25px">registration</button>
+    </center>
 </form>
 </body>
 </html>
