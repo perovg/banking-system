@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>BankingSystem</title>
+</head>
+<body>
+<h1>Sign In</h1>
+<form method="POST" th:action="@{/signIn}">
+    <h3>Your id</h3>
+    <label>
+        <input th:field="*{clientId}" type="text"/>
+    </label>
+</form>
+<form method="GET" th:action="@{/registration}">
+    <h3>I don't have an account</h3>
+    <button>registration</button>
+</form>
+</body>
+</html>
