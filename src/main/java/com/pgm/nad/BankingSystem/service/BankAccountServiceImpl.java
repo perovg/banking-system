@@ -1,5 +1,9 @@
-package com.pgm.nad.BankingSystem;
+package com.pgm.nad.BankingSystem.service;
 
+import com.pgm.nad.BankingSystem.dto.BankAccountDto;
+import com.pgm.nad.BankingSystem.mapper.BankAccountMapper;
+import com.pgm.nad.BankingSystem.model.BankAccount;
+import com.pgm.nad.BankingSystem.repository.BankAccountRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -42,6 +46,6 @@ public class BankAccountServiceImpl implements BankAccountService {
     private BankAccount getById(Long id) {
         return bankAccountRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException(
-                        "Bank account with id: " + id + " not found"));
+                        "Bank account with bankId: " + id + " not found"));
     }
 }

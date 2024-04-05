@@ -1,5 +1,7 @@
-package com.pgm.nad.BankingSystem;
+package com.pgm.nad.BankingSystem.mapper;
 
+import com.pgm.nad.BankingSystem.dto.BankAccountDto;
+import com.pgm.nad.BankingSystem.model.BankAccount;
 import org.mapstruct.Mapper;
 
 import java.util.List;

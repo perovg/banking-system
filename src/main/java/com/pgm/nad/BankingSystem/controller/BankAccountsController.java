@@ -1,5 +1,7 @@
-package com.pgm.nad.BankingSystem;
+package com.pgm.nad.BankingSystem.controller;
 
+import com.pgm.nad.BankingSystem.service.BankAccountService;
+import com.pgm.nad.BankingSystem.dto.BankAccountDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,7 +12,7 @@ import java.net.URISyntaxException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/")
+@RequestMapping("/client")
 @RequiredArgsConstructor
 public class BankAccountsController {
     private final BankAccountService bankAccountService;
@@ -29,7 +31,7 @@ public class BankAccountsController {
     @PostMapping("/bankAccount")
     public ResponseEntity<BankAccountDto> createBankAccount(@RequestBody BankAccountDto bankAccount) throws URISyntaxException {
         BankAccountDto result = bankAccountService.save(bankAccount);
-        return ResponseEntity.created(new URI("/bankAccounts/" + result.getId()))
+        return ResponseEntity.created(new URI("/bankAccounts/" + result.bankAccountId()))
                 .body(result);
     }
 
