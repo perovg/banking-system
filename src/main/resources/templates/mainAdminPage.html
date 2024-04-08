@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <br><br>
+    <title>Banking System Admin Page</title>
+</head>
+<body>
+<center><h1>Banking system control page</h1></center>
+<br><br><br><br><br><br><br><br><br>
+<form method="GET" th:action="@{/admin/banks}">
+    <center>
+        <button style="width: 400px; height: 40px">Manage banks</button>
+    </center>
+</form>
+<br>
+<form method="GET" th:action="@{/admin/accounts}">
+    <center>
+        <button style="width: 400px; height: 40px">Manage accounts</button>
+    </center>
+</form>
+<br>
+<form method="GET" th:action="@{/admin/clients}">
+    <center>
+        <button style="width: 400px; height: 40px">Manage clients</button>
+    </center>
+</form><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<form method="GET" th:action="@{/}">
+    <button style="width: 170px; height: 25px; float: right">exit</button>
+</form>
+</body>
+</html>
