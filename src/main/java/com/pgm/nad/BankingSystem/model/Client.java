@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
-import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @Entity
@@ -20,8 +20,8 @@ public class Client {
     private String surname;
     private String passport;
     private String address;
-
     public Client(Long id) {
         this.clientId = id;
     }
+
 }

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Banking System</title>
+</head>
+<body>
+<center><h2>Create new bank</h2></center>
+<form method="POST" th:action="@{/admin/banks/create}" th:object="${bank}">
+    <br><br><br><br><br>
+    <center><label for="name"><font color="red">*</font>Name:</label><br>
+    <label>
+        <input th:field="*{name}" type="text"/>
+    </label><br><br>
+    <label for="interestRate"><font color="red">*</font>Enter interest rate:</label><br>
+    <label>
+        <input th:field="*{interestRate}" type="text"/>
+    </label><br><br>
+    <label for="name"><font color="red">*</font>Enter credit limit:</label><br>
+    <label>
+        <input th:field="*{creditLimit}" type="text"/>
+    </label><br><br>
+        <button style="width: 170px; height: 25px">create</button>
+    <br>
+    <br>
+    <br>
+    <font color="red">* </font><a>mandatory field</a></center>
+</form>
+</body>
+</html>

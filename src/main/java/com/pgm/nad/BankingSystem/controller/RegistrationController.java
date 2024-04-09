@@ -15,6 +15,7 @@ import java.util.Random;
 @RequestMapping("/")
 public class RegistrationController {
     public final ClientRepository clientRepository;
+
     public Random random = new Random();
     long id = 700000000;
 
@@ -114,4 +115,5 @@ public class RegistrationController {
     public String signUpSuccess() {
         return "signUpSuccess";
     }
+
 }

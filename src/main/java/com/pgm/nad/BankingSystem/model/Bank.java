@@ -2,13 +2,12 @@ package com.pgm.nad.BankingSystem.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
-import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @Entity
@@ -17,18 +16,10 @@ import java.util.HashSet;
 public class Bank {
 
     @Id
-    int bankId;
+    long bankId;
 
     String name;
     double interestRate;
+    int creditLimit;
 
-
-    @ManyToMany
-    HashSet<Client> clients;
-
-    public Bank(int bankId, String name, double interestRate) {
-        this.bankId = bankId;
-        this.name = name;
-        this.interestRate = interestRate;
-    }
 }

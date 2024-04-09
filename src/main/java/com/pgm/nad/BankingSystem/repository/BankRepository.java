@@ -8,4 +8,6 @@ import java.util.Set;
 
 public interface BankRepository extends JpaRepository<Bank, Long> {
 
+    Bank findByBankId(long bankId);
+
 }
