@@ -7,7 +7,7 @@
 <body>
 <br><br><br><br><br><br><br>
 <center><h1>Sign In</h1></center>
-<form method="POST" th:action="@{/signIn}">
+<form method="POST" th:action="@{/main_catalog}" th:object="${client}">
     <center><a>Your id:</a><br>
         <input type="text" name="clientId" th:href="*{clientId}" />
     </center>

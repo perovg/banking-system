@@ -5,6 +5,9 @@
     <title>Banking System</title>
 </head>
 <body>
+<form method="GET" th:action="@{/admin}">
+    <button style="width: 170px; height: 25px; float: right">exit</button>
+</form><br>
 <center><h1>Manage banks</h1>
     <form method="GET" th:action="@{/admin/banks/create}">
         <button style="width: 300px; height: 40px">Create new</button>

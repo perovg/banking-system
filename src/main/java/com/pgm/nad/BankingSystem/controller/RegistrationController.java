@@ -2,6 +2,8 @@ package com.pgm.nad.BankingSystem.controller;
 
 import com.pgm.nad.BankingSystem.model.Client;
 import com.pgm.nad.BankingSystem.repository.ClientRepository;
+import com.pgm.nad.BankingSystem.service.ClientService;
+import com.pgm.nad.BankingSystem.service.ClientServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -41,7 +43,7 @@ public class RegistrationController {
 
     @GetMapping("/signIn")
     public String signInForm(Model model) {
-        model.addAttribute("clientId", "");
+        model.addAttribute("client", new Client());
         return "signInForm";
     }
 
@@ -55,39 +57,6 @@ public class RegistrationController {
             id = Long.parseLong(clientId.toString());
         }
         return id;
-    }
-
-    private boolean checkId(String clientId){
-        if (clientId.length() != 9) {
-            return false;
-        }
-        boolean flag = true;
-        for (int i = 0; i < 9; i++) {
-            char sym = clientId.charAt(i);
-            if (i == 0 && sym != '7') {
-                flag = false;
-            }
-            if (!Character.isDigit(sym)) {
-                flag = false;
-            }
-        }
-        return flag;
-    }
-
-    @PostMapping("/signIn")
-    public String checkSignIn(@ModelAttribute("clientId") String clientId) {
-        boolean clientIn = checkId(clientId);
-        if (clientIn) {
-            long clientLongId = Long.parseLong(clientId);
-            clientIn = clientRepository.existsById(clientLongId);
-            if (clientIn) {
-                if (clientLongId == 700000000) {
-                    return "redirect:/admin";
-                }
-                return "redirect:/banks";
-            }
-        }
-        return "signInForm";
     }
 
     @GetMapping("/signUp")

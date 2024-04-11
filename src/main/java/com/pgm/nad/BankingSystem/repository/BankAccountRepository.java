@@ -10,4 +10,6 @@ import java.util.Set;
 public interface BankAccountRepository extends JpaRepository<BankAccount, Long> {
 
     Set<BankAccount> findAllByClientAndBank(Client client, Bank bank);
+
+    void deleteAllByBank(Bank bank);
 }

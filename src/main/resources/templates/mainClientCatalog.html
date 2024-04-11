@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Banking System</title>
+</head>
+<body>
+<center><h1>My banks</h1>
+    <table>
+        <tr>
+            <th th:text="Name" style="width: 100px; border-color: black; height: 30px" align="left"></th>
+        </tr>
+        <tr th:each="bank : ${banks}">
+            <form method="GET" th:action="@{/banks/{id}/edit(id=${bank.bankId})}" th:object="${bank}">
+                <td th:text="${bank.name} " style="width: 100px; border-color: black; height: 30px"></td>
+                <td style="width: 100px; border-color: black; height: 30px">
+                    <button th:href="@{/banks/{id}(id=${bank.bankId})}">manage</button>
+                </td>
+            </form>
+        </tr>
+    </table>
+</center>
+</body>
+</html>
