@@ -2,7 +2,6 @@ package com.pgm.nad.BankingSystem.service;
 
 import com.pgm.nad.BankingSystem.dto.ClientDto;
 import com.pgm.nad.BankingSystem.mapper.ClientMapper;
-import com.pgm.nad.BankingSystem.model.Bank;
 import com.pgm.nad.BankingSystem.model.Client;
 import com.pgm.nad.BankingSystem.repository.ClientRepository;
 import jakarta.transaction.Transactional;
@@ -10,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.Random;
 
 @Service
 @Transactional
@@ -19,31 +18,67 @@ public class ClientServiceImpl implements ClientService {
 
     private final ClientMapper clientMapper;
     private final ClientRepository clientRepository;
+    private final Random random = new Random();
+    private long id = 700000000;
 
     @Override
-    public List<ClientDto> findAll() {return clientMapper.toListDto(clientRepository.findAll());}
-
-    @Override
-    public List<Bank> findBanksForClient(Client client) {
-        return clientRepository.findBanksByClientId(client.getClientId());
-    }
-    @Override
-    public ClientDto findById(Long id) {
-        return Optional.of(getById(id)).map(clientMapper::modelToDto).get();
+    public List<ClientDto> findAll() {
+        return clientMapper.toListDto(clientRepository.findAll());
     }
 
     @Override
-    @Transactional
-    public ClientDto save(ClientDto client) {
-        return clientMapper.modelToDto(clientRepository.save(
-                clientMapper.dtoToModel(client)));
+    public ClientDto findClientDtoById(long id) {
+        return clientRepository.findById(id).map(clientMapper::modelToDto).get();
     }
 
+    @Override
+    public Client findClientById(long id) {
+        return clientRepository.findById(id).get();
+    }
 
-    public Client getById(Long id) {
-        return clientRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException(
-                        "Client with bankId: " + id + " not found"));
+    @Override
+    public long save(ClientDto client) {
+        long clientId = generateClientId();
+        System.out.println(clientId);
+        client.setClientId(clientId);
+        clientRepository.save(clientMapper.dtoToModel(client));
+        return clientId;
+    }
+
+    @Override
+    public boolean existsById(long clientId) {
+        return clientRepository.existsById(clientId);
+    }
+
+    private long generateClientId() {
+        while (existsById(id)) {
+            StringBuilder clientId = new StringBuilder("7");
+            for (int i = 0; i < 8; i++) {
+                String symbol = Integer.toString(random.nextInt(0, 10));
+                clientId.append(symbol);
+            }
+            id = Long.parseLong(clientId.toString());
+        }
+        return id;
+    }
+
+    @Override
+    public boolean checkId(String clientId) {
+        if (clientId.length() != 9) {
+            return false;
+        }
+        boolean flag = true;
+        for (int i = 0; i < 9; i++) {
+            char sym = clientId.charAt(i);
+            if (i == 0 && sym != '7') {
+                flag = false;
+            }
+            if (!Character.isDigit(sym)) {
+                flag = false;
+            }
+        }
+        if (!clientRepository.existsById(Long.parseLong(clientId))) flag = false;
+        return flag;
     }
 
 }

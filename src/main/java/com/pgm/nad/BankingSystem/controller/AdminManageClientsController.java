@@ -1,8 +1,8 @@
 package com.pgm.nad.BankingSystem.controller;
 
-import com.pgm.nad.BankingSystem.repository.ClientRepository;
+import com.pgm.nad.BankingSystem.service.ClientServiceImpl;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,17 +11,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Slf4j
 @Controller
 @RequestMapping("/")
+@RequiredArgsConstructor
 public class AdminManageClientsController {
 
-    private final ClientRepository clientRepository;
+    private final ClientServiceImpl clientService;
 
-    @Autowired
-    public AdminManageClientsController(ClientRepository clientRepository) {
-        this.clientRepository = clientRepository;
-    }
     @GetMapping("/admin/clients")
     public String manageClients(Model model) {
-        model.addAttribute("clients", clientRepository.findAll());
+        model.addAttribute("clients", clientService.findAll());
         return "manageClientsForm";
     }
 }

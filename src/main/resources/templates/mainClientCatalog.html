@@ -5,16 +5,25 @@
     <title>Banking System</title>
 </head>
 <body>
-<center><h1>My banks</h1>
+<center>
+    <form method="GET" th:action="@{/}">
+        <button style="width: 170px; height: 25px; float: right">exit</button>
+    </form><br>
+    <h1>My banks</h1>
+    <form method="POST" th:action="@{/banks/add_bank}">
+        <input type="hidden" name="clientId" th:value="${client.clientId}"/>
+        <button>Become a client of a new bank</button>
+    </form>
     <table>
         <tr>
-            <th th:text="Name" style="width: 100px; border-color: black; height: 30px" align="left"></th>
+            <th th:text="Name" style="width: 100px; border-color: black; height: 30px" align="left"
+                th:if="!${#lists.isEmpty(banks)}"></th>
         </tr>
         <tr th:each="bank : ${banks}">
             <form method="GET" th:action="@{/banks/{id}/edit(id=${bank.bankId})}" th:object="${bank}">
                 <td th:text="${bank.name} " style="width: 100px; border-color: black; height: 30px"></td>
                 <td style="width: 100px; border-color: black; height: 30px">
-                    <button th:href="@{/banks/{id}(id=${bank.bankId})}">manage</button>
+                    <button th:href="@{/banks/{id}(id=${bank.bankId})}">open the bank</button>
                 </td>
             </form>
         </tr>

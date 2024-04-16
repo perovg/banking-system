@@ -15,6 +15,7 @@ import java.util.List;
 @RequestMapping("/client")
 @RequiredArgsConstructor
 public class BankAccountsController {
+    /*
     private final BankAccountService bankAccountService;
 
     @GetMapping("/bankAccounts")
@@ -46,5 +47,5 @@ public class BankAccountsController {
         bankAccountService.deleteById(id);
         return ResponseEntity.ok().build();
     }
-
+*/
 }

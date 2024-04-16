@@ -1,13 +1,11 @@
 package com.pgm.nad.BankingSystem.dto;
 
-import com.pgm.nad.BankingSystem.model.BankAccount;
+import lombok.Data;
 
-import java.util.HashSet;
-
-
-public record BankDto(
-        int bankId,
-        String name,
-        double interestRate,
-        HashSet<BankAccount> bankAccounts
-) {}
+@Data
+public class BankDto {
+    private long bankId;
+    private String name;
+    private double interestRate;
+    private int creditLimit;
+}

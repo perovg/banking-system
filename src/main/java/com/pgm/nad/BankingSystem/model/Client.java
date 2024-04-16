@@ -1,12 +1,10 @@
 package com.pgm.nad.BankingSystem.model;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-
-import java.util.List;
-import java.util.Set;
 
 @Data
 @Entity
@@ -15,17 +13,11 @@ import java.util.Set;
 public class Client {
 
     @Id
-    private long clientId;
+    public long clientId;
 
     private String name;
     private String surname;
     private String passport;
     private String address;
-    @JoinTable
-    @ManyToMany
-    List<Bank> banks;
-    public Client(Long id) {
-        this.clientId = id;
-    }
 
 }
