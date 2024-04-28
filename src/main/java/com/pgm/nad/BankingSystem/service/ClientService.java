@@ -6,7 +6,6 @@ import com.pgm.nad.BankingSystem.model.Client;
 import java.util.List;
 
 public interface ClientService {
-
     List<ClientDto> findAll();
 
     ClientDto findClientDtoById(long id);
@@ -16,5 +15,4 @@ public interface ClientService {
     long save(ClientDto client);
 
     boolean existsById(long clientId);
-
 }

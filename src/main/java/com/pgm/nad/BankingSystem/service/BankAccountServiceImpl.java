@@ -11,7 +11,6 @@ import com.pgm.nad.BankingSystem.model.DepositBankAccount;
 import com.pgm.nad.BankingSystem.model.Type;
 import com.pgm.nad.BankingSystem.repository.BankAccountRepository;
 import com.pgm.nad.BankingSystem.repository.BankRepository;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -22,9 +21,7 @@ import java.util.Random;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
 public class BankAccountServiceImpl implements BankAccountService {
-
     private final BankAccountRepository bankAccountRepository;
     private final BankAccountMapper bankAccountMapper;
     private final ClientServiceImpl clientService;
@@ -80,7 +77,6 @@ public class BankAccountServiceImpl implements BankAccountService {
     @Override
     public void create(BankAccountDto bankAccount) {
         if (bankAccount.getType().equals(Type.DEBIT)) {
-
             DebitBankAccount newAccount = bankAccountMapper.dtoToDebitBankAccount(bankAccount);
 
             newAccount.setBankAccountId(generateBankAccountId(bankAccount.getBankId()));
@@ -90,7 +86,6 @@ public class BankAccountServiceImpl implements BankAccountService {
             bankAccountRepository.save(newAccount);
 
         } else if (bankAccount.getType().equals(Type.CREDIT)) {
-
             Bank bank = bankRepository.findByBankId(bankAccount.getBankId());
             CreditBankAccount newAccount = bankAccountMapper.dtoToCreditBankAccount(bankAccount);
 
@@ -103,7 +98,6 @@ public class BankAccountServiceImpl implements BankAccountService {
             bankAccountRepository.save(newAccount);
 
         } else if (bankAccount.getType().equals(Type.DEPOSIT)) {
-
             Bank bank = bankRepository.findByBankId(bankAccount.getBankId());
             DepositBankAccount newAccount = bankAccountMapper.dtoToDepositBankAccount(bankAccount);
 
@@ -234,7 +228,6 @@ public class BankAccountServiceImpl implements BankAccountService {
     public void reopenDepositAccount(long accountId) {
         BankAccount bankAccount = getById(accountId);
         if (bankAccount.getType().equals(Type.DEPOSIT)) {
-
             Bank bank = bankAccount.getBank();
             DepositBankAccount depositBankAccount = (DepositBankAccount) bankAccount;
 
@@ -272,7 +265,6 @@ public class BankAccountServiceImpl implements BankAccountService {
 
     private BankAccount recountDepositBankAccount(DepositBankAccount bankAccount) {
         if (bankAccount.getPeriodEnd() <= new Date().getTime() / 1000 && !bankAccount.isCompleted()) {
-
             double newBalance = bankAccount.getBalance() * (1 + bankAccount.getInterestRate() / 100);
 
             bankAccount.setBalance(newBalance);

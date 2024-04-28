@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping("/")
 @RequiredArgsConstructor
 public class ClientMainController {
-
     private final ClientServiceImpl clientService;
     public final BankServiceImpl bankService;
     public final BankAccountServiceImpl bankAccountService;

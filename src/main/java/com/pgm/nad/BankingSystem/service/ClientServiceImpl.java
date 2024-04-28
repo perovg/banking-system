@@ -4,7 +4,6 @@ import com.pgm.nad.BankingSystem.dto.ClientDto;
 import com.pgm.nad.BankingSystem.mapper.ClientMapper;
 import com.pgm.nad.BankingSystem.model.Client;
 import com.pgm.nad.BankingSystem.repository.ClientRepository;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -12,10 +11,8 @@ import java.util.List;
 import java.util.Random;
 
 @Service
-@Transactional
 @RequiredArgsConstructor
 public class ClientServiceImpl implements ClientService {
-
     private final ClientMapper clientMapper;
     private final ClientRepository clientRepository;
     private final Random random = new Random();
@@ -62,12 +59,7 @@ public class ClientServiceImpl implements ClientService {
     }
 
     public void update(ClientDto clientDto) {
-        Client client = this.findClientById(clientDto.getClientId());
-        client.setName(clientDto.getName());
-        client.setSurname(clientDto.getSurname());
-        client.setAddress(clientDto.getAddress());
-        client.setPassport(clientDto.getPassport());
-        clientRepository.save(client);
+        clientRepository.save(clientMapper.dtoToModel(clientDto));
     }
 
     public boolean existById(long clientId) {

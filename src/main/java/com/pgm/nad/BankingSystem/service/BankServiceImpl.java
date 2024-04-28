@@ -19,7 +19,6 @@ import java.util.Set;
 @Service
 @RequiredArgsConstructor
 public class BankServiceImpl implements BankService {
-
     private final BankMapper bankMapper;
     private final BankRepository bankRepository;
     private final BankAccountServiceImpl bankAccountService;

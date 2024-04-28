@@ -36,7 +36,6 @@ public class ClientManagePersonalInformationController {
     @PostMapping("/info/update")
     public String updateInfo(ClientDto client, Model model) {
         if (client.getName().isEmpty() || client.getSurname().isEmpty()) {
-            System.out.println(client.getClientId());
             model.addAttribute("client", clientService.findClientDtoById(client.getClientId()));
             return "clientManagePersonalInformation/clientUpdateInfo";
         }

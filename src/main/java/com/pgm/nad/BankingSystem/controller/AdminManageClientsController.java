@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping("/")
 @RequiredArgsConstructor
 public class AdminManageClientsController {
-
     private final ClientServiceImpl clientService;
     private final BankAccountServiceImpl bankAccountService;
 

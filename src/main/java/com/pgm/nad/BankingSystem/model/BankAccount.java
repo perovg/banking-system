@@ -13,7 +13,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class BankAccount {
-
     @Id
     private long bankAccountId;
     private double balance;

@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public interface BankService {
-
     BankDto findBankDtoById(long bankId);
 
     void update(long bankId,
