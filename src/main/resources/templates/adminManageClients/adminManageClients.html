@@ -7,7 +7,8 @@
 <body>
 <form method="GET" th:action="@{/admin}">
     <button style="width: 170px; height: 25px; float: right">exit</button>
-</form><br>
+</form>
+<br>
 <center><h1>Manage clients</h1></center>
 <center>
     <table>
@@ -19,14 +20,15 @@
             <th th:text="Address" style="width: 100px; border-color: black; height: 30px" align="left"></th>
         </tr>
         <tr th:each="client : ${clients}" th:if="${client.clientId != 700000000}">
-            <form method="GET" th:action="@{/admin/clients/{id}/edit(id=${client.clientId})}" th:object="${client}">
+            <form method="POST" th:action="@{/admin/clients/client}" th:object="${client}">
                 <td th:text="${client.clientId}" style="width: 100px; border-color: black; height: 30px"></td>
                 <td th:text="${client.name} " style="width: 100px; border-color: black; height: 30px"></td>
                 <td th:text="${client.surname}" style="width: 100px; border-color: black; height: 30px"></td>
                 <td th:text="${client.passport} " style="width: 100px; border-color: black; height: 30px"></td>
                 <td th:text="${client.address} " style="width: 100px; border-color: black; height: 30px"></td>
                 <td style="width: 100px; border-color: black; height: 30px">
-                    <button th:href="@{/admin/clients/{id}(id=${client.clientId})}">manage</button>
+                    <input type="hidden" name="clientId" th:value="${client.clientId}"/>
+                    <button style="background-color: cornflowerblue" th:href="@{/admin/clients/client}">manage</button>
                 </td>
             </form>
         </tr>

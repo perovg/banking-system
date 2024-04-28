@@ -1,27 +1,34 @@
 package com.pgm.nad.BankingSystem.service;
 
 import com.pgm.nad.BankingSystem.dto.BankDto;
-import com.pgm.nad.BankingSystem.model.Bank;
+import com.pgm.nad.BankingSystem.dto.ClientDto;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public interface BankService {
-    BankDto findByName(String name);
 
     BankDto findBankDtoById(long bankId);
 
-    Bank findBankById(long bankId);
+    void update(long bankId,
+                String name,
+                int creditPeriod,
+                double interestCreditRate,
+                int creditLimit,
+                int depositPeriod,
+                double interestDepositRate);
 
     List<BankDto> findAll();
 
-    boolean save(BankDto bank);
-
-    void update(long bankId, double interestRate, int creditLimit);
+    void save(BankDto bank);
 
     boolean existsById(long bankId);
 
-    boolean existByName(String name);
+    boolean existsByName(String name);
+
+    ArrayList<BankDto> findAllBankForClient(ClientDto client);
+
+    ArrayList<BankDto> findAllNewBanks(ClientDto client);
 
     void deleteById(long bankId);
-
 }

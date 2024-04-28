@@ -5,8 +5,18 @@ services:
     image: 'postgres:13'
     container_name: 'java-postgres'
     ports:
-      - 5432:5432
+      - "5432:5432"
     environment:
       - 'POSTGRES_USER=sa'
       - 'POSTGRES_HOST_AUTH_METHOD=trust'
       - 'POSTGRES_DB=java'
+    networks:
+      - my_network
+  myapp:
+    image: banking-system
+    networks:
+      - my_network
+
+networks:
+  my_network:
+    internal: false

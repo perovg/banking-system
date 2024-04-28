@@ -7,8 +7,5 @@ public interface BankRepository extends JpaRepository<Bank, Long> {
 
     Bank findByBankId(long bankId);
 
-    Bank findByName(String name);
-
     boolean existsByName(String name);
-
 }

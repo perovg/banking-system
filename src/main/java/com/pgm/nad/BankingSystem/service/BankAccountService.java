@@ -1,26 +1,30 @@
 package com.pgm.nad.BankingSystem.service;
 
 import com.pgm.nad.BankingSystem.dto.BankAccountDto;
-import com.pgm.nad.BankingSystem.dto.ClientDto;
 import com.pgm.nad.BankingSystem.model.Bank;
-import com.pgm.nad.BankingSystem.model.Client;
 
 import java.util.List;
 
 public interface BankAccountService {
     List<BankAccountDto> findAll();
 
-    List<BankAccountDto> findAllByClientAndBank(Client client, Bank bank);
+    List<BankAccountDto> findAllByClient(long clientId);
 
-    BankAccountDto findById(Long id);
+    List<BankAccountDto> findAllByClientAndBank(long client, long bank);
 
-    List<Bank> findAllBankForClient(ClientDto client);
+    BankAccountDto findById(long id);
 
-    void save(BankAccountDto bankAccount, long clientId, long bankId);
-
-    BankAccountDto save(BankAccountDto bankAccount);
-
-    void deleteById(Long id);
+    void create(BankAccountDto bankAccount);
 
     void deleteAllByBank(Bank bank);
+
+    boolean withdraw(long bankAccountId, double sum);
+
+    boolean transfer(long bankAccountFromId, long bankAccountToId, double sum);
+
+    boolean deleteById(long bankAccountId);
+
+    BankAccountDto blockAndUnblock(long bankAccountId, boolean isBlocked);
+
+    void reopenDepositAccount(long accountId);
 }

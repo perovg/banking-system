@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Banking System</title>
+</head>
+<body>
+<form method="POST" th:action="@{/info}">
+    <input type="hidden" name="clientId" th:value="${client.clientId}"/>
+    <button style="width: 200px; height: 25px; float: right">exit</button>
+</form>
+<form method="POST" th:action="@{/info/update}" th:object="${client}">
+    <br><br><br><br><br><br><br><br>
+    <center>
+        <h1>Update information</h1>
+        <label for="clientId"></label><br>
+        <label>
+            <input th:field="*{clientId}" type="hidden"/>
+        </label><br>
+        <label for="clientName"><font color="red">*</font>Name:</label><br>
+        <label>
+            <input th:field="*{name}" type="text" id="nameInput" onkeyup="success()"/>
+        </label><br>
+        <label for="clientSurname"><font color="red">*</font>Surname:</label><br>
+        <label>
+            <input th:field="*{surname}" type="text" id="surnameInput" onkeyup="success()"/>
+        </label><br>
+        <label for="clientPassport">Passport:</label><br>
+        <label>
+            <input th:field="*{passport}" type="text"/>
+        </label><br>
+        <label for="clientAddress">Address:</label><br>
+        <label>
+            <input th:field="*{address}" type="text"/>
+        </label><br><br>
+        <button id="button" style="width: 170px; height: 25px; background-color: cornflowerblue">update</button>
+    </center>
+</form>
+<script>
+    function success() {
+        if(check()) {
+            document.getElementById('button').disabled = false;
+        } else {
+            document.getElementById('button').disabled = true;
+        }
+    }
+
+    function check() {
+        if(document.getElementById("nameInput").value === "") {
+            return false;
+        } else if(document.getElementById("surnameInput").value === "") {
+            return false;
+        }
+        return true;
+    }
+</script>
+</body>
+</html>

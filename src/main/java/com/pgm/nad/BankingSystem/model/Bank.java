@@ -16,7 +16,9 @@ public class Bank {
     long bankId;
 
     String name;
-    double interestRate;
+    double interestCreditRate;
     int creditLimit;
-
+    int creditPeriod;
+    int depositPeriod;
+    double interestDepositRate;
 }

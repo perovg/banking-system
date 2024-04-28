@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Banking System</title>
+</head>
+<body>
+<center>
+    <form method="POST" th:action="@{/admin/clients/client}">
+        <input type="hidden" name="clientId" th:value="${client.clientId}"/>
+        <button style="width: 170px; height: 25px; float: right">return to client</button>
+    </form>
+    <br><br>
+    <h2 th:text="${client.name} + ' ' + ${client.surname} + '\'s bank accounts'"></h2>
+    <table>
+        <tr>
+            <th th:text="Id" style="width: 170px; border-color: black; height: 30px" align="left"></th>
+            <th th:text="Type" style="width: 100px; border-color: black; height: 30px" align="left"></th>
+            <th th:text="Blocked" style="width: 100px; border-color: black; height: 30px" align="left"></th>
+            <th th:text="Balance" style="width: 100px; border-color: black; height: 30px" align="left"></th>
+            <th th:text="Client" style="width: 100px; border-color: black; height: 30px" align="left"></th>
+            <th th:text="Bank" style="width: 100px; border-color: black; height: 30px" align="left"></th>
+        </tr>
+        <tr th:each="account : ${accounts}">
+            <form method="POST" th:action="@{/admin/clients/client/accounts/account}" th:object="${account}">
+                <td th:text="${account.bankAccountId}" style="width: 170px; border-color: black; height: 30px"></td>
+                <td th:text="${account.type} " style="width: 100px; border-color: black; height: 30px"></td>
+                <td th:text="${account.isBlocked}" style="width: 100px; border-color: black; height: 30px"></td>
+                <td th:text="${#numbers.formatDecimal(account.balance, 1, 2)}"
+                    style="width: 100px; border-color: black; height: 30px"></td>
+                <td th:text="${account.clientId} " style="width: 100px; border-color: black; height: 30px"></td>
+                <td th:text="${account.bankId} " style="width: 100px; border-color: black; height: 30px"></td>
+                <input type="hidden" name="accountId" th:value="${account.getBankAccountId()}"/>
+                <td style="width: 100px; border-color: black; height: 30px">
+                    <button style="background-color: cornflowerblue"
+                            th:href="@{/admin/clients/client/accounts/account}">manage
+                    </button>
+                </td>
+            </form>
+        </tr>
+    </table>
+</center>
+</body>
+</html>

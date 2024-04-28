@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Banking System</title>
+</head>
+<body>
+<center>
+    <br><br><br><br><br>
+    <h2 th:text="${bank.name} + ' account conditions'"></h2>
+    <h3>Credit account conditions</h3>
+    <table>
+        <tr>
+            <td style="width: 200px; border-color: black; height: 30px">Credit limit:</td>
+            <td th:text="${bank.creditLimit}" style="width: 100px; border-color: black; height: 30px"></td>
+        </tr>
+        <tr>
+            <td style="width: 200px; border-color: black; height: 30px">Credit interest rate:</td>
+            <td th:text="${bank.interestCreditRate}" style="width: 100px; border-color: black; height: 30px"></td>
+        </tr>
+        <tr>
+            <td style="width: 200px; border-color: black; height: 30px">Period:</td>
+            <td th:text="${bank.creditPeriod}" style="width: 100px; border-color: black; height: 30px"></td>
+        </tr>
+    </table>
+    <h3>Deposit account conditions</h3>
+    <table>
+        <tr>
+            <td style="width: 200px; border-color: black; height: 30px">Deposit interest rate:</td>
+            <td th:text="${bank.interestDepositRate}" style="width: 100px; border-color: black; height: 30px"></td>
+        </tr>
+        <tr>
+            <td style="width: 200px; border-color: black; height: 30px">Period:</td>
+            <td th:text="${bank.depositPeriod}" style="width: 100px; border-color: black; height: 30px"></td>
+        </tr>
+    </table>
+    <br><br>
+    <form method="POST" th:action="@{/banks/add_bank/create_account}">
+        <input type="hidden" name="clientId" th:value="${clientId}"/>
+        <input type="hidden" name="bankId" th:value="${bank.bankId}"/>
+        <button style="width: 170px; height: 25px; background-color: cornflowerblue">return</button>
+    </form>
+    <br><br>
+</center>
+</body>
+</html>

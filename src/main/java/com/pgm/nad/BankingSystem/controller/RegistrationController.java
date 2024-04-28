@@ -24,23 +24,23 @@ public class RegistrationController {
 
     @GetMapping("/signIn")
     public String signInForm(Model model) {
-        model.addAttribute("client", new ClientDto());
-        return "signInForm";
+        model.addAttribute("clientId", 0);
+        return "signInAndSignUp/signInForm";
     }
 
     @GetMapping("/signUp")
     public String registration(Model model) {
         model.addAttribute("client", new ClientDto());
-        return "registrationForm";
+        return "signInAndSignUp/registrationForm";
     }
 
     @PostMapping("/signUp")
     public String successRegister(ClientDto client, Model model) {
         if (client.getName().isEmpty() || client.getSurname().isEmpty()) {
-            return "signUpError";
+            return "signInAndSignUp/signUpError";
         }
 
         model.addAttribute("id", clientService.save(client));
-        return "signUpSuccess";
+        return "signInAndSignUp/signUpSuccess";
     }
 }

@@ -13,8 +13,6 @@ public interface ClientService {
 
     Client findClientById(long id);
 
-    boolean checkId(String clientId);
-
     long save(ClientDto client);
 
     boolean existsById(long clientId);

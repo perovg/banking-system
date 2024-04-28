@@ -6,7 +6,6 @@ import com.pgm.nad.BankingSystem.model.Client;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
-import java.util.Set;
 
 public interface BankAccountRepository extends JpaRepository<BankAccount, Long> {
 
@@ -15,5 +14,4 @@ public interface BankAccountRepository extends JpaRepository<BankAccount, Long> 
     List<BankAccount> findAllByClient(Client client);
 
     void deleteAllByBank(Bank bank);
-
 }

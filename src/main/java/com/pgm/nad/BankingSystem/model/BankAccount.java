@@ -1,8 +1,6 @@
 package com.pgm.nad.BankingSystem.model;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
@@ -17,11 +15,10 @@ import lombok.RequiredArgsConstructor;
 public class BankAccount {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long bankAccountId;
+    private long bankAccountId;
     private double balance;
     private Type type;
-    private boolean confirmed;
+    private boolean blocked;
 
     @ManyToOne
     Client client;

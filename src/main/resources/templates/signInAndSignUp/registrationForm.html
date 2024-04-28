@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Banking System</title>
+</head>
+<body>
+<form method="GET" th:action="@{/}">
+    <button style="width: 170px; height: 25px; float: right">exit</button>
+</form>
+<br><br><br><br><br><br><br>
+<center><h1>Registration</h1></center>
+<form method="POST" th:action="@{/signUp}" th:object="${client}">
+    <center><label for="clientName"><font color="red">*</font>Name:</label><br>
+        <label>
+            <input th:field="*{name}" type="text" id="nameInput" onkeyup="success()"/>
+        </label><br>
+        <label for="clientSurname"><font color="red">*</font>Surname:</label><br>
+        <label>
+            <input th:field="*{surname}" type="text" id="surnameInput" onkeyup="success()"/>
+        </label><br>
+        <label for="clientPassport">Passport:</label><br>
+        <label>
+            <input th:field="*{passport}" type="text"/>
+        </label><br>
+        <label for="clientAddress">Address:</label><br>
+        <label>
+            <input th:field="*{address}" type="text"/>
+        </label>
+        <br><br>
+        <button id="button" disabled style="width: 170px; height: 25px; background-color: cornflowerblue">register
+        </button>
+        <br>
+        <br>
+        <br>
+        <font color="red">* </font><a>mandatory field</a></center>
+</form>
+<script>
+    function success() {
+        if (check()) {
+            document.getElementById('button').disabled = false;
+        } else {
+            document.getElementById('button').disabled = true;
+        }
+    }
+
+    function check() {
+        if (document.getElementById("nameInput").value === "") {
+            return false;
+        } else if (document.getElementById("surnameInput").value === "") {
+            return false;
+        }
+        return true;
+    }
+</script>
+</body>
+</html>

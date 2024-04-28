@@ -1,8 +1,12 @@
 package com.pgm.nad.BankingSystem.model;
 
 import jakarta.persistence.Entity;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.RequiredArgsConstructor;
 
+@EqualsAndHashCode(callSuper = true)
+@Data
 @Entity
-public class DebitBankAccount extends BankAccount {
-    // Дополнительные поля для дебетового счета
-}
+@RequiredArgsConstructor
+public class DebitBankAccount extends BankAccount {}

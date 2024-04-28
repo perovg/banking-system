@@ -39,7 +39,6 @@ public class ClientServiceImpl implements ClientService {
     @Override
     public long save(ClientDto client) {
         long clientId = generateClientId();
-        System.out.println(clientId);
         client.setClientId(clientId);
         clientRepository.save(clientMapper.dtoToModel(client));
         return clientId;
@@ -62,23 +61,16 @@ public class ClientServiceImpl implements ClientService {
         return id;
     }
 
-    @Override
-    public boolean checkId(String clientId) {
-        if (clientId.length() != 9) {
-            return false;
-        }
-        boolean flag = true;
-        for (int i = 0; i < 9; i++) {
-            char sym = clientId.charAt(i);
-            if (i == 0 && sym != '7') {
-                flag = false;
-            }
-            if (!Character.isDigit(sym)) {
-                flag = false;
-            }
-        }
-        if (!clientRepository.existsById(Long.parseLong(clientId))) flag = false;
-        return flag;
+    public void update(ClientDto clientDto) {
+        Client client = this.findClientById(clientDto.getClientId());
+        client.setName(clientDto.getName());
+        client.setSurname(clientDto.getSurname());
+        client.setAddress(clientDto.getAddress());
+        client.setPassport(clientDto.getPassport());
+        clientRepository.save(client);
     }
 
+    public boolean existById(long clientId) {
+        return clientRepository.existsById(clientId);
+    }
 }
