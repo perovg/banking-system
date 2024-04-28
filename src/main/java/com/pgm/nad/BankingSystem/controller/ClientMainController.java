@@ -24,10 +24,10 @@ public class ClientMainController {
 
     @PostMapping("/banks")
     public String mainCatalog(@RequestParam("clientId") long clientId, Model model) {
+        if (clientId == 700000000) {
+            return "redirect:/admin";
+        }
         if (clientService.existById(clientId)) {
-            if (clientId == 700000000) {
-                return "redirect:/admin";
-            }
             ClientDto client = clientService.findClientDtoById(clientId);
             model.addAttribute("client", client);
             model.addAttribute("banks", bankService.findAllBankForClient(client));

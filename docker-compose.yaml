@@ -7,8 +7,10 @@ services:
       POSTGRES_DB: "db"
       POSTGRES_USER: "mipt"
       POSTGRES_PASSWORD: "mipt"
+    ports:
+      - "5432:5432"
   app:
-    image: perovg/banking-system-application:v.1
+    image: perovg/banking-system-application:v.3
     container_name: app
     depends_on:
       - postgres

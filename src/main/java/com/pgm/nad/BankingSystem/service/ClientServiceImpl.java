@@ -50,7 +50,7 @@ public class ClientServiceImpl implements ClientService {
     }
 
     private long generateClientId() {
-        while (existsById(id)) {
+        while (existsById(id) || id == 700000000) {
             StringBuilder clientId = new StringBuilder("7");
             for (int i = 0; i < 8; i++) {
                 String symbol = Integer.toString(random.nextInt(0, 10));

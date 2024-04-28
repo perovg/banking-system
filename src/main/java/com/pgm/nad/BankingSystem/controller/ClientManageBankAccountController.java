@@ -154,8 +154,8 @@ public class ClientManageBankAccountController {
         model.addAttribute("clientId", clientId);
         model.addAttribute("bankId", bankId);
         model.addAttribute("accountId", accountId);
-        model.addAttribute("accounts", bankAccountService.findAllByClientAndBank(clientId, bankId));
         if (bankAccountService.deleteById(accountId)) {
+            model.addAttribute("accounts", bankAccountService.findAllByClientAndBank(clientId, bankId));
             return "clientManageBankAccounts/clientDeleteAccountSuccess";
         }
         return "clientManageBankAccounts/clientDeleteBankAccountFail";
