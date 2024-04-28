@@ -20,7 +20,7 @@
 		<maven.compiler.plugin.version>3.5.1</maven.compiler.plugin.version>
 	</properties>
 	<dependencies>
-		<!-- https://mvnrepository.com/artifact/org.mapstruct/mapstruct -->
+		<!--mapstruct -->
 		<dependency>
 			<groupId>org.mapstruct</groupId>
 			<artifactId>mapstruct</artifactId>
@@ -86,6 +86,7 @@
 							<artifactId>lombok</artifactId>
 						</exclude>
 					</excludes>
+					<mainClass>com.pgm.nad.BankingSystem.BankingSystemApplication</mainClass>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -113,6 +114,7 @@
 						</path>
 					</annotationProcessorPaths>
 				</configuration>
+
 			</plugin>
 
 		</plugins>

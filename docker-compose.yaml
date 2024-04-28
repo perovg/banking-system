@@ -1,22 +1,21 @@
-version: '3'
+version: "3.9"
 
 services:
   postgres:
-    image: 'postgres:13'
-    container_name: 'java-postgres'
-    ports:
-      - "5432:5432"
+    image: postgres:13.3
     environment:
-      - 'POSTGRES_USER=sa'
-      - 'POSTGRES_HOST_AUTH_METHOD=trust'
-      - 'POSTGRES_DB=java'
-    networks:
-      - my_network
-  myapp:
-    image: banking-system
-    networks:
-      - my_network
-
-networks:
-  my_network:
-    internal: false
+      POSTGRES_DB: "db"
+      POSTGRES_USER: "mipt"
+      POSTGRES_PASSWORD: "mipt"
+  app:
+    image: perovg/banking-system-application:v.1
+    container_name: app
+    depends_on:
+      - postgres
+    environment:
+      - "SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/postgres"
+      - "SPRING_DATASOURCE_USERNAME=mipt"
+      - "SPRING_DATASOURCE_PASSWORD=mipt"
+      - "SPRING_JPA_HIBERNATE_DDL_AUTO=update"
+    ports:
+      - "8080:8080"
