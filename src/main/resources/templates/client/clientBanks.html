@@ -23,7 +23,7 @@
         <tr>
             <th th:text="Name" style="width: 100px; border-color: black; height: 30px" align="left"
                 th:if="!${#lists.isEmpty(banks)}"></th>
-            <th style="width: 100px; border-color: black; height: 30px"></th>
+            <th th:if="!${#lists.isEmpty(banks)}" style="width: 100px; border-color: black; height: 30px"></th>
         </tr>
         <br><br>
         <tr th:each="bank : ${banks}">
