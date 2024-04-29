@@ -15,8 +15,8 @@
         <button style="width: 300px; height: 40px; background-color: cornflowerblue">Create new</button>
     </form>
     <br><br>
-    <h2><u>All banks</u></h2>
-    <table border="1" style="display: inline-block;">
+    <h2 th:if="${!banks.isEmpty()}"><u>All banks</u></h2>
+    <table th:if="${!banks.isEmpty()}" border="1" style="display: inline-block;">
         <tr>
             <th th:text="'Id'" style="width: 60px; border-color: black; height: 30px" align="left"></th>
             <th th:text="'Name'" style="width: 110px; border-color: black; height: 30px" align="left"></th>

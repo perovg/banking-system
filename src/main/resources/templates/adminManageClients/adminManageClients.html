@@ -11,7 +11,7 @@
 <br>
 <div style="text-align: center;">
     <h1>Manage clients</h1>
-    <table border="1" style="display: inline-block;">
+    <table th:if="${!clients.isEmpty()}" border="1" style="display: inline-block;">
         <tr>
             <th th:text="Id" style="width: 100px; border-color: black; height: 30px" align="left"></th>
             <th th:text="Name" style="width: 100px; border-color: black; height: 30px" align="left"></th>

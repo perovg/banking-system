@@ -10,7 +10,7 @@
 </form><br>
 <div style="text-align: center;">
     <h1>Manage Bank Accounts</h1>
-    <table border="1" style="display: inline-block;">
+    <table th:if="${!accounts.isEmpty()}" border="1" style="display: inline-block;">
         <tr>
             <th th:text="Id" style="width: 170px; border-color: black; height: 30px" align="left"></th>
             <th th:text="Type" style="width: 100px; border-color: black; height: 30px" align="left"></th>
