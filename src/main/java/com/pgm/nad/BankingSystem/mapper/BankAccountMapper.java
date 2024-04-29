@@ -6,7 +6,6 @@ import com.pgm.nad.BankingSystem.model.CreditBankAccount;
 import com.pgm.nad.BankingSystem.model.DebitBankAccount;
 import com.pgm.nad.BankingSystem.model.DepositBankAccount;
 import com.pgm.nad.BankingSystem.model.Type;
-import org.mapstruct.Mapper;
 
 import java.util.List;
 
