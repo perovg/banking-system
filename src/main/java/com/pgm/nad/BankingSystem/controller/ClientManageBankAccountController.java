@@ -32,9 +32,9 @@ public class ClientManageBankAccountController {
         model.addAttribute("account", bankAccount);
         model.addAttribute("client", clientService.findClientDtoById(clientId));
         model.addAttribute("bank", bankService.findBankDtoById(bankId));
-        model.addAttribute("realTime", Math.min(new Date().getTime() / 1000, bankAccount.getPeriodEnd()));
-        model.addAttribute("type", bankAccount.getType().toString());
-        System.out.println(bankAccount.getType().toString().equals("DEBIT"));
+        model.addAttribute("realTime", Math.min(new Date().getTime() / 1000, bankAccount.periodEnd()));
+        model.addAttribute("type", bankAccount.type().toString());
+        System.out.println(bankAccount.type().toString().equals("DEBIT"));
         return "clientManageBankAccounts/clientManageBankAccount";
     }
 
@@ -73,13 +73,13 @@ public class ClientManageBankAccountController {
         model.addAttribute("clientId", clientId);
         model.addAttribute("bankId", bankId);
         model.addAttribute("accountId", accountId);
-        model.addAttribute("type", bankAccountService.findById(accountId).getType().toString());
-        if (bankAccountService.findById(accountId).getType().toString().equals("CREDIT")) {
-            model.addAttribute("creditLimit", bankService.findBankDtoById(bankId).getCreditLimit());
+        model.addAttribute("type", bankAccountService.findById(accountId).type().toString());
+        if (bankAccountService.findById(accountId).type().toString().equals("CREDIT")) {
+            model.addAttribute("creditLimit", bankService.findBankDtoById(bankId).creditLimit());
         } else {
             model.addAttribute("creditLimit", 0);
         }
-        model.addAttribute("balance", bankAccountService.findById(accountId).getBalance());
+        model.addAttribute("balance", bankAccountService.findById(accountId).balance());
         model.addAttribute("amount", 0.0);
         return "clientManageBankAccounts/clientWithdraw";
     }
@@ -104,13 +104,13 @@ public class ClientManageBankAccountController {
         model.addAttribute("clientId", clientId);
         model.addAttribute("accountId", accountId);
         model.addAttribute("bankId", bankId);
-        model.addAttribute("type", bankAccountService.findById(accountId).getType().toString());
-        if (bankAccountService.findById(accountId).getType().toString().equals("CREDIT")) {
-            model.addAttribute("creditLimit", bankService.findBankDtoById(bankId).getCreditLimit());
+        model.addAttribute("type", bankAccountService.findById(accountId).type().toString());
+        if (bankAccountService.findById(accountId).type().toString().equals("CREDIT")) {
+            model.addAttribute("creditLimit", bankService.findBankDtoById(bankId).creditLimit());
         } else {
             model.addAttribute("creditLimit", 0);
         }
-        model.addAttribute("balance", bankAccountService.findById(accountId).getBalance());
+        model.addAttribute("balance", bankAccountService.findById(accountId).balance());
         model.addAttribute("amount", 0.0);
         model.addAttribute("recipientAccountId", 0);
         return "clientManageBankAccounts/clientTransfer";

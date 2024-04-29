@@ -5,14 +5,14 @@
     <title>Banking System</title>
 </head>
 <body>
-<center>
+<div style="text-align: center;">
     <form method="POST" th:action="@{/banks}">
         <input type="hidden" name="clientId" th:value="${client.clientId}"/>
         <button style="width: 170px; height: 25px; float: right">return to main catalog</button>
     </form>
     <br><br><br><br><br><br><br><br><br>
     <h3>Personal information</h3>
-    <table>
+    <table border="1" style="display: inline-block;">
         <tr>
             <td style="width: 100px; height: 25px">Name:</td>
             <td style="width: 100px; height: 25px" th:text="${client.name}"></td>
@@ -30,11 +30,11 @@
             <td style="width: 100px; height: 25px" th:text="${client.address}"></td>
         </tr>
     </table>
-    <br>
+    <br><br>
     <form method="POST" th:action="@{/info/updateForm}">
         <input type="hidden" name="clientId" th:value="${client.clientId}"/>
         <button style="width: 200px; height: 25px; background-color: cornflowerblue">change information</button>
     </form>
-</center>
+</div>
 </body>
 </html>

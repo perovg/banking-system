@@ -13,31 +13,31 @@
             th:href="@{/banks/accounts/account}"></button>
 </form>
 <br><br><br><br><br><br><br><br><br><br><br>
-<center>
+<div style="text-align: center;">
     <h2>Withdraw</h2>
     <form method="POST" th:action="@{/banks/accounts/account/withdraw}">
-        <a>Enter withdraw amount:</a><br><br>
-        <a th:text="'Balance: ' + ${#numbers.formatDecimal(balance, 1, 2)}"></a><br>
-        <input type="text" name="amount" th:href="*{amount}" id="amount" onkeyup="check()"/><br><br>
+        <a>Enter withdraw amount:</a>
+        <br><br>
+        <a th:text="'Balance: ' + ${#numbers.formatDecimal(balance, 1, 2)}"></a>
+        <br>
+        <label for="amount"></label>
+        <input type="text" name="amount" th:href="*{amount}" id="amount" onkeyup="check()"/>
+        <br><br>
         <input type="hidden" name="clientId" th:value="${clientId}"/>
         <input type="hidden" name="accountId" th:value="${accountId}"/>
         <input type="hidden" name="bankId" th:value="${bankId}"/>
-        <button id="button" style="width: 150px; height: 25px" disabled>withdraw</button>
+        <button id="button" style="width: 170px; height: 25px; background-color: cornflowerblue" disabled>withdraw</button>
     </form>
-</center>
+</div>
 <script>
-    var balance = [[${balance}]];
-    var creditLimit = [[${creditLimit}]]
-    var type = [[${type}]]
+    const balance = [[${balance}]];
+    const creditLimit = [[${creditLimit}]];
+    const type = [[${type}]];
 
     function check() {
-        if (document.getElementById("amount").value <= 0 ||
+        document.getElementById("button").disabled = document.getElementById("amount").value <= 0 ||
             document.getElementById("amount").value > balance + creditLimit ||
-            isNaN(parseFloat(document.getElementById("amount").value))) {
-            document.getElementById("button").disabled = true
-        } else {
-            document.getElementById("button").disabled = false
-        }
+            isNaN(parseFloat(document.getElementById("amount").value));
     }
 </script>
 </body>

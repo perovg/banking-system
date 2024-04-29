@@ -44,7 +44,7 @@ public class BankAccountServiceImpl implements BankAccountService {
     public List<BankAccountDto> findAll() {
         List<BankAccountDto> bankAccounts = bankAccountMapper.toListDto(bankAccountRepository.findAll());
         for (BankAccountDto bankAccount : bankAccounts) {
-            recount(bankAccount.getBankAccountId());
+            recount(bankAccount.bankAccountId());
         }
         bankAccounts = bankAccountMapper.toListDto(bankAccountRepository.findAll());
         return bankAccounts;
@@ -65,7 +65,7 @@ public class BankAccountServiceImpl implements BankAccountService {
                                 bankRepository.findByBankId(bank)));
 
         for (BankAccountDto bankAccount : bankAccounts) {
-            recount(bankAccount.getBankAccountId());
+            recount(bankAccount.bankAccountId());
         }
 
         return bankAccountMapper.toListDto(
@@ -75,42 +75,16 @@ public class BankAccountServiceImpl implements BankAccountService {
     }
 
     @Override
-    public void create(BankAccountDto bankAccount) {
-        if (bankAccount.getType().equals(Type.DEBIT)) {
-            DebitBankAccount newAccount = bankAccountMapper.dtoToDebitBankAccount(bankAccount);
+    public void create(BankAccount bankAccount, long clientId, long bankId) {
+        Bank bank = bankRepository.findByBankId(bankId);
+        bankAccount.setBankAccountId(generateBankAccountId(bankId));
+        bankAccount.setBank(bank);
+        bankAccount.setClient(clientService.findClientById(clientId));
 
-            newAccount.setBankAccountId(generateBankAccountId(bankAccount.getBankId()));
-            newAccount.setBank(bankRepository.findByBankId(bankAccount.getBankId()));
-            newAccount.setClient(clientService.findClientById(bankAccount.getClientId()));
-
-            bankAccountRepository.save(newAccount);
-
-        } else if (bankAccount.getType().equals(Type.CREDIT)) {
-            Bank bank = bankRepository.findByBankId(bankAccount.getBankId());
-            CreditBankAccount newAccount = bankAccountMapper.dtoToCreditBankAccount(bankAccount);
-
-            newAccount.setBank(bank);
-            newAccount.setBankAccountId(generateBankAccountId(bankAccount.getBankId()));
-            newAccount.setClient(clientService.findClientById(bankAccount.getClientId()));
-            newAccount.setPeriod(bank.getCreditPeriod());
-            newAccount.setInterestRate(bank.getInterestCreditRate());
-
-            bankAccountRepository.save(newAccount);
-
-        } else if (bankAccount.getType().equals(Type.DEPOSIT)) {
-            Bank bank = bankRepository.findByBankId(bankAccount.getBankId());
-            DepositBankAccount newAccount = bankAccountMapper.dtoToDepositBankAccount(bankAccount);
-
-            newAccount.setBank(bank);
-            newAccount.setBankAccountId(generateBankAccountId(bankAccount.getBankId()));
-            newAccount.setClient(clientService.findClientById(bankAccount.getClientId()));
-            newAccount.setPeriod(bank.getDepositPeriod());
-            newAccount.setInterestRate(bank.getInterestDepositRate());
-            long openTime = new Date().getTime() / 1000;
-            newAccount.setOpenTime(openTime);
-            newAccount.setPeriodEnd(openTime + bank.getDepositPeriod());
-
-            bankAccountRepository.save(newAccount);
+        switch (bankAccount.getType()) {
+            case DEBIT -> bankAccountRepository.save(bankAccountMapper.BankAccountToDebitBankAccount(bankAccount));
+            case DEPOSIT -> bankAccountRepository.save(bankAccountMapper.BankAccountToDepositBankAccount(bankAccount));
+            case CREDIT -> bankAccountRepository.save(bankAccountMapper.BankAccountToCreditBankAccount(bankAccount));
         }
     }
 
@@ -216,10 +190,10 @@ public class BankAccountServiceImpl implements BankAccountService {
     }
 
     @Override
-    public BankAccountDto blockAndUnblock(long bankAccountId, boolean isBlocked) {
+    public BankAccountDto blockAndUnblock(long bankAccountId) {
         BankAccount bankAccount = this.getById(bankAccountId);
 
-        bankAccount.setBlocked(!isBlocked);
+        bankAccount.setBlocked(!bankAccount.isBlocked());
         bankAccountRepository.save(bankAccount);
         return bankAccountMapper.modelToDto(bankAccount);
     }

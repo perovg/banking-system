@@ -9,14 +9,14 @@
     <button style="width: 170px; height: 25px; float: right">exit</button>
 </form>
 <br>
-<center>
+<div style="text-align: center;">
     <h1>Manage banks</h1>
     <form method="GET" th:action="@{/admin/banks/create}">
         <button style="width: 300px; height: 40px; background-color: cornflowerblue">Create new</button>
     </form>
     <br><br>
     <h2><u>All banks</u></h2>
-    <table>
+    <table border="1" style="display: inline-block;">
         <tr>
             <th th:text="'Id'" style="width: 60px; border-color: black; height: 30px" align="left"></th>
             <th th:text="'Name'" style="width: 110px; border-color: black; height: 30px" align="left"></th>
@@ -27,6 +27,7 @@
             <th th:text="'Deposit period'" style="width: 125px; border-color: black; height: 30px" align="left"></th>
             <th th:text="'Interest deposit period'" style="width: 175px; border-color: black; height: 30px"
                 align="left"></th>
+            <th style="width: 100px; border-color: black; height: 30px"></th>
         </tr>
         <tr th:each="bank : ${banks}">
             <form method="POST" th:action="@{/admin/banks/bank/edit}">
@@ -39,12 +40,12 @@
                 <td th:text="${bank.interestDepositRate}" style="width: 175px; border-color: black; height: 30px"></td>
                 <input type="hidden" name="bankId" th:value="${bank.bankId}"/>
                 <td style="width: 100px; border-color: black; height: 30px">
-                    <button style="background-color: cornflowerblue">manage</button>
+                    <button style="width: 100px; height: 30px; background-color: cornflowerblue">manage</button>
                 </td>
             </form>
 
         </tr>
     </table>
-</center>
+</div>
 </body>
 </html>

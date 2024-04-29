@@ -4,6 +4,7 @@ import com.pgm.nad.BankingSystem.dto.BankDto;
 import com.pgm.nad.BankingSystem.dto.ClientDto;
 import com.pgm.nad.BankingSystem.mapper.BankMapper;
 import com.pgm.nad.BankingSystem.mapper.ClientMapper;
+import com.pgm.nad.BankingSystem.model.Bank;
 import com.pgm.nad.BankingSystem.model.BankAccount;
 import com.pgm.nad.BankingSystem.repository.BankAccountRepository;
 import com.pgm.nad.BankingSystem.repository.BankRepository;
@@ -37,6 +38,11 @@ public class BankServiceImpl implements BankService {
     }
 
     @Override
+    public Bank findBankById(long bankId) {
+        return bankRepository.findByBankId(bankId);
+    }
+
+    @Override
     public ArrayList<BankDto> findAllBankForClient(ClientDto client) {
         List<BankAccount> clientBankAccounts = bankAccountRepository.findAllByClient(clientMapper.dtoToModel(client));
         Set<BankDto> clientBanksSet = new HashSet<>();
@@ -60,7 +66,7 @@ public class BankServiceImpl implements BankService {
     }
 
     @Override
-    public void save(BankDto bank) {
+    public void save(Bank bank) {
         System.out.println(bank.getInterestDepositRate());
         if (existsByName(bank.getName()) || existsById(bank.getBankId())) {
             long id = random.nextLong(1000, 9999);
@@ -68,27 +74,13 @@ public class BankServiceImpl implements BankService {
                 id = random.nextLong(1000, 9999);
             }
             bank.setBankId(id);
-            bankRepository.save(bankMapper.dtoToModel(bank));
+            bankRepository.save(bank);
         }
     }
 
     @Override
-    public void update(long bankId, String name,
-                       int creditPeriod,
-                       double interestCreditRate,
-                       int creditLimit,
-                       int depositPeriod,
-                       double interestDepositRate) {
-        BankDto bank = findBankDtoById(bankId);
-        if (existsByName(name)) {
-            bank.setName(name);
-        }
-        bank.setCreditPeriod(creditPeriod);
-        bank.setInterestCreditRate(interestCreditRate);
-        bank.setCreditLimit(creditLimit);
-        bank.setDepositPeriod(depositPeriod);
-        bank.setInterestDepositRate(interestDepositRate);
-        bankRepository.save(bankMapper.dtoToModel(bank));
+    public void update(Bank bank) {
+        bankRepository.save(bank);
     }
 
     @Override

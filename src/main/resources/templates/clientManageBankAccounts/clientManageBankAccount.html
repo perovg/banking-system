@@ -5,7 +5,7 @@
     <title>Banking System</title>
 </head>
 <body>
-<center>
+<div style="text-align: center;">
     <form method="POST" th:action="@{/banks/accounts}">
         <input type="hidden" name="clientId" th:value="${client.clientId}"/>
         <input type="hidden" name="bankId" th:value="${bank.bankId}"/>
@@ -15,7 +15,7 @@
     <h1 th:text="${bank.name}"></h1>
     <h3>Information about your bank account</h3>
 
-    <table>
+    <table border="1" style="display: inline-block;">
         <tr>
             <td style="width: 200px; border-color: black; height: 30px">Account id:</td>
             <td th:text="${account.bankAccountId}" style="width: 100px; border-color: black; height: 30px"></td>
@@ -48,17 +48,17 @@
         </tr>
     </table>
 
-    <h3 th:if="${account.isBlocked()}" style="text-decoration: underline">Account is blocked</h3>
+    <h3 th:if="${account.blocked()}" style="text-decoration: underline">Account is blocked</h3>
 
-    <h3 th:if="${!account.isBlocked()}">Operations with account</h3>
-    <form th:if="${!account.isBlocked()}" method="POST" th:action="@{/banks/accounts/account/topUpForm}">
+    <h3 th:if="${!account.blocked()}">Operations with account</h3>
+    <form th:if="${!account.blocked()}" method="POST" th:action="@{/banks/accounts/account/topUpForm}">
         <input type="hidden" name="clientId" th:value="${client.clientId}"/>
         <input type="hidden" name="accountId" th:value="${account.bankAccountId}"/>
         <input type="hidden" name="bankId" th:value="${bank.bankId}"/>
         <button style="width: 300px; height: 25px">top up</button>
     </form>
     <br>
-    <form th:if="${account.balance > -bank.creditLimit && account.periodEnd <= realTime && !account.isBlocked()}"
+    <form th:if="${account.balance > -bank.creditLimit && account.periodEnd <= realTime && !account.blocked()}"
           method="POST" th:action="@{/banks/accounts/account/withdrawForm}">
         <input type="hidden" name="clientId" th:value="${client.clientId}"/>
         <input type="hidden" name="accountId" th:value="${account.bankAccountId}"/>
@@ -66,7 +66,7 @@
         <button style="width: 300px; height: 25px">withdraw</button>
     </form>
     <br>
-    <form th:if="${account.balance > -bank.creditLimit && account.periodEnd <= realTime && !account.isBlocked()}"
+    <form th:if="${account.balance > -bank.creditLimit && account.periodEnd <= realTime && !account.blocked()}"
           method="POST" th:action="@{/banks/accounts/account/transferForm}">
         <input type="hidden" name="clientId" th:value="${client.clientId}"/>
         <input type="hidden" name="accountId" th:value="${account.bankAccountId}"/>
@@ -81,13 +81,13 @@
         <button style="width: 300px; height: 25px; background-color: red">delete</button>
     </form>
     <br>
-    <form th:if="${type == 'DEPOSIT' && account.periodEnd <= realTime && !account.isBlocked()}" method="POST"
+    <form th:if="${type == 'DEPOSIT' && account.periodEnd <= realTime && !account.blocked()}" method="POST"
           th:action="@{/banks/accounts/account/reopen}">
         <input type="hidden" name="clientId" th:value="${client.clientId}"/>
         <input type="hidden" name="accountId" th:value="${account.bankAccountId}"/>
         <input type="hidden" name="bankId" th:value="${bank.bankId}"/>
         <button style="width: 300px; height: 25px; background-color: cornflowerblue">reopen</button>
     </form>
-</center>
+</div>
 </body>
 </html>

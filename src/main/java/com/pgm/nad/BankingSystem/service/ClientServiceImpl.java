@@ -34,10 +34,10 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public long save(ClientDto client) {
+    public long save(Client client) {
         long clientId = generateClientId();
         client.setClientId(clientId);
-        clientRepository.save(clientMapper.dtoToModel(client));
+        clientRepository.save(client);
         return clientId;
     }
 
@@ -58,8 +58,8 @@ public class ClientServiceImpl implements ClientService {
         return id;
     }
 
-    public void update(ClientDto clientDto) {
-        clientRepository.save(clientMapper.dtoToModel(clientDto));
+    public void update(Client client) {
+        clientRepository.save(client);
     }
 
     public boolean existById(long clientId) {

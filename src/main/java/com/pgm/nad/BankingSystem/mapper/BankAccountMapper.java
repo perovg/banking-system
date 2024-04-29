@@ -11,16 +11,6 @@ import org.mapstruct.Mapper;
 import java.util.List;
 
 public interface BankAccountMapper {
-    default BankAccount dtoToModel(BankAccountDto bankAccountDto) {
-        if (bankAccountDto.getType().equals(Type.CREDIT)) {
-            return this.dtoToCreditBankAccount(bankAccountDto);
-        } else if (bankAccountDto.getType().equals(Type.DEBIT)) {
-            return this.dtoToDebitBankAccount(bankAccountDto);
-        } else {
-            return this.dtoToDepositBankAccount(bankAccountDto);
-        }
-    }
-
     default BankAccountDto modelToDto(BankAccount bankAccount) {
         if (bankAccount.getType().equals(Type.CREDIT)) {
             return this.creditBankAccountToDto((CreditBankAccount) bankAccount);
@@ -37,11 +27,11 @@ public interface BankAccountMapper {
 
     BankAccountDto creditBankAccountToDto(CreditBankAccount creditBankAccount);
 
-    CreditBankAccount dtoToCreditBankAccount(BankAccountDto bankAccountDto);
+    DebitBankAccount BankAccountToDebitBankAccount(BankAccount bankAccount);
 
-    DebitBankAccount dtoToDebitBankAccount(BankAccountDto bankAccountDto);
+    DepositBankAccount BankAccountToDepositBankAccount(BankAccount bankAccount);
 
-    DepositBankAccount dtoToDepositBankAccount(BankAccountDto bankAccountDto);
+    CreditBankAccount BankAccountToCreditBankAccount(BankAccount bankAccount);
 
     List<BankAccountDto> toListDto(List<BankAccount> bankAccounts);
 }

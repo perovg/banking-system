@@ -1,6 +1,6 @@
 package com.pgm.nad.BankingSystem.controller;
 
-import com.pgm.nad.BankingSystem.dto.BankDto;
+import com.pgm.nad.BankingSystem.model.Bank;
 import com.pgm.nad.BankingSystem.service.BankService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,12 +26,12 @@ public class AdminManageBanksController {
 
     @GetMapping("/admin/banks/create")
     public String createBank(Model model) {
-        model.addAttribute("bank", new BankDto());
+        model.addAttribute("bank", new Bank());
         return "adminManageBanks/adminCreateBank";
     }
 
     @PostMapping("/admin/banks/create")
-    public String checkCreatingBank(BankDto bank) {
+    public String checkCreatingBank(Bank bank) {
         System.out.println(bank.getInterestDepositRate());
         bankService.save(bank);
         return "redirect:/admin/banks";
@@ -39,21 +39,16 @@ public class AdminManageBanksController {
 
     @PostMapping("/admin/banks/bank/edit")
     public String manageBank(@RequestParam("bankId") long bankId, Model model) {
-        model.addAttribute("bank", bankService.findBankDtoById(bankId));
+        model.addAttribute("bank", bankService.findBankById(bankId));
         return "adminManageBanks/adminManageBank";
     }
 
     @PostMapping("/admin/banks/bank")
-    public String updateBank(@RequestParam("bankId") long bankId,
-                             @RequestParam String name,
-                             @RequestParam int creditPeriod,
-                             @RequestParam double interestCreditRate,
-                             @RequestParam int creditLimit,
-                             @RequestParam int depositPeriod,
-                             @RequestParam double interestDepositRate) {
-        bankService.update(bankId, name, creditPeriod, interestCreditRate, creditLimit, depositPeriod, interestDepositRate);
+    public String updateBank(Bank bank) {
+        bankService.update(bank);
         return "redirect:/admin/banks";
     }
+
     @PostMapping("/admin/banks/bank/delete")
     public String deleteBank(@RequestParam("bankId") long bankId) {
         bankService.deleteById(bankId);

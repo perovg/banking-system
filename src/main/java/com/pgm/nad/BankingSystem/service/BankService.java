@@ -2,6 +2,7 @@ package com.pgm.nad.BankingSystem.service;
 
 import com.pgm.nad.BankingSystem.dto.BankDto;
 import com.pgm.nad.BankingSystem.dto.ClientDto;
+import com.pgm.nad.BankingSystem.model.Bank;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,21 +10,17 @@ import java.util.List;
 public interface BankService {
     BankDto findBankDtoById(long bankId);
 
-    void update(long bankId,
-                String name,
-                int creditPeriod,
-                double interestCreditRate,
-                int creditLimit,
-                int depositPeriod,
-                double interestDepositRate);
+    void update(Bank bank);
 
     List<BankDto> findAll();
 
-    void save(BankDto bank);
+    void save(Bank bank);
 
     boolean existsById(long bankId);
 
     boolean existsByName(String name);
+
+    Bank findBankById(long bankId);
 
     ArrayList<BankDto> findAllBankForClient(ClientDto client);
 

@@ -1,6 +1,6 @@
 package com.pgm.nad.BankingSystem.controller;
 
-import com.pgm.nad.BankingSystem.dto.ClientDto;
+import com.pgm.nad.BankingSystem.model.Client;
 import com.pgm.nad.BankingSystem.service.ClientServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,12 +30,12 @@ public class RegistrationController {
 
     @GetMapping("/signUp")
     public String registration(Model model) {
-        model.addAttribute("client", new ClientDto());
+        model.addAttribute("client", new Client());
         return "signInAndSignUp/registrationForm";
     }
 
     @PostMapping("/signUp")
-    public String successRegister(ClientDto client, Model model) {
+    public String successRegister(Client client, Model model) {
         if (client.getName().isEmpty() || client.getSurname().isEmpty()) {
             return "signInAndSignUp/signUpError";
         }

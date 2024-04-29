@@ -1,46 +1,41 @@
 package com.pgm.nad.BankingSystem.mapper;
 
 import com.pgm.nad.BankingSystem.dto.BankAccountDto;
+import com.pgm.nad.BankingSystem.model.Bank;
 import com.pgm.nad.BankingSystem.model.BankAccount;
 import com.pgm.nad.BankingSystem.model.CreditBankAccount;
 import com.pgm.nad.BankingSystem.model.DebitBankAccount;
 import com.pgm.nad.BankingSystem.model.DepositBankAccount;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
-import com.pgm.nad.BankingSystem.repository.BankRepository;
-import com.pgm.nad.BankingSystem.service.ClientServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor
 @Component
 public class BankAccountMapperImpl implements BankAccountMapper {
-    private final BankRepository bankRepository;
-    private final ClientServiceImpl clientService;
 
     @Override
-    public BankAccountDto depositBankAccountToDto(DepositBankAccount debitBankAccount) {
-        if (debitBankAccount == null) {
+    public BankAccountDto depositBankAccountToDto(DepositBankAccount depositBankAccount) {
+        if (depositBankAccount == null) {
             return null;
         }
 
-        BankAccountDto bankAccountDto = new BankAccountDto();
-
-        bankAccountDto.setBankAccountId(debitBankAccount.getBankAccountId());
-        bankAccountDto.setType(debitBankAccount.getType());
-        bankAccountDto.setBalance(debitBankAccount.getBalance());
-        bankAccountDto.setBlocked(debitBankAccount.isBlocked());
-        bankAccountDto.setClientId(debitBankAccount.getClient().getClientId());
-        bankAccountDto.setBankId(debitBankAccount.getBank().getBankId());
-        bankAccountDto.setOpenTime(debitBankAccount.getOpenTime());
-        bankAccountDto.setInterestRate(debitBankAccount.getInterestRate());
-        bankAccountDto.setPeriod(debitBankAccount.getPeriod());
-        bankAccountDto.setPeriodEnd(debitBankAccount.getPeriodEnd());
-        bankAccountDto.setCompleted(debitBankAccount.isCompleted());
-
-        return bankAccountDto;
+        return new BankAccountDto(
+                depositBankAccount.getBankAccountId(),
+                depositBankAccount.getType(),
+                depositBankAccount.getBalance(),
+                depositBankAccount.isBlocked(),
+                depositBankAccount.getClient().getClientId(),
+                depositBankAccount.getBank().getBankId(),
+                depositBankAccount.getOpenTime(),
+                depositBankAccount.getInterestRate(),
+                depositBankAccount.getPeriod(),
+                depositBankAccount.getPeriodEnd(),
+                depositBankAccount.isCompleted());
     }
 
     @Override
@@ -49,16 +44,18 @@ public class BankAccountMapperImpl implements BankAccountMapper {
             return null;
         }
 
-        BankAccountDto bankAccountDto = new BankAccountDto();
-
-        bankAccountDto.setBankAccountId(debitBankAccount.getBankAccountId());
-        bankAccountDto.setType(debitBankAccount.getType());
-        bankAccountDto.setBalance(debitBankAccount.getBalance());
-        bankAccountDto.setBlocked(debitBankAccount.isBlocked());
-        bankAccountDto.setClientId(debitBankAccount.getClient().getClientId());
-        bankAccountDto.setBankId(debitBankAccount.getBank().getBankId());
-
-        return bankAccountDto;
+        return new BankAccountDto(
+                debitBankAccount.getBankAccountId(),
+                debitBankAccount.getType(),
+                debitBankAccount.getBalance(),
+                debitBankAccount.isBlocked(),
+                debitBankAccount.getClient().getClientId(),
+                debitBankAccount.getBank().getBankId(),
+                0,
+                0,
+                0,
+                0,
+                false);
     }
 
     @Override
@@ -67,81 +64,65 @@ public class BankAccountMapperImpl implements BankAccountMapper {
             return null;
         }
 
-        BankAccountDto bankAccountDto = new BankAccountDto();
-
-        bankAccountDto.setBankAccountId(creditBankAccount.getBankAccountId());
-        bankAccountDto.setType(creditBankAccount.getType());
-        bankAccountDto.setBalance(creditBankAccount.getBalance());
-        bankAccountDto.setBlocked(creditBankAccount.isBlocked());
-        bankAccountDto.setClientId(creditBankAccount.getClient().getClientId());
-        bankAccountDto.setBankId(creditBankAccount.getBank().getBankId());
-        bankAccountDto.setOpenTime(creditBankAccount.getOpenTime());
-        bankAccountDto.setInterestRate(creditBankAccount.getInterestRate());
-        bankAccountDto.setPeriod(creditBankAccount.getPeriod());
-
-        return bankAccountDto;
+        return new BankAccountDto(
+                creditBankAccount.getBankAccountId(),
+                creditBankAccount.getType(),
+                creditBankAccount.getBalance(),
+                creditBankAccount.isBlocked(),
+                creditBankAccount.getClient().getClientId(),
+                creditBankAccount.getBank().getBankId(),
+                creditBankAccount.getOpenTime(),
+                creditBankAccount.getInterestRate(),
+                creditBankAccount.getPeriod(),
+                0,
+                false);
     }
 
     @Override
-    public CreditBankAccount dtoToCreditBankAccount(BankAccountDto bankAccountDto) {
-        if (bankAccountDto == null) {
-            return null;
-        }
-
-        CreditBankAccount creditBankAccount = new CreditBankAccount();
-
-        creditBankAccount.setBankAccountId(bankAccountDto.getBankAccountId());
-        creditBankAccount.setBalance(bankAccountDto.getBalance());
-        creditBankAccount.setType(bankAccountDto.getType());
-        creditBankAccount.setBlocked(bankAccountDto.isBlocked());
-        creditBankAccount.setClient(clientService.findClientById(bankAccountDto.getClientId()));
-        creditBankAccount.setBank(bankRepository.findByBankId(bankAccountDto.getBankId()));
-        creditBankAccount.setOpenTime(bankAccountDto.getOpenTime());
-        creditBankAccount.setInterestRate(bankAccountDto.getInterestRate());
-        creditBankAccount.setPeriod(bankAccountDto.getPeriod());
-
-        return creditBankAccount;
-    }
-
-    @Override
-    public DebitBankAccount dtoToDebitBankAccount(BankAccountDto bankAccountDto) {
-        if (bankAccountDto == null) {
-            return null;
-        }
-
+    public DebitBankAccount BankAccountToDebitBankAccount(BankAccount bankAccount) {
         DebitBankAccount debitBankAccount = new DebitBankAccount();
-
-        debitBankAccount.setBankAccountId(bankAccountDto.getBankAccountId());
-        debitBankAccount.setBalance(bankAccountDto.getBalance());
-        debitBankAccount.setType(bankAccountDto.getType());
-        debitBankAccount.setBlocked(bankAccountDto.isBlocked());
-        debitBankAccount.setClient(clientService.findClientById(bankAccountDto.getClientId()));
-        debitBankAccount.setBank(bankRepository.findByBankId(bankAccountDto.getBankId()));
-
+        debitBankAccount.setBankAccountId(bankAccount.getBankAccountId());
+        debitBankAccount.setBank(bankAccount.getBank());
+        debitBankAccount.setClient(bankAccount.getClient());
+        debitBankAccount.setBalance(bankAccount.getBalance());
+        debitBankAccount.setType(bankAccount.getType());
+        debitBankAccount.setBlocked(bankAccount.isBlocked());
         return debitBankAccount;
     }
 
     @Override
-    public DepositBankAccount dtoToDepositBankAccount(BankAccountDto bankAccountDto) {
-        if (bankAccountDto == null) {
-            return null;
-        }
-
+    public DepositBankAccount BankAccountToDepositBankAccount(BankAccount bankAccount) {
         DepositBankAccount depositBankAccount = new DepositBankAccount();
+        depositBankAccount.setBankAccountId(bankAccount.getBankAccountId());
+        depositBankAccount.setBank(bankAccount.getBank());
+        depositBankAccount.setClient(bankAccount.getClient());
+        depositBankAccount.setBalance(bankAccount.getBalance());
+        depositBankAccount.setType(bankAccount.getType());
+        depositBankAccount.setBlocked(bankAccount.isBlocked());
 
-        depositBankAccount.setBankAccountId(bankAccountDto.getBankAccountId());
-        depositBankAccount.setBalance(bankAccountDto.getBalance());
-        depositBankAccount.setType(bankAccountDto.getType());
-        depositBankAccount.setBlocked(bankAccountDto.isBlocked());
-        depositBankAccount.setClient(clientService.findClientById(bankAccountDto.getClientId()));
-        depositBankAccount.setBank(bankRepository.findByBankId(bankAccountDto.getBankId()));
-        depositBankAccount.setOpenTime(bankAccountDto.getOpenTime());
-        depositBankAccount.setInterestRate(bankAccountDto.getInterestRate());
-        depositBankAccount.setPeriod(bankAccountDto.getPeriod());
-        depositBankAccount.setPeriodEnd(bankAccountDto.getPeriodEnd());
-        depositBankAccount.setCompleted(bankAccountDto.isCompleted());
-
+        Bank bank = bankAccount.getBank();
+        depositBankAccount.setPeriod(bank.getDepositPeriod());
+        depositBankAccount.setInterestRate(bank.getInterestDepositRate());
+        long openTime = new Date().getTime() / 1000;
+        depositBankAccount.setOpenTime(openTime);
+        depositBankAccount.setPeriodEnd(openTime + bank.getDepositPeriod());
         return depositBankAccount;
+    }
+
+    @Override
+    public CreditBankAccount BankAccountToCreditBankAccount(BankAccount bankAccount) {
+        CreditBankAccount creditBankAccount = new CreditBankAccount();
+        creditBankAccount.setBankAccountId(bankAccount.getBankAccountId());
+        creditBankAccount.setBank(bankAccount.getBank());
+        creditBankAccount.setClient(bankAccount.getClient());
+        creditBankAccount.setBalance(bankAccount.getBalance());
+        creditBankAccount.setType(bankAccount.getType());
+        creditBankAccount.setBlocked(bankAccount.isBlocked());
+
+        Bank bank = bankAccount.getBank();
+        creditBankAccount.setPeriod(bank.getCreditPeriod());
+        creditBankAccount.setInterestRate(bank.getInterestCreditRate());
+        return creditBankAccount;
     }
 
     @Override

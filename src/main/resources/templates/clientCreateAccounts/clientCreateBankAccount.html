@@ -9,7 +9,7 @@
     <input type="hidden" name="clientId" th:value="${clientId}"/>
     <button style="width: 170px; height: 25px; float: right">return to main catalog</button>
 </form>
-<center>
+<div style="text-align: center;">
     <br><br>
     <h1 th:text="${bank.name}"></h1>
     <br><br><br>
@@ -19,10 +19,11 @@
         <input type="hidden" name="bankId" th:value="${bank.bankId}"/>
         <button style="background-color: cornflowerblue">conditions</button>
     </form>
+    <br>
     <form method="POST" th:action="@{/banks/add_bank/create_account/success}" th:object="${account}">
         <input type="hidden" name="clientId" th:value="${clientId}"/>
         <input type="hidden" name="bankId" th:value="${bank.bankId}"/>
-        <fieldset style="width: 150px">
+        <fieldset style="display: inline-block; width: 150px">
             <legend>Choose account type:</legend>
             <table>
                 <tr>
@@ -42,7 +43,7 @@
                 </tr>
             </table>
         </fieldset>
-        <br>
+        <br><br>
         <button id="submitBtn" disabled style="width: 180px; height: 25px; background-color: cornflowerblue">open
         </button>
     </form>
@@ -55,6 +56,6 @@
             submitButton.disabled = !selectedInput;
         }
     </script>
-</center>
+</div>
 </body>
 </html>

@@ -5,17 +5,18 @@
     <title>Banking System</title>
 </head>
 <body>
-<center><h1>Success!</h1>
+<div style="text-align: center;">
+    <h1>Success!</h1>
     <form method="POST" th:action="@{/banks/accounts}">
         <input type="hidden" name="clientId" th:value="${clientId}"/>
         <input type="hidden" name="bankId" th:value="${bank.bankId}"/>
-        <button th:text="${bank.name}" style="width: 170px; height: 25px"></button>
+        <button th:text="${bank.name}" style="width: 170px; height: 25px; background-color: cornflowerblue"></button>
     </form>
     <br>
     <form method="POST" th:action="@{/banks}">
         <input type="hidden" name="clientId" th:value="${clientId}"/>
         <button style="width: 170px; height: 25px">return to main catalog</button>
     </form>
-</center>
+</div>
 </body>
 </html>

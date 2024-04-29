@@ -5,11 +5,11 @@
     <title>Banking System</title>
 </head>
 <body>
-<center>
+<div style="text-align: center;">
     <br><br><br><br><br>
     <h2 th:text="${bank.name} + ' account conditions'"></h2>
     <h3>Credit account conditions</h3>
-    <table>
+    <table border="1" style="display: inline-block;">
         <tr>
             <td style="width: 200px; border-color: black; height: 30px">Credit limit:</td>
             <td th:text="${bank.creditLimit}" style="width: 100px; border-color: black; height: 30px"></td>
@@ -24,7 +24,7 @@
         </tr>
     </table>
     <h3>Deposit account conditions</h3>
-    <table>
+    <table border="1" style="display: inline-block;">
         <tr>
             <td style="width: 200px; border-color: black; height: 30px">Deposit interest rate:</td>
             <td th:text="${bank.interestDepositRate}" style="width: 100px; border-color: black; height: 30px"></td>
@@ -34,13 +34,13 @@
             <td th:text="${bank.depositPeriod}" style="width: 100px; border-color: black; height: 30px"></td>
         </tr>
     </table>
-    <br><br>
+    <br><br><br>
     <form method="POST" th:action="@{/banks/add_bank/create_account}">
         <input type="hidden" name="clientId" th:value="${clientId}"/>
         <input type="hidden" name="bankId" th:value="${bank.bankId}"/>
-        <button style="width: 170px; height: 25px; background-color: cornflowerblue">return</button>
+        <button style="width: 320px; height: 30px; background-color: cornflowerblue">return</button>
     </form>
     <br><br>
-</center>
+</div>
 </body>
 </html>

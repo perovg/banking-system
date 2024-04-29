@@ -2,6 +2,7 @@ package com.pgm.nad.BankingSystem.service;
 
 import com.pgm.nad.BankingSystem.dto.BankAccountDto;
 import com.pgm.nad.BankingSystem.model.Bank;
+import com.pgm.nad.BankingSystem.model.BankAccount;
 
 import java.util.List;
 
@@ -14,7 +15,7 @@ public interface BankAccountService {
 
     BankAccountDto findById(long id);
 
-    void create(BankAccountDto bankAccount);
+    void create(BankAccount bankAccount, long clientId, long bankId);
 
     void deleteAllByBank(Bank bank);
 
@@ -24,7 +25,7 @@ public interface BankAccountService {
 
     boolean deleteById(long bankAccountId);
 
-    BankAccountDto blockAndUnblock(long bankAccountId, boolean isBlocked);
+    BankAccountDto blockAndUnblock(long bankAccountId);
 
     void reopenDepositAccount(long accountId);
 }

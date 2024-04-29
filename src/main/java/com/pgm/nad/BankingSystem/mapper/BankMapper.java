@@ -8,8 +8,6 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface BankMapper {
-    Bank dtoToModel(BankDto bankDto);
-
     BankDto modelToDto(Bank bank);
 
     List<BankDto> toListDto(List<Bank> banks);

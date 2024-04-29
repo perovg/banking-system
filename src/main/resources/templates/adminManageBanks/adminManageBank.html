@@ -5,39 +5,60 @@
     <title>BankingSystem</title>
 </head>
 <body>
-<h2></h2>
 <form method="POST" th:action="@{/admin/banks/bank}" th:object="${bank}">
-    <center>
+    <div style="text-align: center;">
         <h1>Manage bank</h1>
-        <label for="name"><font color="red">*</font>Name:</label><br>
+        <label>
+            <span style="color: red; ">*</span>Name:
+        </label>
+        <br>
         <label>
             <input th:field="*{name}" type="text" id="nameInput" onkeyup="success()">
-        </label><br><br>
-        <label for="creditPeriod"><font color="red">*</font>Enter credit period <br> (sec, >= 100):</label><br>
+        </label>
+        <br><br>
+        <label for="creditPeriod">
+            <span style="color: red; ">*</span>Enter credit period <br> (sec, >= 100):
+        </label>
+        <br>
         <label>
             <input th:field="*{creditPeriod}" type="text" id="creditPeriodInput" onkeyup="success()"/>
-        </label><br><br>
-        <label for="interestCreditRate"><font color="red">*</font>Enter interest credit rate <br> (% / credit
-            period):</label><br>
+        </label>
+        <br><br>
+        <label for="interestCreditRate">
+            <span style="color: red; ">*</span>Enter interest credit rate <br> (% / credit period):
+        </label>
+        <br>
         <label>
             <input th:field="*{interestCreditRate}" type="text" id="interestCreditRateInput" onkeyup="success()"/>
-        </label><br><br>
-        <label for="creditLimit"><font color="red">*</font>Enter credit limit <br> ( >= 10000):</label><br>
+        </label>
+        <br><br>
+        <label for="creditLimit">
+            <span style="color: red; ">*</span>Enter credit limit <br> ( >= 10000):
+        </label>
+        <br>
         <label>
             <input th:field="*{creditLimit}" type="text" id="creditLimitInput" onkeyup="success()"/>
-        </label><br><br>
-        <label for="depositPeriod"><font color="red">*</font>Enter deposit period <br> (sec, >= 100):</label><br>
+        </label>
+        <br><br>
+        <label for="depositPeriod">
+            <span style="color: red; ">*</span>Enter deposit period <br> (sec, >= 100):
+        </label>
+        <br>
         <label>
             <input th:field="*{depositPeriod}" type="text" id="depositPeriodInput" onkeyup="success()"/>
-        </label><br><br>
-        <label for="interestDepositRate"><font color="red">*</font>Enter interest deposit rate <br> (% / deposit
-            period):</label><br>
+        </label>
+        <br><br>
+        <label for="interestDepositRate">
+            <span style="color: red; ">*</span>Enter interest deposit rate <br> (% / deposit period):
+        </label>
+        <br>
         <label>
             <input th:field="*{interestDepositRate}" type="text" id="interestDepositRateInput" onkeyup="success()"/>
-        </label><br><br>
+        </label>
+        <br><br>
         <input type="hidden" name="bankId" th:value="${bank.bankId}"/>
         <button id="button" style="width: 170px; height: 25px; background-color: cornflowerblue">update</button>
-    </center>
+    </div>
 </form>
 <br><br><br><br><br><br><br>
 <form method="POST" th:action="@{/admin/banks/bank/delete}">
@@ -49,11 +70,7 @@
 </form>
 <script>
     function success() {
-        if (check()) {
-            document.getElementById('button').disabled = false;
-        } else {
-            document.getElementById('button').disabled = true;
-        }
+        document.getElementById('button').disabled = !check();
     }
 
     function check() {

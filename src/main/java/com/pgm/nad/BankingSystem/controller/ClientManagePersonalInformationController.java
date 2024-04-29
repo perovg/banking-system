@@ -1,6 +1,6 @@
 package com.pgm.nad.BankingSystem.controller;
 
-import com.pgm.nad.BankingSystem.dto.ClientDto;
+import com.pgm.nad.BankingSystem.model.Client;
 import com.pgm.nad.BankingSystem.service.BankAccountServiceImpl;
 import com.pgm.nad.BankingSystem.service.BankServiceImpl;
 import com.pgm.nad.BankingSystem.service.ClientServiceImpl;
@@ -29,19 +29,19 @@ public class ClientManagePersonalInformationController {
 
     @PostMapping("/info/updateForm")
     public String clientChangeInformation(@RequestParam("clientId") long clientId, Model model) {
-        model.addAttribute("client", clientService.findClientDtoById(clientId));
+        model.addAttribute("client", clientService.findClientById(clientId));
         return "clientManagePersonalInformation/clientUpdateInfo";
     }
 
     @PostMapping("/info/update")
-    public String updateInfo(ClientDto client, Model model) {
+    public String updateInfo(Client client, Model model) {
         if (client.getName().isEmpty() || client.getSurname().isEmpty()) {
-            model.addAttribute("client", clientService.findClientDtoById(client.getClientId()));
+            model.addAttribute("client", clientService.findClientById(client.getClientId()));
             return "clientManagePersonalInformation/clientUpdateInfo";
         }
 
         clientService.update(client);
-        model.addAttribute("client", client);
+        model.addAttribute("client", clientService.findClientDtoById(client.getClientId()));
         return "clientManagePersonalInformation/clientInfo";
     }
 }

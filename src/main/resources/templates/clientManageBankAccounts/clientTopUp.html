@@ -13,25 +13,25 @@
             th:href="@{/banks/accounts/account}"></button>
 </form>
 <br><br><br><br><br><br><br><br><br><br><br>
-<center>
+<div style="text-align: center;">
     <h2>Top up</h2>
     <form method="POST" th:action="@{/banks/accounts/account/topUp}">
-        <a>Enter top up amount:</a><br><br>
-        <input type="text" name="amount" th:href="*{amount}" id="amount" onkeyup="check()"/><br><br>
+        <a>Enter top up amount:</a>
+        <br><br>
+        <label for="amount"></label>
+        <input type="text" name="amount" th:href="*{amount}" id="amount" onkeyup="check()"/>
+        <br><br>
         <input type="hidden" name="clientId" th:value="${clientId}"/>
         <input type="hidden" name="accountId" th:value="${accountId}"/>
         <input type="hidden" name="bankId" th:value="${bankId}"/>
-        <button id="button" style="width: 150px; height: 25px" disabled>top up</button>
+        <button id="button" style="width: 170px; height: 25px; background-color: cornflowerblue" disabled>top up</button>
     </form>
-</center>
+</div>
 <script>
     function check() {
-        if (isNaN(document.getElementById("amount").value) ||
-            document.getElementById("amount").value <= 0) {
-            document.getElementById("button").disabled = true
-        } else {
-            document.getElementById("button").disabled = false
-        }
+        document.getElementById("button").disabled =
+            isNaN(document.getElementById("amount").value) ||
+            document.getElementById("amount").value <= 0;
     }
 </script>
 </body>

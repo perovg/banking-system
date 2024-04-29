@@ -5,7 +5,7 @@
     <title>Banking System</title>
 </head>
 <body>
-<center>
+<div style="text-align: center;">
     <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
     <h3>You have successfully withdrawn money from your account</h3>
     <form method="POST" th:action="@{/banks/accounts/account}">
@@ -14,6 +14,6 @@
         <input type="hidden" name="accountId" th:value="${accountId}"/>
         <button style="width: 150px; height: 30px" th:text="return" th:href="@{/banks/accounts/account}"></button>
     </form>
-</center>
+</div>
 </body>
 </html>

@@ -5,7 +5,7 @@
     <title>Banking System</title>
 </head>
 <body>
-<center>
+<div style="text-align: center;">
     <br><br><br><br><br><br><br><br><br><br><br><br><br>
     <h3>Transfer failed</h3>
     <h3>There is no bank account with this number</h3>
@@ -15,6 +15,6 @@
         <input type="hidden" name="bankId" th:value="${bankId}"/>
         <button style="width: 150px; height: 30px" th:text="return" th:href="@{/banks/accounts/account}"></button>
     </form>
-</center>
+</div>
 </body>
 </html>

@@ -12,7 +12,7 @@ public interface ClientService {
 
     Client findClientById(long id);
 
-    long save(ClientDto client);
+    long save(Client client);
 
     boolean existsById(long clientId);
 }

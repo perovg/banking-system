@@ -5,7 +5,7 @@
     <title>Banking System</title>
 </head>
 <body>
-<center>
+<div style="text-align: center;">
     <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
     <h3>Failed to delete account</h3>
     <a>To delete, your account balance must be 0,00</a><br><br>
@@ -15,6 +15,6 @@
         <input type="hidden" name="bankId" th:value="${bankId}"/>
         <button style="width: 150px; height: 30px" th:text="return" th:href="@{/banks/accounts/account}"></button>
     </form>
-</center>
+</div>
 </body>
 </html>

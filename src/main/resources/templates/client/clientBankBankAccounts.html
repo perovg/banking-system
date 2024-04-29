@@ -10,21 +10,21 @@
     <button style="width: 170px; height: 25px; float: right">return to main catalog</button>
 </form>
 <br><br>
-<center>
+<div style="text-align: center;">
     <h1 th:text="${bank.name}"></h1>
     <form method="POST" th:action="@{/banks/add_bank/create_account}">
         <input type="hidden" name="clientId" th:value="${clientId}"/>
         <input type="hidden" name="bankId" th:value="${bank.bankId}"/>
-        <button style="background-color: cornflowerblue">Open a new account</button>
+        <button style="width: 250px; height: 30px; background-color: cornflowerblue">Open a new account</button>
     </form>
-</center>
-<center>
-    <table>
+    <table border="1" style="display: inline-block;">
         <tr>
             <th th:text="Id" style="width: 200px; border-color: black; height: 30px" align="left"></th>
             <th th:text="Type" style="width: 100px; border-color: black; height: 30px" align="left"></th>
             <th th:text="Balance" style="width: 100px; border-color: black; height: 30px" align="left"></th>
+            <th style="width: 100px; border-color: black; height: 30px"></th>
         </tr>
+        <br>
         <tr th:each="account : ${accounts}">
             <form method="POST" th:action="@{/banks/accounts/account}" th:object="${account}">
                 <td th:text="${account.bankAccountId}" style="width: 200px; border-color: black; height: 30px"></td>
@@ -35,12 +35,12 @@
                 <input type="hidden" name="accountId" th:value="${account.bankAccountId}"/>
                 <input type="hidden" name="bankId" th:value="${bank.bankId}"/>
                 <td style="width: 100px; border-color: black; height: 30px">
-                    <button style="background-color: cornflowerblue" th:href="@{/banks/accounts/account}">manage
+                    <button style="width: 100px; height: 30px; background-color: cornflowerblue" th:href="@{/banks/accounts/account}">manage
                     </button>
                 </td>
             </form>
         </tr>
     </table>
-</center>
+</div>
 </body>
 </html>

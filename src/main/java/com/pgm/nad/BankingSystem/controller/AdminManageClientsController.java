@@ -43,17 +43,16 @@ public class AdminManageClientsController {
     public String manageClientAccount(@RequestParam("accountId") long accountId, Model model) {
         BankAccountDto bankAccount = bankAccountService.findById(accountId);
         model.addAttribute("account", bankAccount);
-        model.addAttribute("client", clientService.findClientDtoById(bankAccount.getClientId()));
+        model.addAttribute("client", clientService.findClientDtoById(bankAccount.clientId()));
         return "adminManageClients/adminManageClientBankAccount";
     }
 
     @PostMapping("/admin/clients/client/accounts/account/block")
     public String blockAndUnBlockBankAccount(@RequestParam("accountId") long accountId,
-                                             @RequestParam("isBlocked") boolean isBlocked,
                                              Model model) {
-        BankAccountDto bankAccount = bankAccountService.blockAndUnblock(accountId, isBlocked);
+        BankAccountDto bankAccount = bankAccountService.blockAndUnblock(accountId);
         model.addAttribute("account", bankAccount);
-        model.addAttribute("client", clientService.findClientDtoById(bankAccount.getClientId()));
+        model.addAttribute("client", clientService.findClientDtoById(bankAccount.clientId()));
         return "adminManageClients/adminManageClientBankAccount";
     }
 }

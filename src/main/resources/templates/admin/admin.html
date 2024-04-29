@@ -9,24 +9,26 @@
     <button style="width: 170px; height: 25px; float: right">exit</button>
 </form>
 <br>
-<center><h1>Banking system control page</h1></center>
+<div style="text-align: center;">
+    <h1>Banking system control page</h1>
+</div>
 <br><br><br><br><br><br><br><br><br>
 <form method="GET" th:action="@{/admin/banks}">
-    <center>
+    <div style="text-align: center;">
         <button style="width: 400px; height: 40px; background-color: cornflowerblue">Manage banks</button>
-    </center>
+    </div>
 </form>
 <br>
 <form method="GET" th:action="@{/admin/accounts}">
-    <center>
+    <div style="text-align: center;">
         <button style="width: 400px; height: 40px; background-color: cornflowerblue">Manage accounts</button>
-    </center>
+    </div>
 </form>
 <br>
 <form method="GET" th:action="@{/admin/clients}">
-    <center>
+    <div style="text-align: center;">
         <button style="width: 400px; height: 40px; background-color: cornflowerblue">Manage clients</button>
-    </center>
+    </div>
 </form>
 </body>
 </html>

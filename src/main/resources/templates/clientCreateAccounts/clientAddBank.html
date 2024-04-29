@@ -10,12 +10,12 @@
     <button style="width: 170px; height: 25px; float: right">return to main catalog</button>
 </form>
 <br><br>
-<center th:if="${banks.isEmpty()}">
+<div th:if="${banks.isEmpty()}" style="text-align: center;">
     <h3>At the moment there are no banks in which you don't have accounts</h3>
-</center>
-<center th:if="${!banks.isEmpty()}">
+</div>
+<div th:if="${!banks.isEmpty()}" style="text-align: center;">
     <h2>Choose a bank</h2>
-    <table>
+    <table border="1" style="display: inline-block;">
         <tr>
             <th th:text="'Name'" style="width: 110px; border-color: black; height: 30px" align="left"></th>
             <th th:text="'Credit period'" style="width: 130px; border-color: black; height: 30px" align="left"></th>
@@ -42,6 +42,6 @@
             </form>
         </tr>
     </table>
-</center>
+</div>
 </body>
 </html>

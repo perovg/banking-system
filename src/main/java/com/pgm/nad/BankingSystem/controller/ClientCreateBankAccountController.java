@@ -1,7 +1,7 @@
 package com.pgm.nad.BankingSystem.controller;
 
-import com.pgm.nad.BankingSystem.dto.BankAccountDto;
 import com.pgm.nad.BankingSystem.dto.ClientDto;
+import com.pgm.nad.BankingSystem.model.BankAccount;
 import com.pgm.nad.BankingSystem.service.BankAccountServiceImpl;
 import com.pgm.nad.BankingSystem.service.BankServiceImpl;
 import com.pgm.nad.BankingSystem.service.ClientServiceImpl;
@@ -36,7 +36,7 @@ public class ClientCreateBankAccountController {
                                          Model model) {
         model.addAttribute("clientId", clientId);
         model.addAttribute("bank", bankService.findBankDtoById(bankId));
-        model.addAttribute("account", new BankAccountDto());
+        model.addAttribute("account", new BankAccount());
         return "clientCreateAccounts/clientCreateBankAccount";
     }
 
@@ -52,13 +52,11 @@ public class ClientCreateBankAccountController {
     @PostMapping("/banks/add_bank/create_account/success")
     public String successOfCreationBankAccountInNewBank(@RequestParam("clientId") long clientId,
                                                         @RequestParam("bankId") long bankId,
-                                                        BankAccountDto bankAccount,
+                                                        BankAccount bankAccount,
                                                         Model model) {
-        bankAccount.setClientId(clientId);
-        bankAccount.setBankId(bankId);
-        bankAccountService.create(bankAccount);
-        model.addAttribute("clientId", bankAccount.getClientId());
-        model.addAttribute("bank", bankService.findBankDtoById(bankAccount.getBankId()));
+        bankAccountService.create(bankAccount, clientId, bankId);
+        model.addAttribute("clientId", clientId);
+        model.addAttribute("bank", bankService.findBankDtoById(bankId));
         return "clientCreateAccounts/clientCreateBankAccountSuccess";
     }
 }

@@ -10,24 +10,24 @@
     <button style="width: 170px; height: 25px; float: right">exit</button>
 </form>
 <br><br>
-<center>
+<div style="text-align: center;">
     <h3>Information about bank account</h3>
-    <table>
+    <table border="1" style="display: inline-block;">
         <tr>
-            <td style="width: 200px; border-color: black; height: 30px">Account id:</td>
+            <td style="width: 170px; border-color: black; height: 30px">Account id:</td>
             <td th:text="${account.bankAccountId}" style="width: 100px; border-color: black; height: 30px"></td>
         </tr>
         <tr>
-            <td style="width: 200px; border-color: black; height: 30px">Type:</td>
+            <td style="width: 170px; border-color: black; height: 30px">Type:</td>
             <td th:text="${account.type}" style="width: 100px; border-color: black; height: 30px"></td>
         </tr>
         <tr>
-            <td style="width: 200px; border-color: black; height: 30px">State:</td>
-            <td th:if="${account.isBlocked()}" style="width: 100px; border-color: black; height: 30px">Blocked</td>
-            <td th:if="${!account.isBlocked()}" style="width: 100px; border-color: black; height: 30px">Active</td>
+            <td style="width: 170px; border-color: black; height: 30px">State:</td>
+            <td th:if="${account.blocked()}" style="width: 100px; border-color: black; height: 30px">Blocked</td>
+            <td th:if="${!account.blocked()}" style="width: 100px; border-color: black; height: 30px">Active</td>
         </tr>
         <tr>
-            <td style="width: 200px; border-color: black; height: 30px">Owner:</td>
+            <td style="width: 170px; border-color: black; height: 30px">Owner:</td>
             <td th:text="${client.name} + ' ' + ${client.surname}"
                 style="width: 100px; border-color: black; height: 30px"></td>
         </tr>
@@ -35,12 +35,12 @@
     <h3>Actions</h3>
     <form method="POST" th:action="@{/admin/clients/client/accounts/account/block}">
         <input type="hidden" name="accountId" th:value="${account.bankAccountId}"/>
-        <input type="hidden" name="isBlocked" th:value="${account.isBlocked()}"/>
-        <button th:if="${!account.isBlocked()}" style="width: 300px; height: 25px">block</button>
-        <br th:if="${!account.isBlocked()}">
-        <button th:if="${account.isBlocked()}" style="width: 300px; height: 25px">unblock</button>
+        <input type="hidden" name="isBlocked" th:value="${account.blocked()}"/>
+        <button th:if="${!account.blocked()}" style="width: 310px; height: 25px; background-color: cornflowerblue">block</button>
+        <br th:if="${!account.blocked()}">
+        <button th:if="${account.blocked()}" style="width: 310px; height: 25px; background-color: cornflowerblue">unblock</button>
         <br>
     </form>
-</center>
+</div>
 </body>
 </html>

@@ -13,39 +13,41 @@
             th:href="@{/banks/accounts/account}"></button>
 </form>
 <br><br><br><br><br><br><br><br>
-<center>
+<div style="text-align: center;">
     <h2>Transfer</h2>
     <form method="POST" th:action="@{/banks/accounts/account/transfer}">
-        <a>Enter the recipient's account number:</a><br><br>
-        <input id="recipientAccountId" type="text" name="recipientAccountId" th:href="*{recipientAccountId}"
-               onkeyup="check()"/><br><br>
-        <a>Enter withdraw amount:</a><br><br>
-        <a th:text="'Balance: ' + ${#numbers.formatDecimal(balance, 1, 2)}"></a><br>
-        <input id="amount" type="text" name="amount" th:href="*{amount}" onkeyup="check()"/><br><br>
+        <a>Enter the recipient's <br> account number:</a>
+        <br>
+        <label for="recipientAccountId"></label>
+        <input id="recipientAccountId" type="text" name="recipientAccountId" th:href="*{recipientAccountId}" onkeyup="check()"/>
+        <br><br>
+        <a>Enter withdraw amount:</a>
+        <br>
+        <label for="amount"></label>
+        <input id="amount" type="text" name="amount" th:href="*{amount}" onkeyup="check()"/>
+        <br><br>
+        <a th:text="'Balance: ' + ${#numbers.formatDecimal(balance, 1, 2)}"></a>
+        <br><br>
         <input type="hidden" name="clientId" th:value="${clientId}"/>
         <input type="hidden" name="accountId" th:value="${accountId}"/>
         <input type="hidden" name="bankId" th:value="${bankId}"/>
-        <button id="button" disabled style="width: 150px; height: 25px">make a transfer</button>
+        <button id="button" disabled style="width: 170px; height: 25px; background-color: cornflowerblue">make a transfer</button>
     </form>
-</center>
+</div>
 <script>
-    var balance = [[${balance}]];
-    var creditLimit = [[${creditLimit}]]
+    const balance = [[${balance}]];
+    const creditLimit = [[${creditLimit}]];
 
     function check() {
-        var amount = document.getElementById("amount").value
-        var recipientAccountId = document.getElementById("recipientAccountId").value
+        const amount = document.getElementById("amount").value;
+        const recipientAccountId = document.getElementById("recipientAccountId").value;
         if (amount <= 0 ||
             amount > balance + creditLimit ||
             isNaN(parseFloat(amount))) {
             document.getElementById("button").disabled = true
-        } else if (isNaN(parseInt(recipientAccountId)) ||
+        } else document.getElementById("button").disabled = isNaN(parseInt(recipientAccountId)) ||
             recipientAccountId < 1000000000000000 ||
-            recipientAccountId >= 10000000000000000) {
-            document.getElementById("button").disabled = true
-        } else {
-            document.getElementById("button").disabled = false
-        }
+            recipientAccountId >= 10000000000000000;
     }
 </script>
 </body>
