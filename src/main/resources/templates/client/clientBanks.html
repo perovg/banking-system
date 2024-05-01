@@ -19,11 +19,10 @@
         <input type="hidden" name="clientId" th:value="${client.clientId}"/>
         <button style="background-color: cornflowerblue">Become a client of a new bank</button>
     </form>
-    <table border="1" style="display: inline-block;">
+    <table th:if="!${#lists.isEmpty(banks)}" border="1" style="display: inline-block;">
         <tr>
-            <th th:text="Name" style="width: 100px; border-color: black; height: 30px" align="left"
-                th:if="!${#lists.isEmpty(banks)}"></th>
-            <th th:if="!${#lists.isEmpty(banks)}" style="width: 100px; border-color: black; height: 30px"></th>
+            <th th:text="Name" style="width: 100px; border-color: black; height: 30px" align="left"></th>
+            <th style="width: 100px; border-color: black; height: 30px"></th>
         </tr>
         <br><br>
         <tr th:each="bank : ${banks}">
