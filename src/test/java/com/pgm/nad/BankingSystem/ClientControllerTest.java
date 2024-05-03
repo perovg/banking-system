@@ -1,4 +1,4 @@
-package com.pgm.nad.BankingSystem.controller;
+package com.pgm.nad.BankingSystem;
 
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
