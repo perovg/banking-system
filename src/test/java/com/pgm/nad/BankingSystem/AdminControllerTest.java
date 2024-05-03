@@ -1,4 +1,4 @@
-package com.pgm.nad.BankingSystem.controller;
+package com.pgm.nad.BankingSystem;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
