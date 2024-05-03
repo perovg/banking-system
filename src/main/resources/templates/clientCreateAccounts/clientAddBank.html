@@ -25,6 +25,7 @@
             <th th:text="'Deposit period'" style="width: 125px; border-color: black; height: 30px" align="left"></th>
             <th th:text="'Interest deposit period'" style="width: 175px; border-color: black; height: 30px"
                 align="left"></th>
+            <th style="width: 100px; border-color: black; height: 30px"></th>
         </tr>
         <tr th:each="bank : ${banks}">
             <form method="POST" th:action="@{/banks/add_bank/create_account}">
@@ -37,7 +38,7 @@
                 <input type="hidden" name="bankId" th:value="${bank.bankId}"/>
                 <input type="hidden" name="clientId" th:value="${client.clientId}"/>
                 <td style="width: 100px; border-color: black; height: 30px">
-                    <button style="background-color: cornflowerblue">choose</button>
+                    <button style="width: 100px; height: 30px; background-color: cornflowerblue">choose</button>
                 </td>
             </form>
         </tr>
