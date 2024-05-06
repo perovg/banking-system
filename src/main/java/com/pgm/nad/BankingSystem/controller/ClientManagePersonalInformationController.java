@@ -12,14 +12,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-@RequestMapping("/info/")
+@RequestMapping("/info")
 @RequiredArgsConstructor
 public class ClientManagePersonalInformationController {
     private final ClientService clientService;
     public final BankService bankService;
     public final BankAccountService bankAccountService;
 
-    @PostMapping("/")
+    @PostMapping("")
     public String clientInformation(@RequestParam("clientId") long clientId, Model model) {
         model.addAttribute("client", clientService.findClientDtoById(clientId));
         return "clientManagePersonalInformation/clientInfo";

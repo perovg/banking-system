@@ -5,9 +5,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/")
+@RequestMapping("/admin")
 public class AdminController {
-    @GetMapping("admin")
+    @GetMapping("")
     public String mainAdminPage() {
         return "admin/admin";
     }
