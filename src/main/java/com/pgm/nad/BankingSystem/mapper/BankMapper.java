@@ -10,5 +10,5 @@ import java.util.List;
 public interface BankMapper {
     BankDto modelToDto(Bank bank);
 
-    List<BankDto> toListDto(List<Bank> banks);
+    List<BankDto> BankListToBankDtoList(List<Bank> banks);
 }

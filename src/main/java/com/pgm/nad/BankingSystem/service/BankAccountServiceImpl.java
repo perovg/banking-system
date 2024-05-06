@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 import java.util.Random;
 
 @Service
@@ -29,46 +28,49 @@ public class BankAccountServiceImpl implements BankAccountService {
     private final Random random = new Random();
 
     @Override
-    public BankAccountDto findById(long id) {
-        recount(id);
-        return Optional.of(getById(id)).map(bankAccountMapper::modelToDto).get();
+    public BankAccountDto findBankAccountDtoById(long id) {
+        recalculation(id);
+        return bankAccountMapper.modelToDto(findBankAccountById(id));
     }
 
-    private BankAccount getById(Long id) {
+    private BankAccount findBankAccountById(Long id) {
         return bankAccountRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException(
-                        "Bank account with bankId: " + id + " not found"));
+                        "Bank account with bankId: " + id + " not found"
+                ));
     }
 
     @Override
     public List<BankAccountDto> findAll() {
-        List<BankAccountDto> bankAccounts = bankAccountMapper.toListDto(bankAccountRepository.findAll());
+        List<BankAccountDto> bankAccounts = bankAccountMapper.BankAccountListToBankAccountDtoList(
+                bankAccountRepository.findAll()
+        );
         for (BankAccountDto bankAccount : bankAccounts) {
-            recount(bankAccount.bankAccountId());
+            recalculation(bankAccount.bankAccountId());
         }
-        bankAccounts = bankAccountMapper.toListDto(bankAccountRepository.findAll());
+        bankAccounts = bankAccountMapper.BankAccountListToBankAccountDtoList(bankAccountRepository.findAll());
         return bankAccounts;
     }
 
     @Override
     public List<BankAccountDto> findAllByClient(long clientId) {
         Client client = clientService.findClientById(clientId);
-        return bankAccountMapper.toListDto(bankAccountRepository.findAllByClient(client));
+        return bankAccountMapper.BankAccountListToBankAccountDtoList(bankAccountRepository.findAllByClient(client));
     }
 
     @Override
     public List<BankAccountDto> findAllByClientAndBank(long client, long bank) {
         List<BankAccountDto> bankAccounts =
                 bankAccountMapper.
-                        toListDto(bankAccountRepository.findAllByClientAndBank(
+                        BankAccountListToBankAccountDtoList(bankAccountRepository.findAllByClientAndBank(
                                 clientService.findClientById(client),
                                 bankRepository.findByBankId(bank)));
 
         for (BankAccountDto bankAccount : bankAccounts) {
-            recount(bankAccount.bankAccountId());
+            recalculation(bankAccount.bankAccountId());
         }
 
-        return bankAccountMapper.toListDto(
+        return bankAccountMapper.BankAccountListToBankAccountDtoList(
                 bankAccountRepository.findAllByClientAndBank(
                         clientService.findClientById(client),
                         bankRepository.findByBankId(bank)));
@@ -77,14 +79,19 @@ public class BankAccountServiceImpl implements BankAccountService {
     @Override
     public void create(BankAccount bankAccount, long clientId, long bankId) {
         Bank bank = bankRepository.findByBankId(bankId);
+        System.out.println(bankAccount.getBankAccountId());
         bankAccount.setBankAccountId(generateBankAccountId(bankId));
         bankAccount.setBank(bank);
         bankAccount.setClient(clientService.findClientById(clientId));
+        bankAccount.setBankAccountId(generateBankAccountId(bankId));
+        System.out.println(bankAccount.getBankAccountId());
 
         switch (bankAccount.getType()) {
-            case DEBIT -> bankAccountRepository.save(bankAccountMapper.BankAccountToDebitBankAccount(bankAccount));
-            case DEPOSIT -> bankAccountRepository.save(bankAccountMapper.BankAccountToDepositBankAccount(bankAccount));
-            case CREDIT -> bankAccountRepository.save(bankAccountMapper.BankAccountToCreditBankAccount(bankAccount));
+            case DEBIT -> {DebitBankAccount debitBankAccount = new DebitBankAccount(bankAccount);
+                System.out.println(debitBankAccount.getBankAccountId());
+                    bankAccountRepository.save(new DebitBankAccount(bankAccount));}
+            case DEPOSIT -> bankAccountRepository.save(new DepositBankAccount(bankAccount));
+            case CREDIT -> bankAccountRepository.save(new CreditBankAccount(bankAccount));
         }
     }
 
@@ -108,8 +115,8 @@ public class BankAccountServiceImpl implements BankAccountService {
 
     public boolean topUp(long bankAccountId, double sum) {
         if (bankAccountRepository.existsById(bankAccountId) && sum > 0) {
-            this.recount(bankAccountId);
-            BankAccount bankAccount = this.getById(bankAccountId);
+            this.recalculation(bankAccountId);
+            BankAccount bankAccount = this.findBankAccountById(bankAccountId);
             bankAccount.setBalance(bankAccount.getBalance() + sum);
             bankAccountRepository.save(bankAccount);
             return true;
@@ -120,8 +127,8 @@ public class BankAccountServiceImpl implements BankAccountService {
     @Override
     public boolean withdraw(long bankAccountId, double sum) {
         if (bankAccountRepository.existsById(bankAccountId) && sum > 0) {
-            this.recount(bankAccountId);
-            BankAccount bankAccount = this.getById(bankAccountId);
+            this.recalculation(bankAccountId);
+            BankAccount bankAccount = this.findBankAccountById(bankAccountId);
             switch (bankAccount.getType()) {
                 case DEBIT -> {
                     return withdrawFromDebitAccount((DebitBankAccount) bankAccount, sum);
@@ -170,7 +177,10 @@ public class BankAccountServiceImpl implements BankAccountService {
 
     @Override
     public boolean transfer(long bankAccountFromId, long bankAccountToId, double sum) {
-        if (bankAccountRepository.existsById(bankAccountToId) && bankAccountRepository.existsById(bankAccountFromId) && sum > 0) {
+        if (bankAccountRepository.existsById(bankAccountToId) &&
+                bankAccountRepository.existsById(bankAccountFromId) &&
+                sum > 0
+        ) {
             if (withdraw(bankAccountFromId, sum)) {
                 topUp(bankAccountToId, sum);
                 return true;
@@ -181,7 +191,7 @@ public class BankAccountServiceImpl implements BankAccountService {
 
     @Override
     public boolean deleteById(long accountId) {
-        BankAccount bankAccount = this.getById(accountId);
+        BankAccount bankAccount = this.findBankAccountById(accountId);
         if (bankAccount.getBalance() == 0) {
             bankAccountRepository.deleteById(accountId);
             return true;
@@ -191,7 +201,7 @@ public class BankAccountServiceImpl implements BankAccountService {
 
     @Override
     public BankAccountDto blockAndUnblock(long bankAccountId) {
-        BankAccount bankAccount = this.getById(bankAccountId);
+        BankAccount bankAccount = this.findBankAccountById(bankAccountId);
 
         bankAccount.setBlocked(!bankAccount.isBlocked());
         bankAccountRepository.save(bankAccount);
@@ -200,7 +210,7 @@ public class BankAccountServiceImpl implements BankAccountService {
 
     @Override
     public void reopenDepositAccount(long accountId) {
-        BankAccount bankAccount = getById(accountId);
+        BankAccount bankAccount = findBankAccountById(accountId);
         if (bankAccount.getType().equals(Type.DEPOSIT)) {
             Bank bank = bankAccount.getBank();
             DepositBankAccount depositBankAccount = (DepositBankAccount) bankAccount;
@@ -216,15 +226,15 @@ public class BankAccountServiceImpl implements BankAccountService {
         }
     }
 
-    private void recount(long bankAccountId) {
-        BankAccount bankAccount = this.getById(bankAccountId);
+    private void recalculation(long bankAccountId) {
+        BankAccount bankAccount = this.findBankAccountById(bankAccountId);
         switch (bankAccount.getType()) {
-            case CREDIT -> bankAccountRepository.save(recountCreditBankAccount((CreditBankAccount) bankAccount));
-            case DEPOSIT -> bankAccountRepository.save(recountDepositBankAccount((DepositBankAccount) bankAccount));
+            case CREDIT -> bankAccountRepository.save(recalculationCreditBankAccount((CreditBankAccount) bankAccount));
+            case DEPOSIT -> bankAccountRepository.save(recalculationDepositBankAccount((DepositBankAccount) bankAccount));
         }
     }
 
-    private BankAccount recountCreditBankAccount(CreditBankAccount bankAccount) {
+    private BankAccount recalculationCreditBankAccount(CreditBankAccount bankAccount) {
         if (bankAccount.getBalance() >= 0) {
             bankAccount.setOpenTime(0);
         } else {
@@ -237,7 +247,7 @@ public class BankAccountServiceImpl implements BankAccountService {
         return bankAccount;
     }
 
-    private BankAccount recountDepositBankAccount(DepositBankAccount bankAccount) {
+    private BankAccount recalculationDepositBankAccount(DepositBankAccount bankAccount) {
         if (bankAccount.getPeriodEnd() <= new Date().getTime() / 1000 && !bankAccount.isCompleted()) {
             double newBalance = bankAccount.getBalance() * (1 + bankAccount.getInterestRate() / 100);
 

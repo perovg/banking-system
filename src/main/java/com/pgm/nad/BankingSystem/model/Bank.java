@@ -11,7 +11,6 @@ import lombok.RequiredArgsConstructor;
 public class Bank {
     @Id
     long bankId;
-
     String name;
     double interestCreditRate;
     int creditLimit;

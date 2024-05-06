@@ -11,10 +11,8 @@ import lombok.RequiredArgsConstructor;
 public class Client {
     @Id
     public long clientId;
-
     private String name;
     private String surname;
     private String passport;
     private String address;
-
 }

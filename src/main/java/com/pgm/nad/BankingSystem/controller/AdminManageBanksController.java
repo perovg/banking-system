@@ -3,7 +3,6 @@ package com.pgm.nad.BankingSystem.controller;
 import com.pgm.nad.BankingSystem.model.Bank;
 import com.pgm.nad.BankingSystem.service.BankService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,45 +10,44 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@Slf4j
 @Controller
-@RequestMapping("/")
+@RequestMapping("/admin/banks")
 @RequiredArgsConstructor
 public class AdminManageBanksController {
     public final BankService bankService;
 
-    @GetMapping("/admin/banks")
+    @GetMapping("")
     public String manageBanks(Model model) {
         model.addAttribute("banks", bankService.findAll());
         return "adminManageBanks/adminManageBanks";
     }
 
-    @GetMapping("/admin/banks/create")
+    @GetMapping("/create")
     public String createBank(Model model) {
         model.addAttribute("bank", new Bank());
         return "adminManageBanks/adminCreateBank";
     }
 
-    @PostMapping("/admin/banks/create")
+    @PostMapping("/create")
     public String checkCreatingBank(Bank bank) {
         System.out.println(bank.getInterestDepositRate());
         bankService.save(bank);
         return "redirect:/admin/banks";
     }
 
-    @PostMapping("/admin/banks/bank/edit")
+    @PostMapping("/bank/edit")
     public String manageBank(@RequestParam("bankId") long bankId, Model model) {
         model.addAttribute("bank", bankService.findBankById(bankId));
         return "adminManageBanks/adminManageBank";
     }
 
-    @PostMapping("/admin/banks/bank")
+    @PostMapping("/bank")
     public String updateBank(Bank bank) {
         bankService.update(bank);
         return "redirect:/admin/banks";
     }
 
-    @PostMapping("/admin/banks/bank/delete")
+    @PostMapping("/bank/delete")
     public String deleteBank(@RequestParam("bankId") long bankId) {
         bankService.deleteById(bankId);
         return "redirect:/admin/banks";

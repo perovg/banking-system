@@ -15,4 +15,8 @@ public interface ClientService {
     long save(Client client);
 
     boolean existsById(long clientId);
+
+    void update(Client client);
+
+    boolean existById(long clientId);
 }

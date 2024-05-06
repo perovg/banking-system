@@ -7,5 +7,6 @@ public record BankDto(
         int creditLimit,
         int creditPeriod,
         int depositPeriod,
-        double interestDepositRate) {
+        double interestDepositRate
+) {
 }

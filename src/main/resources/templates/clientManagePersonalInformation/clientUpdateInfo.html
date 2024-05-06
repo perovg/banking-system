@@ -58,10 +58,9 @@
     function check() {
         if(document.getElementById("nameInput").value === "") {
             return false;
-        } else if(document.getElementById("surnameInput").value === "") {
-            return false;
         }
-        return true;
+        return document.getElementById("surnameInput").value !== "";
+
     }
 </script>
 </body>

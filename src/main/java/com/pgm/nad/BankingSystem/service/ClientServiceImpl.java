@@ -20,7 +20,7 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public List<ClientDto> findAll() {
-        return clientMapper.toListDto(clientRepository.findAll());
+        return clientMapper.ClientListToClientDtoList(clientRepository.findAll());
     }
 
     @Override
@@ -58,10 +58,12 @@ public class ClientServiceImpl implements ClientService {
         return id;
     }
 
+    @Override
     public void update(Client client) {
         clientRepository.save(client);
     }
 
+    @Override
     public boolean existById(long clientId) {
         return clientRepository.existsById(clientId);
     }

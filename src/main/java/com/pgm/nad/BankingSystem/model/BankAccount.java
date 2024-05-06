@@ -24,5 +24,4 @@ public class BankAccount {
 
     @ManyToOne
     Bank bank;
-
 }

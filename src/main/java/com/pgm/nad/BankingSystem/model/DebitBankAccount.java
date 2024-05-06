@@ -9,4 +9,13 @@ import lombok.RequiredArgsConstructor;
 @Data
 @Entity
 @RequiredArgsConstructor
-public class DebitBankAccount extends BankAccount {}
+public class DebitBankAccount extends BankAccount {
+    public DebitBankAccount(BankAccount bankAccount) {
+        this.setBankAccountId(bankAccount.getBankAccountId());
+        this.setBank(bankAccount.getBank());
+        this.setClient(bankAccount.getClient());
+        this.setBalance(bankAccount.getBalance());
+        this.setType(bankAccount.getType());
+        this.setBlocked(bankAccount.isBlocked());
+    }
+}

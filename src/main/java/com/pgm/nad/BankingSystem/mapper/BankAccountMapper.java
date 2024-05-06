@@ -5,19 +5,22 @@ import com.pgm.nad.BankingSystem.model.BankAccount;
 import com.pgm.nad.BankingSystem.model.CreditBankAccount;
 import com.pgm.nad.BankingSystem.model.DebitBankAccount;
 import com.pgm.nad.BankingSystem.model.DepositBankAccount;
-import com.pgm.nad.BankingSystem.model.Type;
-
 import java.util.List;
 
 public interface BankAccountMapper {
     default BankAccountDto modelToDto(BankAccount bankAccount) {
-        if (bankAccount.getType().equals(Type.CREDIT)) {
-            return this.creditBankAccountToDto((CreditBankAccount) bankAccount);
-        } else if (bankAccount.getType().equals(Type.DEBIT)) {
-            return this.debitBankAccountToDto((DebitBankAccount) bankAccount);
-        } else {
-            return this.depositBankAccountToDto((DepositBankAccount) bankAccount);
+        switch (bankAccount.getType()) {
+            case DEBIT -> {
+                return this.debitBankAccountToDto((DebitBankAccount) bankAccount);
+            }
+            case CREDIT -> {
+                return this.creditBankAccountToDto((CreditBankAccount) bankAccount);
+            }
+            case DEPOSIT -> {
+                return this.depositBankAccountToDto((DepositBankAccount) bankAccount);
+            }
         }
+        return null;
     }
 
     BankAccountDto depositBankAccountToDto(DepositBankAccount debitBankAccount);
@@ -32,5 +35,5 @@ public interface BankAccountMapper {
 
     CreditBankAccount BankAccountToCreditBankAccount(BankAccount bankAccount);
 
-    List<BankAccountDto> toListDto(List<BankAccount> bankAccounts);
+    List<BankAccountDto> BankAccountListToBankAccountDtoList(List<BankAccount> bankAccounts);
 }

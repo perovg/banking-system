@@ -13,7 +13,7 @@ public interface BankAccountService {
 
     List<BankAccountDto> findAllByClientAndBank(long client, long bank);
 
-    BankAccountDto findById(long id);
+    BankAccountDto findBankAccountDtoById(long id);
 
     void create(BankAccount bankAccount, long clientId, long bankId);
 

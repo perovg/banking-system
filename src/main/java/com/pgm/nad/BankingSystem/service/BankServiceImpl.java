@@ -34,7 +34,7 @@ public class BankServiceImpl implements BankService {
 
     @Override
     public List<BankDto> findAll() {
-        return bankMapper.toListDto(bankRepository.findAll());
+        return bankMapper.BankListToBankDtoList(bankRepository.findAll());
     }
 
     @Override
