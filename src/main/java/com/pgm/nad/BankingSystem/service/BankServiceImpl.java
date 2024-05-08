@@ -17,6 +17,9 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
+/**
+ * A class that implements the BankService interface.
+ */
 @Service
 @RequiredArgsConstructor
 public class BankServiceImpl implements BankService {
@@ -43,7 +46,7 @@ public class BankServiceImpl implements BankService {
     }
 
     @Override
-    public ArrayList<BankDto> findAllBankForClient(ClientDto client) {
+    public List<BankDto> findAllBankForClient(ClientDto client) {
         List<BankAccount> clientBankAccounts = bankAccountRepository.findAllByClient(clientMapper.dtoToModel(client));
         Set<BankDto> clientBanksSet = new HashSet<>();
         for (BankAccount bankAccount : clientBankAccounts) {
@@ -56,7 +59,7 @@ public class BankServiceImpl implements BankService {
     public ArrayList<BankDto> findAllNewBanks(ClientDto client) {
         ArrayList<BankDto> newBanks = new ArrayList<>();
         List<BankDto> allBanks = findAll();
-        ArrayList<BankDto> clientBanks = findAllBankForClient(client);
+        List<BankDto> clientBanks = findAllBankForClient(client);
         for (BankDto bankDto : allBanks) {
             if (!clientBanks.contains(bankDto)) {
                 newBanks.add(bankDto);

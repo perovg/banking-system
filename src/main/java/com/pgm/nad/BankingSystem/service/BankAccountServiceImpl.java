@@ -113,6 +113,7 @@ public class BankAccountServiceImpl implements BankAccountService {
         return id;
     }
 
+    @Override
     public boolean topUp(long bankAccountId, double sum) {
         if (bankAccountRepository.existsById(bankAccountId) && sum > 0) {
             this.recalculation(bankAccountId);
