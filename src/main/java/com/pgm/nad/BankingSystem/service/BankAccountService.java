@@ -19,6 +19,8 @@ public interface BankAccountService {
 
     void deleteAllByBank(Bank bank);
 
+    boolean topUp(long bankAccountId, double sum);
+
     boolean withdraw(long bankAccountId, double sum);
 
     boolean transfer(long bankAccountFromId, long bankAccountToId, double sum);

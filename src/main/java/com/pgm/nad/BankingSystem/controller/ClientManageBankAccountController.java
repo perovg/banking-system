@@ -1,9 +1,9 @@
 package com.pgm.nad.BankingSystem.controller;
 
 import com.pgm.nad.BankingSystem.dto.BankAccountDto;
-import com.pgm.nad.BankingSystem.service.BankAccountServiceImpl;
-import com.pgm.nad.BankingSystem.service.BankServiceImpl;
-import com.pgm.nad.BankingSystem.service.ClientServiceImpl;
+import com.pgm.nad.BankingSystem.service.BankAccountService;
+import com.pgm.nad.BankingSystem.service.BankService;
+import com.pgm.nad.BankingSystem.service.ClientService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,9 +17,9 @@ import java.util.Date;
 @RequestMapping("/banks/accounts/account")
 @RequiredArgsConstructor
 public class ClientManageBankAccountController {
-    private final ClientServiceImpl clientService;
-    public final BankServiceImpl bankService;
-    public final BankAccountServiceImpl bankAccountService;
+    private final ClientService clientService;
+    public final BankService bankService;
+    public final BankAccountService bankAccountService;
 
     @PostMapping("")
     public String bankAccountClientPage(
