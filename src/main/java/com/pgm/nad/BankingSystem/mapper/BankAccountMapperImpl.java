@@ -1,14 +1,12 @@
 package com.pgm.nad.BankingSystem.mapper;
 
 import com.pgm.nad.BankingSystem.dto.BankAccountDto;
-import com.pgm.nad.BankingSystem.model.Bank;
 import com.pgm.nad.BankingSystem.model.BankAccount;
 import com.pgm.nad.BankingSystem.model.CreditBankAccount;
 import com.pgm.nad.BankingSystem.model.DebitBankAccount;
 import com.pgm.nad.BankingSystem.model.DepositBankAccount;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import lombok.RequiredArgsConstructor;

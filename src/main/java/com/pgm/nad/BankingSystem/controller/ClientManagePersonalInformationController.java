@@ -4,7 +4,7 @@ import com.pgm.nad.BankingSystem.model.Client;
 import com.pgm.nad.BankingSystem.service.core.BankAccountService;
 import com.pgm.nad.BankingSystem.service.core.BankService;
 import com.pgm.nad.BankingSystem.service.core.ClientService;
-import com.pgm.nad.BankingSystem.service.core.NullClientException;
+import com.pgm.nad.BankingSystem.service.core.exceptions.NullClientException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

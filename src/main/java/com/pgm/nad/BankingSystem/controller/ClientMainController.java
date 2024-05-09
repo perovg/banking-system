@@ -2,9 +2,10 @@ package com.pgm.nad.BankingSystem.controller;
 
 import com.pgm.nad.BankingSystem.dto.ClientDto;
 import com.pgm.nad.BankingSystem.service.core.BankAccountService;
-import com.pgm.nad.BankingSystem.service.core.BankIsNotFoundException;
+import com.pgm.nad.BankingSystem.service.core.exceptions.BankIsNotFoundException;
 import com.pgm.nad.BankingSystem.service.core.BankService;
 import com.pgm.nad.BankingSystem.service.core.ClientService;
+import com.pgm.nad.BankingSystem.service.core.exceptions.ClientIsNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -39,7 +40,7 @@ public class ClientMainController {
             @RequestParam("bankId") long bankId,
             @RequestParam("clientId") long clientId,
             Model model
-    ) throws BankIsNotFoundException {
+    ) throws BankIsNotFoundException, ClientIsNotFoundException {
         model.addAttribute("accounts", bankAccountService.findAllByClientAndBank(clientId, bankId));
         model.addAttribute("clientId", clientId);
         model.addAttribute("bank", bankService.findBankDtoById(bankId));

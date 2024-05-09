@@ -2,6 +2,7 @@ package com.pgm.nad.BankingSystem.service.core;
 
 import com.pgm.nad.BankingSystem.dto.ClientDto;
 import com.pgm.nad.BankingSystem.model.Client;
+import com.pgm.nad.BankingSystem.service.core.exceptions.NullClientException;
 
 import java.util.List;
 

@@ -1,6 +1,7 @@
 package com.pgm.nad.BankingSystem.controller;
 
 import com.pgm.nad.BankingSystem.dto.BankAccountDto;
+import com.pgm.nad.BankingSystem.service.core.exceptions.BankAccountIsNotFoundException;
 import com.pgm.nad.BankingSystem.service.core.BankAccountService;
 import com.pgm.nad.BankingSystem.service.core.ClientService;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +26,9 @@ public class AdminManageBankAccountsController {
     }
 
     @PostMapping("/account/edit")
-    public String manageAccountPage(@RequestParam("accountId") long accountId, Model model) {
+    public String manageAccountPage(@RequestParam("accountId") long accountId, Model model)
+            throws BankAccountIsNotFoundException
+    {
         BankAccountDto bankAccount = bankAccountService.findBankAccountDtoById(accountId);
         model.addAttribute("account", bankAccount);
         model.addAttribute("client", clientService.findClientDtoById(bankAccount.clientId()));
@@ -33,7 +36,9 @@ public class AdminManageBankAccountsController {
     }
 
     @PostMapping("/account/block")
-    public String blockAndUnBlockBankAccount(@RequestParam("accountId") long accountId, Model model) {
+    public String blockAndUnBlockBankAccount(@RequestParam("accountId") long accountId, Model model)
+            throws BankAccountIsNotFoundException
+    {
         BankAccountDto bankAccount = bankAccountService.blockAndUnblock(accountId);
         model.addAttribute("account", bankAccount);
         model.addAttribute("client", clientService.findClientDtoById(bankAccount.clientId()));

@@ -2,9 +2,12 @@ package com.pgm.nad.BankingSystem.controller;
 
 import com.pgm.nad.BankingSystem.dto.BankAccountDto;
 import com.pgm.nad.BankingSystem.service.core.BankAccountService;
-import com.pgm.nad.BankingSystem.service.core.BankIsNotFoundException;
+import com.pgm.nad.BankingSystem.service.core.exceptions.BankAccountIsNotFoundException;
+import com.pgm.nad.BankingSystem.service.core.exceptions.BankIsNotFoundException;
 import com.pgm.nad.BankingSystem.service.core.BankService;
 import com.pgm.nad.BankingSystem.service.core.ClientService;
+import com.pgm.nad.BankingSystem.service.core.exceptions.ClientIsNotFoundException;
+import com.pgm.nad.BankingSystem.service.core.exceptions.IncorrectAccountTypeException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,7 +31,7 @@ public class ClientManageBankAccountController {
             @RequestParam("clientId") long clientId,
             @RequestParam("accountId") long accountId,
             Model model
-    ) throws BankIsNotFoundException {
+    ) throws BankAccountIsNotFoundException, BankIsNotFoundException {
         BankAccountDto bankAccount = bankAccountService.findBankAccountDtoById(accountId);
         model.addAttribute("account", bankAccount);
         model.addAttribute("client", clientService.findClientDtoById(clientId));
@@ -76,7 +79,7 @@ public class ClientManageBankAccountController {
             @RequestParam("clientId") long clientId,
             @RequestParam("accountId") long accountId,
             Model model
-    ) throws BankIsNotFoundException {
+    ) throws BankIsNotFoundException, BankAccountIsNotFoundException {
         model.addAttribute("clientId", clientId);
         model.addAttribute("bankId", bankId);
         model.addAttribute("accountId", accountId);
@@ -114,7 +117,7 @@ public class ClientManageBankAccountController {
             @RequestParam("clientId") long clientId,
             @RequestParam("accountId") long accountId,
             Model model
-    ) throws BankIsNotFoundException {
+    ) throws BankIsNotFoundException, BankAccountIsNotFoundException {
         model.addAttribute("clientId", clientId);
         model.addAttribute("accountId", accountId);
         model.addAttribute("bankId", bankId);
@@ -156,7 +159,7 @@ public class ClientManageBankAccountController {
             @RequestParam("clientId") long clientId,
             @RequestParam("bankId") long bankId,
             Model model
-    ) {
+    ) throws BankAccountIsNotFoundException, IncorrectAccountTypeException {
         bankAccountService.reopenDepositAccount(accountId);
         model.addAttribute("bankId", bankId);
         model.addAttribute("clientId", clientId);
@@ -170,7 +173,7 @@ public class ClientManageBankAccountController {
             @RequestParam("accountId") long accountId,
             @RequestParam("bankId") long bankId,
             Model model
-    ) {
+    ) throws BankIsNotFoundException, ClientIsNotFoundException, BankAccountIsNotFoundException {
         model.addAttribute("clientId", clientId);
         model.addAttribute("bankId", bankId);
         model.addAttribute("accountId", accountId);

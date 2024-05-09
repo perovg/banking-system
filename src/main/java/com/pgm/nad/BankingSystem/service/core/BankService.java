@@ -3,6 +3,9 @@ package com.pgm.nad.BankingSystem.service.core;
 import com.pgm.nad.BankingSystem.dto.BankDto;
 import com.pgm.nad.BankingSystem.dto.ClientDto;
 import com.pgm.nad.BankingSystem.model.Bank;
+import com.pgm.nad.BankingSystem.service.core.exceptions.BankIsNotFoundException;
+import com.pgm.nad.BankingSystem.service.core.exceptions.NullBankException;
+import com.pgm.nad.BankingSystem.service.core.exceptions.NullBankNameException;
 
 import java.util.List;
 
@@ -100,5 +103,5 @@ public interface BankService {
      *
      * @param bankId - each bank has a unique ID - a four-digit number. Not null.
      */
-    void deleteById(long bankId);
+    void deleteById(long bankId) throws NullBankException;
 }

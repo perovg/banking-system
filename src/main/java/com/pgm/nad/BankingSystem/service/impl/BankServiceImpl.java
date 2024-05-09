@@ -8,9 +8,10 @@ import com.pgm.nad.BankingSystem.model.Bank;
 import com.pgm.nad.BankingSystem.model.BankAccount;
 import com.pgm.nad.BankingSystem.repository.BankAccountRepository;
 import com.pgm.nad.BankingSystem.repository.BankRepository;
-import com.pgm.nad.BankingSystem.service.core.BankIsNotFoundException;
+import com.pgm.nad.BankingSystem.service.core.exceptions.BankIsNotFoundException;
 import com.pgm.nad.BankingSystem.service.core.BankService;
-import com.pgm.nad.BankingSystem.service.core.NullBankNameException;
+import com.pgm.nad.BankingSystem.service.core.exceptions.NullBankException;
+import com.pgm.nad.BankingSystem.service.core.exceptions.NullBankNameException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -36,9 +37,8 @@ public class BankServiceImpl implements BankService {
     @Override
     public BankDto findBankDtoById(long bankId) throws BankIsNotFoundException {
         BankDto bank =  bankMapper.modelToDto(bankRepository.findByBankId(bankId));
-        if (bank == null) {
-            throw new BankIsNotFoundException("the bank with this id was not found");
-        }
+        if (bank == null) throw new BankIsNotFoundException();
+
         return bank;
     }
 
@@ -50,9 +50,8 @@ public class BankServiceImpl implements BankService {
     @Override
     public Bank findBankById(long bankId) throws BankIsNotFoundException {
         Bank bank =  bankRepository.findByBankId(bankId);
-        if (bank == null) {
-            throw new BankIsNotFoundException("the bank with this id was not found");
-        }
+        if (bank == null) throw new BankIsNotFoundException();
+
         return bank;
     }
 
@@ -83,7 +82,7 @@ public class BankServiceImpl implements BankService {
     public void save(Bank bank) throws NullBankNameException {
         System.out.println(bank.getInterestDepositRate());
         if (existsByName(bank.getName()) || existsById(bank.getBankId())) {
-            long id = Long.valueOf(bank.getBankId()) != null ? bank.getBankId() : random.nextLong(1000, 9999);
+            long id = bank.getBankId();
             while (existsById(id)) {
                 id = random.nextLong(1000, 9999);
             }
@@ -98,7 +97,7 @@ public class BankServiceImpl implements BankService {
     }
 
     @Override
-    public void deleteById(long bankId) {
+    public void deleteById(long bankId) throws NullBankException {
         if (bankRepository.existsById(bankId)) {
             bankAccountService.deleteAllByBank(bankRepository.findByBankId(bankId));
             bankRepository.deleteById(bankId);
@@ -107,9 +106,8 @@ public class BankServiceImpl implements BankService {
 
     @Override
     public boolean existsByName(String name) throws NullBankNameException {
-        if (name == null) {
-            throw new NullBankNameException("Name bank is null");
-        }
+        if (name == null) throw new NullBankNameException("Name bank is null");
+
         return !bankRepository.existsByName(name);
     }
 

@@ -33,4 +33,17 @@ public class DepositBankAccount extends BankAccount {
         this.setOpenTime(openTime);
         this.setPeriodEnd(openTime + bank.getDepositPeriod());
     }
+
+    public static DepositBankAccount reopenDepositBankAccount(BankAccount bankAccount) {
+        Bank bank = bankAccount.getBank();
+        DepositBankAccount depositBankAccount = (DepositBankAccount) bankAccount;
+
+        depositBankAccount.setPeriod(bank.getDepositPeriod());
+        depositBankAccount.setInterestRate(bank.getInterestDepositRate());
+        long openTime = new Date().getTime() / 1000;
+        depositBankAccount.setOpenTime(openTime);
+        depositBankAccount.setPeriodEnd(openTime + bank.getDepositPeriod());
+        depositBankAccount.setCompleted(false);
+        return depositBankAccount;
+    }
 }

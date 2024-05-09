@@ -11,7 +11,12 @@ import com.pgm.nad.BankingSystem.model.DepositBankAccount;
 import com.pgm.nad.BankingSystem.model.Type;
 import com.pgm.nad.BankingSystem.repository.BankAccountRepository;
 import com.pgm.nad.BankingSystem.repository.BankRepository;
+import com.pgm.nad.BankingSystem.service.core.exceptions.BankAccountIsNotFoundException;
 import com.pgm.nad.BankingSystem.service.core.BankAccountService;
+import com.pgm.nad.BankingSystem.service.core.exceptions.BankIsNotFoundException;
+import com.pgm.nad.BankingSystem.service.core.exceptions.ClientIsNotFoundException;
+import com.pgm.nad.BankingSystem.service.core.exceptions.IncorrectAccountTypeException;
+import com.pgm.nad.BankingSystem.service.core.exceptions.NullBankException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -29,7 +34,9 @@ public class BankAccountServiceImpl implements BankAccountService {
     private final Random random = new Random();
 
     @Override
-    public BankAccountDto findBankAccountDtoById(long id) {
+    public BankAccountDto findBankAccountDtoById(long id) throws BankAccountIsNotFoundException {
+        if (!bankAccountRepository.existsById(id)) throw new BankAccountIsNotFoundException();
+
         recalculation(id);
         return bankAccountMapper.modelToDto(findBankAccountById(id));
     }
@@ -54,18 +61,25 @@ public class BankAccountServiceImpl implements BankAccountService {
     }
 
     @Override
-    public List<BankAccountDto> findAllByClient(long clientId) {
+    public List<BankAccountDto> findAllByClient(long clientId) throws ClientIsNotFoundException {
         Client client = clientService.findClientById(clientId);
+        if (client == null) throw new ClientIsNotFoundException();
+
         return bankAccountMapper.BankAccountListToBankAccountDtoList(bankAccountRepository.findAllByClient(client));
     }
 
     @Override
-    public List<BankAccountDto> findAllByClientAndBank(long client, long bank) {
+    public List<BankAccountDto> findAllByClientAndBank(long clientId, long bankId)
+            throws ClientIsNotFoundException, BankIsNotFoundException
+    {
+        if (!clientService.existById(clientId)) throw new ClientIsNotFoundException();
+        if (!bankRepository.existsById(bankId)) throw new BankIsNotFoundException();
+
         List<BankAccountDto> bankAccounts =
                 bankAccountMapper.
                         BankAccountListToBankAccountDtoList(bankAccountRepository.findAllByClientAndBank(
-                                clientService.findClientById(client),
-                                bankRepository.findByBankId(bank)));
+                                clientService.findClientById(clientId),
+                                bankRepository.findByBankId(bankId)));
 
         for (BankAccountDto bankAccount : bankAccounts) {
             recalculation(bankAccount.bankAccountId());
@@ -73,31 +87,33 @@ public class BankAccountServiceImpl implements BankAccountService {
 
         return bankAccountMapper.BankAccountListToBankAccountDtoList(
                 bankAccountRepository.findAllByClientAndBank(
-                        clientService.findClientById(client),
-                        bankRepository.findByBankId(bank)));
+                        clientService.findClientById(clientId),
+                        bankRepository.findByBankId(bankId)));
     }
 
     @Override
-    public void create(BankAccount bankAccount, long clientId, long bankId) {
+    public void create(BankAccount bankAccount, long clientId, long bankId)
+            throws BankIsNotFoundException, ClientIsNotFoundException
+    {
+        if (!bankRepository.existsById(bankId)) throw new BankIsNotFoundException();
+        if (!clientService.existById(clientId)) throw new ClientIsNotFoundException();
+
         Bank bank = bankRepository.findByBankId(bankId);
-        System.out.println(bankAccount.getBankAccountId());
         bankAccount.setBankAccountId(generateBankAccountId(bankId));
         bankAccount.setBank(bank);
         bankAccount.setClient(clientService.findClientById(clientId));
         bankAccount.setBankAccountId(generateBankAccountId(bankId));
-        System.out.println(bankAccount.getBankAccountId());
 
         switch (bankAccount.getType()) {
-            case DEBIT -> {DebitBankAccount debitBankAccount = new DebitBankAccount(bankAccount);
-                System.out.println(debitBankAccount.getBankAccountId());
-                    bankAccountRepository.save(new DebitBankAccount(bankAccount));}
-            case DEPOSIT -> bankAccountRepository.save(new DepositBankAccount(bankAccount));
-            case CREDIT -> bankAccountRepository.save(new CreditBankAccount(bankAccount));
+            case DEBIT -> bankAccountRepository.save(bankAccountMapper.BankAccountToDebitBankAccount(bankAccount));
+            case DEPOSIT -> bankAccountRepository.save(bankAccountMapper.BankAccountToDepositBankAccount(bankAccount));
+            case CREDIT -> bankAccountRepository.save(bankAccountMapper.BankAccountToCreditBankAccount(bankAccount));
         }
     }
 
     @Override
-    public void deleteAllByBank(Bank bank) {
+    public void deleteAllByBank(Bank bank) throws NullBankException {
+        if (bank == null) throw new NullBankException();
         bankAccountRepository.deleteAllByBank(bank);
     }
 
@@ -192,7 +208,8 @@ public class BankAccountServiceImpl implements BankAccountService {
     }
 
     @Override
-    public boolean deleteById(long accountId) {
+    public boolean deleteById(long accountId) throws BankAccountIsNotFoundException {
+        if (!this.bankAccountRepository.existsById(accountId)) throw new BankAccountIsNotFoundException();
         BankAccount bankAccount = this.findBankAccountById(accountId);
         if (bankAccount.getBalance() == 0) {
             bankAccountRepository.deleteById(accountId);
@@ -211,20 +228,15 @@ public class BankAccountServiceImpl implements BankAccountService {
     }
 
     @Override
-    public void reopenDepositAccount(long accountId) {
+    public void reopenDepositAccount(long accountId) throws BankAccountIsNotFoundException, IncorrectAccountTypeException {
         BankAccount bankAccount = findBankAccountById(accountId);
+        if (bankAccount == null) throw new BankAccountIsNotFoundException();
         if (bankAccount.getType().equals(Type.DEPOSIT)) {
-            Bank bank = bankAccount.getBank();
-            DepositBankAccount depositBankAccount = (DepositBankAccount) bankAccount;
-
-            depositBankAccount.setPeriod(bank.getDepositPeriod());
-            depositBankAccount.setInterestRate(bank.getInterestDepositRate());
-            long openTime = new Date().getTime() / 1000;
-            depositBankAccount.setOpenTime(openTime);
-            depositBankAccount.setPeriodEnd(openTime + bank.getDepositPeriod());
-            depositBankAccount.setCompleted(false);
+            DepositBankAccount depositBankAccount = DepositBankAccount.reopenDepositBankAccount(bankAccount);
 
             bankAccountRepository.save(depositBankAccount);
+        } else {
+            throw new IncorrectAccountTypeException();
         }
     }
 

@@ -1,7 +1,10 @@
 package com.pgm.nad.BankingSystem.controller;
 
 import com.pgm.nad.BankingSystem.dto.BankAccountDto;
+import com.pgm.nad.BankingSystem.service.core.exceptions.BankAccountIsNotFoundException;
 import com.pgm.nad.BankingSystem.service.core.BankAccountService;
+
+import com.pgm.nad.BankingSystem.service.core.exceptions.ClientIsNotFoundException;
 import com.pgm.nad.BankingSystem.service.core.ClientService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -31,14 +34,14 @@ public class AdminManageClientsController {
     }
 
     @PostMapping("/client/accounts")
-    public String manageClientAccounts(@RequestParam("clientId") long clientId, Model model) {
+    public String manageClientAccounts(@RequestParam("clientId") long clientId, Model model) throws ClientIsNotFoundException {
         model.addAttribute("client", clientService.findClientDtoById(clientId));
         model.addAttribute("accounts", bankAccountService.findAllByClient(clientId));
         return "adminManageClients/adminManageClientAccounts";
     }
 
     @PostMapping("/client/accounts/account")
-    public String manageClientAccount(@RequestParam("accountId") long accountId, Model model) {
+    public String manageClientAccount(@RequestParam("accountId") long accountId, Model model) throws BankAccountIsNotFoundException {
         BankAccountDto bankAccount = bankAccountService.findBankAccountDtoById(accountId);
         model.addAttribute("account", bankAccount);
         model.addAttribute("client", clientService.findClientDtoById(bankAccount.clientId()));
@@ -46,7 +49,7 @@ public class AdminManageClientsController {
     }
 
     @PostMapping("/client/accounts/account/block")
-    public String blockAndUnBlockBankAccount(@RequestParam("accountId") long accountId, Model model) {
+    public String blockAndUnBlockBankAccount(@RequestParam("accountId") long accountId, Model model) throws BankAccountIsNotFoundException {
         BankAccountDto bankAccount = bankAccountService.blockAndUnblock(accountId);
         model.addAttribute("account", bankAccount);
         model.addAttribute("client", clientService.findClientDtoById(bankAccount.clientId()));
