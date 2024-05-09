@@ -1,11 +1,10 @@
 package com.pgm.nad.BankingSystem.controller;
 
 import com.pgm.nad.BankingSystem.dto.BankAccountDto;
-import com.pgm.nad.BankingSystem.service.core.exceptions.BankAccountIsNotFoundException;
 import com.pgm.nad.BankingSystem.service.core.BankAccountService;
-
-import com.pgm.nad.BankingSystem.service.core.exceptions.ClientIsNotFoundException;
+import com.pgm.nad.BankingSystem.service.core.exceptions.BankAccountServiceException;
 import com.pgm.nad.BankingSystem.service.core.ClientService;
+import com.pgm.nad.BankingSystem.service.core.exceptions.ClientServiceException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,20 +27,26 @@ public class AdminManageClientsController {
     }
 
     @PostMapping("/client")
-    public String manageClient(@RequestParam("clientId") long clientId, Model model) {
+    public String manageClient(@RequestParam("clientId") long clientId, Model model)
+            throws ClientServiceException
+    {
         model.addAttribute("client", clientService.findClientDtoById(clientId));
         return "adminManageClients/adminManageClient";
     }
 
     @PostMapping("/client/accounts")
-    public String manageClientAccounts(@RequestParam("clientId") long clientId, Model model) throws ClientIsNotFoundException {
+    public String manageClientAccounts(@RequestParam("clientId") long clientId, Model model)
+            throws BankAccountServiceException, ClientServiceException
+    {
         model.addAttribute("client", clientService.findClientDtoById(clientId));
         model.addAttribute("accounts", bankAccountService.findAllByClient(clientId));
         return "adminManageClients/adminManageClientAccounts";
     }
 
     @PostMapping("/client/accounts/account")
-    public String manageClientAccount(@RequestParam("accountId") long accountId, Model model) throws BankAccountIsNotFoundException {
+    public String manageClientAccount(@RequestParam("accountId") long accountId, Model model)
+            throws BankAccountServiceException, ClientServiceException
+    {
         BankAccountDto bankAccount = bankAccountService.findBankAccountDtoById(accountId);
         model.addAttribute("account", bankAccount);
         model.addAttribute("client", clientService.findClientDtoById(bankAccount.clientId()));
@@ -49,7 +54,9 @@ public class AdminManageClientsController {
     }
 
     @PostMapping("/client/accounts/account/block")
-    public String blockAndUnBlockBankAccount(@RequestParam("accountId") long accountId, Model model) throws BankAccountIsNotFoundException {
+    public String blockAndUnBlockBankAccount(@RequestParam("accountId") long accountId, Model model)
+            throws BankAccountServiceException, ClientServiceException
+    {
         BankAccountDto bankAccount = bankAccountService.blockAndUnblock(accountId);
         model.addAttribute("account", bankAccount);
         model.addAttribute("client", clientService.findClientDtoById(bankAccount.clientId()));

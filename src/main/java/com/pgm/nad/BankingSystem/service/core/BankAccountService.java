@@ -3,11 +3,9 @@ package com.pgm.nad.BankingSystem.service.core;
 import com.pgm.nad.BankingSystem.dto.BankAccountDto;
 import com.pgm.nad.BankingSystem.model.Bank;
 import com.pgm.nad.BankingSystem.model.BankAccount;
-import com.pgm.nad.BankingSystem.service.core.exceptions.BankAccountIsNotFoundException;
-import com.pgm.nad.BankingSystem.service.core.exceptions.BankIsNotFoundException;
-import com.pgm.nad.BankingSystem.service.core.exceptions.ClientIsNotFoundException;
-import com.pgm.nad.BankingSystem.service.core.exceptions.IncorrectAccountTypeException;
-import com.pgm.nad.BankingSystem.service.core.exceptions.NullBankException;
+import com.pgm.nad.BankingSystem.service.core.exceptions.BankAccountServiceException;
+import com.pgm.nad.BankingSystem.service.core.exceptions.ClientServiceException;
+
 
 import java.util.List;
 
@@ -31,9 +29,9 @@ public interface BankAccountService {
      *
      * @param clientId - the ID of the client whose list of accounts needs to be extracted.
      * @return List<BankAccountDto> - a list of accounts that belong to this client.
-     * @throws ClientIsNotFoundException - if client with this client id is not in database.
+     * @throws BankAccountServiceException - if client with this client id is not in database.
      */
-    List<BankAccountDto> findAllByClient(long clientId) throws ClientIsNotFoundException;
+    List<BankAccountDto> findAllByClient(long clientId) throws BankAccountServiceException, ClientServiceException;
 
     /**
      * A method that extracts lists of customer accounts from the database that he has with a particular bank
@@ -42,10 +40,11 @@ public interface BankAccountService {
      * @param clientId - the ID of the client whose account needs to be extracted;
      * @param bankId - the ID of the bank for which the account is located and which is being searched.
      * @return List<BankAccountDto> - all the client's accounts that he has in this bank.
-     * @throws ClientIsNotFoundException - if client with this ID is not found;
-     * @throws BankIsNotFoundException - if bank with this ID is not found.
+     * @throws BankAccountServiceException - if client with this ID is not found or
+     *                                       bank with this ID is not found.
+     * @throws ClientServiceException - if client with this ID is not found.
      */
-    List<BankAccountDto> findAllByClientAndBank(long clientId, long bankId) throws ClientIsNotFoundException, BankIsNotFoundException;
+    List<BankAccountDto> findAllByClientAndBank(long clientId, long bankId) throws BankAccountServiceException, ClientServiceException;
 
     /**
      * The method retrieves the bank account information from the database using its ID,
@@ -54,9 +53,9 @@ public interface BankAccountService {
      *
      * @param id - the bank account id that is being searched for.
      * @return BankAccountDto - DTO of the found account.
-     * @throws BankAccountIsNotFoundException - if bank account with this ID is not in database.
+     * @throws BankAccountServiceException - if bank account with this ID is not in database.
      */
-    BankAccountDto findBankAccountDtoById(long id) throws BankAccountIsNotFoundException;
+    BankAccountDto findBankAccountDtoById(long id) throws BankAccountServiceException;
 
     /**
      * The process for creating a bank account involves
@@ -68,19 +67,20 @@ public interface BankAccountService {
      * @param bankAccount - template for a new bank account with partially filled in fields.
      * @param clientId - The ID of the client who creates the account
      * @param bankId - ID of the bank where the account is being created.
-     * @throws ClientIsNotFoundException - if client with this ID is not in database.
-     * @throws BankIsNotFoundException - if bank with this ID is not in database.
+     * @throws BankAccountServiceException - if client with this ID is not in database or
+     *                                       if bank with this ID is not in database.
+     * @throws ClientServiceException - if client with this ID is not in database.
      */
-    void create(BankAccount bankAccount, long clientId, long bankId) throws ClientIsNotFoundException, BankIsNotFoundException;
+    void create(BankAccount bankAccount, long clientId, long bankId) throws BankAccountServiceException, ClientServiceException;
 
     /**
      * The method in which all accounts that are in this bank are deleted.
      * Called when the bank is deleted.
      *
      * @param bank - The bank, whose accounts will be deleted. Not null.
-     * @throws NullBankException - if bank is null;
+     * @throws BankAccountServiceException - if bank is null;
      */
-    void deleteAllByBank(Bank bank) throws NullBankException;
+    void deleteAllByBank(Bank bank) throws BankAccountServiceException;
 
     /**
      * The method of replenishment of the bank account.
@@ -122,25 +122,25 @@ public interface BankAccountService {
      * @param bankAccountId - bank account ID.
      * @return true - if the account has been deleted
      *         false - if the account balance is not 0.
-     * @throws BankAccountIsNotFoundException - if bank account with this ID is not in database.
+     * @throws BankAccountServiceException - if bank account with this ID is not in database.
      */
-    boolean deleteById(long bankAccountId) throws BankAccountIsNotFoundException;
+    boolean deleteById(long bankAccountId) throws BankAccountServiceException;
 
     /**
      * The method for blocking a bank account by ID.
      *
      * @param bankAccountId - ID of the account to be blocked/unblocked
      * @return BankAccountDto - DTO of the account after blocking/unblocking.
-     * @throws BankAccountIsNotFoundException - if bank account with this ID is not in database.
+     * @throws BankAccountServiceException - if bank account with this ID is not in database.
      */
-    BankAccountDto blockAndUnblock(long bankAccountId) throws BankAccountIsNotFoundException;
+    BankAccountDto blockAndUnblock(long bankAccountId) throws BankAccountServiceException;
 
     /**
      * The method in which the re-opening of the deposit is implemented.
      *
      * @param accountId ID of the deposit account to re-opening.
-     * @throws BankAccountIsNotFoundException - if bank account with this ID is not in database.
-     * @throws IncorrectAccountTypeException - if bank account type is not deposit.
+     * @throws BankAccountServiceException - if bank account with this ID is not in database or
+     *                                       bank account type is not deposit.
      */
-    void reopenDepositAccount(long accountId) throws BankAccountIsNotFoundException, IncorrectAccountTypeException;
+    void reopenDepositAccount(long accountId) throws BankAccountServiceException;
 }

@@ -3,9 +3,8 @@ package com.pgm.nad.BankingSystem.service.core;
 import com.pgm.nad.BankingSystem.dto.BankDto;
 import com.pgm.nad.BankingSystem.dto.ClientDto;
 import com.pgm.nad.BankingSystem.model.Bank;
-import com.pgm.nad.BankingSystem.service.core.exceptions.BankIsNotFoundException;
-import com.pgm.nad.BankingSystem.service.core.exceptions.NullBankException;
-import com.pgm.nad.BankingSystem.service.core.exceptions.NullBankNameException;
+import com.pgm.nad.BankingSystem.service.core.exceptions.BankAccountServiceException;
+import com.pgm.nad.BankingSystem.service.core.exceptions.BankServiceException;
 
 import java.util.List;
 
@@ -21,9 +20,9 @@ public interface BankService {
      *
      * @param bankId - each bank has a unique ID - a four-digit number.
      * @return BankDto - if there is a bank with this id in the database;
-     * @throws BankIsNotFoundException if a bank with this id not in database.
+     * @throws BankServiceException if a bank with this id not in database.
      */
-    BankDto findBankDtoById(long bankId) throws BankIsNotFoundException;
+    BankDto findBankDtoById(long bankId) throws BankServiceException;
 
     /**
      * A method for updating the bank data in the database by the administrator.
@@ -46,8 +45,9 @@ public interface BankService {
      * In this method, a four-digit id is generated for the bank.
      *
      * @param bank - the bank that needs to be saved. Not null.
+     * @throws BankServiceException - if bank name is null.
      */
-    void save(Bank bank) throws NullBankNameException;
+    void save(Bank bank) throws BankServiceException;
 
     /**
      * A method that checks if a bank exists in the database by bank id.
@@ -64,9 +64,9 @@ public interface BankService {
      * @param name - each bank has a unique name. Not null.
      * @return true - if there is a bank with this name in the database;
      *         false - else.
-     * @throws NullBankNameException if name is null.
+     * @throws BankServiceException if name is null.
      */
-    boolean existsByName(String name) throws NullBankNameException;
+    boolean existsByName(String name) throws BankServiceException;
 
     /**
      * A method that extracts the bank from the database by bank id
@@ -74,9 +74,9 @@ public interface BankService {
      *
      * @param bankId - each bank has a unique ID - a four-digit number. Not null.
      * @return Bank - if there is a bank with this id in the database;
-     * @throws BankIsNotFoundException if a bank with this id not in database.
+     * @throws BankServiceException if a bank with this id not in database.
      */
-    Bank findBankById(long bankId) throws BankIsNotFoundException;
+    Bank findBankById(long bankId) throws BankServiceException;
 
     /**
      * A method that retrieves for the client a list of banks in which he has accounts
@@ -103,5 +103,5 @@ public interface BankService {
      *
      * @param bankId - each bank has a unique ID - a four-digit number. Not null.
      */
-    void deleteById(long bankId) throws NullBankException;
+    void deleteById(long bankId) throws BankAccountServiceException;
 }

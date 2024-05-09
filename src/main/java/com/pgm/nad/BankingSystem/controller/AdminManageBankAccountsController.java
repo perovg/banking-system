@@ -1,9 +1,10 @@
 package com.pgm.nad.BankingSystem.controller;
 
 import com.pgm.nad.BankingSystem.dto.BankAccountDto;
-import com.pgm.nad.BankingSystem.service.core.exceptions.BankAccountIsNotFoundException;
 import com.pgm.nad.BankingSystem.service.core.BankAccountService;
 import com.pgm.nad.BankingSystem.service.core.ClientService;
+import com.pgm.nad.BankingSystem.service.core.exceptions.BankAccountServiceException;
+import com.pgm.nad.BankingSystem.service.core.exceptions.ClientServiceException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,8 +28,7 @@ public class AdminManageBankAccountsController {
 
     @PostMapping("/account/edit")
     public String manageAccountPage(@RequestParam("accountId") long accountId, Model model)
-            throws BankAccountIsNotFoundException
-    {
+            throws BankAccountServiceException, ClientServiceException {
         BankAccountDto bankAccount = bankAccountService.findBankAccountDtoById(accountId);
         model.addAttribute("account", bankAccount);
         model.addAttribute("client", clientService.findClientDtoById(bankAccount.clientId()));
@@ -37,8 +37,7 @@ public class AdminManageBankAccountsController {
 
     @PostMapping("/account/block")
     public String blockAndUnBlockBankAccount(@RequestParam("accountId") long accountId, Model model)
-            throws BankAccountIsNotFoundException
-    {
+            throws BankAccountServiceException, ClientServiceException {
         BankAccountDto bankAccount = bankAccountService.blockAndUnblock(accountId);
         model.addAttribute("account", bankAccount);
         model.addAttribute("client", clientService.findClientDtoById(bankAccount.clientId()));

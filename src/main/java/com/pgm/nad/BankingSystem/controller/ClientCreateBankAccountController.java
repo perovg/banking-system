@@ -3,10 +3,11 @@ package com.pgm.nad.BankingSystem.controller;
 import com.pgm.nad.BankingSystem.dto.ClientDto;
 import com.pgm.nad.BankingSystem.model.BankAccount;
 import com.pgm.nad.BankingSystem.service.core.BankAccountService;
-import com.pgm.nad.BankingSystem.service.core.exceptions.BankIsNotFoundException;
+import com.pgm.nad.BankingSystem.service.core.exceptions.BankAccountServiceException;
 import com.pgm.nad.BankingSystem.service.core.BankService;
 import com.pgm.nad.BankingSystem.service.core.ClientService;
-import com.pgm.nad.BankingSystem.service.core.exceptions.ClientIsNotFoundException;
+import com.pgm.nad.BankingSystem.service.core.exceptions.BankServiceException;
+import com.pgm.nad.BankingSystem.service.core.exceptions.ClientServiceException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,7 +24,9 @@ public class ClientCreateBankAccountController {
     public final BankAccountService bankAccountService;
 
     @PostMapping("/add_bank")
-    public String addBank(@RequestParam("clientId") long clientId, Model model) {
+    public String addBank(@RequestParam("clientId") long clientId, Model model)
+            throws ClientServiceException
+    {
         ClientDto client = clientService.findClientDtoById(clientId);
         model.addAttribute("client", client);
         model.addAttribute("banks", bankService.findAllNewBanks(client));
@@ -35,7 +38,7 @@ public class ClientCreateBankAccountController {
             (@RequestParam("clientId") long clientId,
              @RequestParam("bankId") long bankId,
              Model model
-            ) throws BankIsNotFoundException {
+            ) throws BankServiceException {
         model.addAttribute("clientId", clientId);
         model.addAttribute("bank", bankService.findBankDtoById(bankId));
         model.addAttribute("account", new BankAccount());
@@ -47,7 +50,7 @@ public class ClientCreateBankAccountController {
             @RequestParam("clientId") long clientId,
             @RequestParam("bankId") long bankId,
             Model model
-    ) throws BankIsNotFoundException {
+    ) throws BankServiceException {
         model.addAttribute("clientId", clientId);
         model.addAttribute("bank", bankService.findBankDtoById(bankId));
         return "clientCreateAccounts/clientCreateBankAccountConditions";
@@ -59,7 +62,7 @@ public class ClientCreateBankAccountController {
             @RequestParam("bankId") long bankId,
             BankAccount bankAccount,
             Model model
-    ) throws BankIsNotFoundException, ClientIsNotFoundException {
+    ) throws BankAccountServiceException, BankServiceException, ClientServiceException {
         bankAccountService.create(bankAccount, clientId, bankId);
         model.addAttribute("clientId", clientId);
         model.addAttribute("bank", bankService.findBankDtoById(bankId));

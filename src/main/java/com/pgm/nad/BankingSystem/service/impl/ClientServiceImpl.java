@@ -5,7 +5,7 @@ import com.pgm.nad.BankingSystem.mapper.ClientMapper;
 import com.pgm.nad.BankingSystem.model.Client;
 import com.pgm.nad.BankingSystem.repository.ClientRepository;
 import com.pgm.nad.BankingSystem.service.core.ClientService;
-import com.pgm.nad.BankingSystem.service.core.exceptions.NullClientException;
+import com.pgm.nad.BankingSystem.service.core.exceptions.ClientServiceException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -26,18 +26,20 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public ClientDto findClientDtoById(long id) {
+    public ClientDto findClientDtoById(long id) throws ClientServiceException {
+        if (!clientRepository.existsById(id)) throw new ClientServiceException("Client is not found!");
         return clientRepository.findById(id).map(clientMapper::modelToDto).get();
     }
 
     @Override
-    public Client findClientById(long id) {
+    public Client findClientById(long id) throws ClientServiceException {
+        if (!clientRepository.existsById(id)) throw new ClientServiceException("Client is not found!");
         return clientRepository.findById(id).get();
     }
 
     @Override
-    public long save(Client client) throws NullClientException {
-        if (client == null) throw new NullClientException("Client is null");
+    public long save(Client client) throws ClientServiceException {
+        if (client == null) throw new ClientServiceException("Client is null!");
 
         long clientId = generateClientId();
         client.setClientId(clientId);
@@ -63,8 +65,8 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public void update(Client client) throws NullClientException {
-        if (client == null) throw new NullClientException("Client is null");
+    public void update(Client client) throws ClientServiceException {
+        if (client == null) throw new ClientServiceException("Client is null!");
 
         clientRepository.save(client);
     }

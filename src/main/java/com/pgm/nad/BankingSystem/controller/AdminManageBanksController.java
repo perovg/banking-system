@@ -1,10 +1,9 @@
 package com.pgm.nad.BankingSystem.controller;
 
 import com.pgm.nad.BankingSystem.model.Bank;
-import com.pgm.nad.BankingSystem.service.core.exceptions.BankIsNotFoundException;
+import com.pgm.nad.BankingSystem.service.core.exceptions.BankAccountServiceException;
 import com.pgm.nad.BankingSystem.service.core.BankService;
-import com.pgm.nad.BankingSystem.service.core.exceptions.NullBankException;
-import com.pgm.nad.BankingSystem.service.core.exceptions.NullBankNameException;
+import com.pgm.nad.BankingSystem.service.core.exceptions.BankServiceException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,14 +31,14 @@ public class AdminManageBanksController {
     }
 
     @PostMapping("/create")
-    public String checkCreatingBank(Bank bank) throws NullBankNameException {
+    public String checkCreatingBank(Bank bank) throws BankServiceException {
         System.out.println(bank.getInterestDepositRate());
         bankService.save(bank);
         return "redirect:/admin/banks";
     }
 
     @PostMapping("/bank/edit")
-    public String manageBank(@RequestParam("bankId") long bankId, Model model) throws BankIsNotFoundException {
+    public String manageBank(@RequestParam("bankId") long bankId, Model model) throws BankServiceException {
         model.addAttribute("bank", bankService.findBankById(bankId));
         return "adminManageBanks/adminManageBank";
     }
@@ -51,7 +50,7 @@ public class AdminManageBanksController {
     }
 
     @PostMapping("/bank/delete")
-    public String deleteBank(@RequestParam("bankId") long bankId) throws NullBankException {
+    public String deleteBank(@RequestParam("bankId") long bankId) throws BankAccountServiceException {
         bankService.deleteById(bankId);
         return "redirect:/admin/banks";
     }

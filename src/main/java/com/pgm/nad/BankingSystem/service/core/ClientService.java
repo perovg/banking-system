@@ -2,7 +2,7 @@ package com.pgm.nad.BankingSystem.service.core;
 
 import com.pgm.nad.BankingSystem.dto.ClientDto;
 import com.pgm.nad.BankingSystem.model.Client;
-import com.pgm.nad.BankingSystem.service.core.exceptions.NullClientException;
+import com.pgm.nad.BankingSystem.service.core.exceptions.ClientServiceException;
 
 import java.util.List;
 
@@ -26,25 +26,27 @@ public interface ClientService {
      *
      * @param id - ID of the client to be extracted.
      * @return ClientDto.
+     * @throws ClientServiceException - if client with this ID not in database.
      */
-    ClientDto findClientDtoById(long id);
+    ClientDto findClientDtoById(long id) throws ClientServiceException;
 
     /**
      * The method to retrieves the client from the database for further modification.
      *
      * @param id - ID of the client to be extracted.
      * @return Client.
+     * @throws ClientServiceException - if client with this id is not in database.
      */
-    Client findClientById(long id);
+    Client findClientById(long id) throws ClientServiceException;
 
     /**
      * The method in which the new client is saved. At the same time, a unique ID is generated for it.
      *
      * @param client - new client. Not null.
      * @return the ID of the newly created client.
-     * @throws NullClientException if client is null.
+     * @throws ClientServiceException if client is null.
      */
-    long save(Client client) throws NullClientException;
+    long save(Client client) throws ClientServiceException;
 
     /**
      * The method that checks if the client is in the database by id;
@@ -59,9 +61,9 @@ public interface ClientService {
      * A method for updating client data in the database.
      *
      * @param client - the client object that contains the updated information. Not null.
-     * @throws NullClientException if client is null.
+     * @throws ClientServiceException if client is null.
      */
-    void update(Client client) throws NullClientException;
+    void update(Client client) throws ClientServiceException;
 
     /**
      * A method that checks if a client exists in the database by client ID.

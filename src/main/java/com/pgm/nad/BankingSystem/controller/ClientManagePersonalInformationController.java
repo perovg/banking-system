@@ -4,7 +4,7 @@ import com.pgm.nad.BankingSystem.model.Client;
 import com.pgm.nad.BankingSystem.service.core.BankAccountService;
 import com.pgm.nad.BankingSystem.service.core.BankService;
 import com.pgm.nad.BankingSystem.service.core.ClientService;
-import com.pgm.nad.BankingSystem.service.core.exceptions.NullClientException;
+import com.pgm.nad.BankingSystem.service.core.exceptions.ClientServiceException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,19 +21,23 @@ public class ClientManagePersonalInformationController {
     public final BankAccountService bankAccountService;
 
     @PostMapping("")
-    public String clientInformation(@RequestParam("clientId") long clientId, Model model) {
+    public String clientInformation(@RequestParam("clientId") long clientId, Model model)
+            throws ClientServiceException
+    {
         model.addAttribute("client", clientService.findClientDtoById(clientId));
         return "clientManagePersonalInformation/clientInfo";
     }
 
     @PostMapping("/updateForm")
-    public String clientChangeInformation(@RequestParam("clientId") long clientId, Model model) {
+    public String clientChangeInformation(@RequestParam("clientId") long clientId, Model model)
+            throws ClientServiceException
+    {
         model.addAttribute("client", clientService.findClientById(clientId));
         return "clientManagePersonalInformation/clientUpdateInfo";
     }
 
     @PostMapping("/update")
-    public String updateInfo(Client client, Model model) throws NullClientException {
+    public String updateInfo(Client client, Model model) throws ClientServiceException {
         if (client.getName().isEmpty() || client.getSurname().isEmpty()) {
             model.addAttribute("client", clientService.findClientById(client.getClientId()));
             return "clientManagePersonalInformation/clientUpdateInfo";

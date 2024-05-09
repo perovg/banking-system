@@ -11,12 +11,10 @@ import com.pgm.nad.BankingSystem.model.DepositBankAccount;
 import com.pgm.nad.BankingSystem.model.Type;
 import com.pgm.nad.BankingSystem.repository.BankAccountRepository;
 import com.pgm.nad.BankingSystem.repository.BankRepository;
-import com.pgm.nad.BankingSystem.service.core.exceptions.BankAccountIsNotFoundException;
 import com.pgm.nad.BankingSystem.service.core.BankAccountService;
-import com.pgm.nad.BankingSystem.service.core.exceptions.BankIsNotFoundException;
-import com.pgm.nad.BankingSystem.service.core.exceptions.ClientIsNotFoundException;
-import com.pgm.nad.BankingSystem.service.core.exceptions.IncorrectAccountTypeException;
-import com.pgm.nad.BankingSystem.service.core.exceptions.NullBankException;
+import com.pgm.nad.BankingSystem.service.core.exceptions.BankAccountServiceException;
+
+import com.pgm.nad.BankingSystem.service.core.exceptions.ClientServiceException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -34,8 +32,8 @@ public class BankAccountServiceImpl implements BankAccountService {
     private final Random random = new Random();
 
     @Override
-    public BankAccountDto findBankAccountDtoById(long id) throws BankAccountIsNotFoundException {
-        if (!bankAccountRepository.existsById(id)) throw new BankAccountIsNotFoundException();
+    public BankAccountDto findBankAccountDtoById(long id) throws BankAccountServiceException {
+        if (!bankAccountRepository.existsById(id)) throw new BankAccountServiceException("Bank account with this id not found!");
 
         recalculation(id);
         return bankAccountMapper.modelToDto(findBankAccountById(id));
@@ -61,19 +59,18 @@ public class BankAccountServiceImpl implements BankAccountService {
     }
 
     @Override
-    public List<BankAccountDto> findAllByClient(long clientId) throws ClientIsNotFoundException {
+    public List<BankAccountDto> findAllByClient(long clientId) throws BankAccountServiceException, ClientServiceException {
         Client client = clientService.findClientById(clientId);
-        if (client == null) throw new ClientIsNotFoundException();
+        if (client == null) throw new BankAccountServiceException("Client is not found!");
 
         return bankAccountMapper.BankAccountListToBankAccountDtoList(bankAccountRepository.findAllByClient(client));
     }
 
     @Override
     public List<BankAccountDto> findAllByClientAndBank(long clientId, long bankId)
-            throws ClientIsNotFoundException, BankIsNotFoundException
-    {
-        if (!clientService.existById(clientId)) throw new ClientIsNotFoundException();
-        if (!bankRepository.existsById(bankId)) throw new BankIsNotFoundException();
+            throws BankAccountServiceException, ClientServiceException {
+        if (!clientService.existById(clientId)) throw new BankAccountServiceException("Client is not found!");
+        if (!bankRepository.existsById(bankId)) throw new BankAccountServiceException("Bank is not found exception!");
 
         List<BankAccountDto> bankAccounts =
                 bankAccountMapper.
@@ -93,10 +90,9 @@ public class BankAccountServiceImpl implements BankAccountService {
 
     @Override
     public void create(BankAccount bankAccount, long clientId, long bankId)
-            throws BankIsNotFoundException, ClientIsNotFoundException
-    {
-        if (!bankRepository.existsById(bankId)) throw new BankIsNotFoundException();
-        if (!clientService.existById(clientId)) throw new ClientIsNotFoundException();
+            throws BankAccountServiceException, ClientServiceException {
+        if (!bankRepository.existsById(bankId)) throw new BankAccountServiceException("Bank with this ID is not in database!");
+        if (!clientService.existById(clientId)) throw new BankAccountServiceException("Client with this ID is not in database!");
 
         Bank bank = bankRepository.findByBankId(bankId);
         bankAccount.setBankAccountId(generateBankAccountId(bankId));
@@ -112,8 +108,8 @@ public class BankAccountServiceImpl implements BankAccountService {
     }
 
     @Override
-    public void deleteAllByBank(Bank bank) throws NullBankException {
-        if (bank == null) throw new NullBankException();
+    public void deleteAllByBank(Bank bank) throws BankAccountServiceException {
+        if (bank == null) throw new BankAccountServiceException("Bank is null!");
         bankAccountRepository.deleteAllByBank(bank);
     }
 
@@ -208,8 +204,8 @@ public class BankAccountServiceImpl implements BankAccountService {
     }
 
     @Override
-    public boolean deleteById(long accountId) throws BankAccountIsNotFoundException {
-        if (!this.bankAccountRepository.existsById(accountId)) throw new BankAccountIsNotFoundException();
+    public boolean deleteById(long accountId) throws BankAccountServiceException {
+        if (!this.bankAccountRepository.existsById(accountId)) throw new BankAccountServiceException("Bank account is not find!");
         BankAccount bankAccount = this.findBankAccountById(accountId);
         if (bankAccount.getBalance() == 0) {
             bankAccountRepository.deleteById(accountId);
@@ -228,15 +224,15 @@ public class BankAccountServiceImpl implements BankAccountService {
     }
 
     @Override
-    public void reopenDepositAccount(long accountId) throws BankAccountIsNotFoundException, IncorrectAccountTypeException {
+    public void reopenDepositAccount(long accountId) throws BankAccountServiceException {
         BankAccount bankAccount = findBankAccountById(accountId);
-        if (bankAccount == null) throw new BankAccountIsNotFoundException();
+        if (bankAccount == null) throw new BankAccountServiceException("Bank account is null!");
         if (bankAccount.getType().equals(Type.DEPOSIT)) {
             DepositBankAccount depositBankAccount = DepositBankAccount.reopenDepositBankAccount(bankAccount);
 
             bankAccountRepository.save(depositBankAccount);
         } else {
-            throw new IncorrectAccountTypeException();
+            throw new BankAccountServiceException("Incorrect bank account type");
         }
     }
 
