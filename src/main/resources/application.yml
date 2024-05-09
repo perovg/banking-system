@@ -4,8 +4,6 @@ spring:
     url: jdbc:postgresql://localhost:5432/db
     username: mipt
     password: mipt
-  liquibase:
-    change-log: classpath:db/changelog/db.changelog-master.xml
   jpa:
     generate-ddl: true
     show-sql: true
