@@ -1,7 +1,9 @@
 package com.pgm.nad.BankingSystem.controller;
 
 import com.pgm.nad.BankingSystem.model.Bank;
-import com.pgm.nad.BankingSystem.service.BankService;
+import com.pgm.nad.BankingSystem.service.core.BankIsNotFoundException;
+import com.pgm.nad.BankingSystem.service.core.BankService;
+import com.pgm.nad.BankingSystem.service.core.NullBankNameException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,14 +31,14 @@ public class AdminManageBanksController {
     }
 
     @PostMapping("/create")
-    public String checkCreatingBank(Bank bank) {
+    public String checkCreatingBank(Bank bank) throws NullBankNameException {
         System.out.println(bank.getInterestDepositRate());
         bankService.save(bank);
         return "redirect:/admin/banks";
     }
 
     @PostMapping("/bank/edit")
-    public String manageBank(@RequestParam("bankId") long bankId, Model model) {
+    public String manageBank(@RequestParam("bankId") long bankId, Model model) throws BankIsNotFoundException {
         model.addAttribute("bank", bankService.findBankById(bankId));
         return "adminManageBanks/adminManageBank";
     }

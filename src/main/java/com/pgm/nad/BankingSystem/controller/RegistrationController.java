@@ -1,7 +1,8 @@
 package com.pgm.nad.BankingSystem.controller;
 
 import com.pgm.nad.BankingSystem.model.Client;
-import com.pgm.nad.BankingSystem.service.ClientService;
+import com.pgm.nad.BankingSystem.service.core.ClientService;
+import com.pgm.nad.BankingSystem.service.core.NullClientException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,7 +34,7 @@ public class RegistrationController {
     }
 
     @PostMapping("/signUp")
-    public String successRegister(Client client, Model model) {
+    public String successRegister(Client client, Model model) throws NullClientException {
         if (client.getName().isEmpty() || client.getSurname().isEmpty()) {
             return "signInAndSignUp/signUpError";
         }

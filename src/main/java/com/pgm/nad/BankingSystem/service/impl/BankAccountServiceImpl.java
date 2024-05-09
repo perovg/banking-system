@@ -1,4 +1,4 @@
-package com.pgm.nad.BankingSystem.service;
+package com.pgm.nad.BankingSystem.service.impl;
 
 import com.pgm.nad.BankingSystem.dto.BankAccountDto;
 import com.pgm.nad.BankingSystem.mapper.BankAccountMapper;
@@ -11,6 +11,7 @@ import com.pgm.nad.BankingSystem.model.DepositBankAccount;
 import com.pgm.nad.BankingSystem.model.Type;
 import com.pgm.nad.BankingSystem.repository.BankAccountRepository;
 import com.pgm.nad.BankingSystem.repository.BankRepository;
+import com.pgm.nad.BankingSystem.service.core.BankAccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

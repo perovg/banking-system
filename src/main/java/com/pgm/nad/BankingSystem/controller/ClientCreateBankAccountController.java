@@ -2,9 +2,10 @@ package com.pgm.nad.BankingSystem.controller;
 
 import com.pgm.nad.BankingSystem.dto.ClientDto;
 import com.pgm.nad.BankingSystem.model.BankAccount;
-import com.pgm.nad.BankingSystem.service.BankAccountService;
-import com.pgm.nad.BankingSystem.service.BankService;
-import com.pgm.nad.BankingSystem.service.ClientService;
+import com.pgm.nad.BankingSystem.service.core.BankAccountService;
+import com.pgm.nad.BankingSystem.service.core.BankIsNotFoundException;
+import com.pgm.nad.BankingSystem.service.core.BankService;
+import com.pgm.nad.BankingSystem.service.core.ClientService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,7 +34,7 @@ public class ClientCreateBankAccountController {
             (@RequestParam("clientId") long clientId,
              @RequestParam("bankId") long bankId,
              Model model
-            ) {
+            ) throws BankIsNotFoundException {
         model.addAttribute("clientId", clientId);
         model.addAttribute("bank", bankService.findBankDtoById(bankId));
         model.addAttribute("account", new BankAccount());
@@ -45,7 +46,7 @@ public class ClientCreateBankAccountController {
             @RequestParam("clientId") long clientId,
             @RequestParam("bankId") long bankId,
             Model model
-    ) {
+    ) throws BankIsNotFoundException {
         model.addAttribute("clientId", clientId);
         model.addAttribute("bank", bankService.findBankDtoById(bankId));
         return "clientCreateAccounts/clientCreateBankAccountConditions";
@@ -57,7 +58,7 @@ public class ClientCreateBankAccountController {
             @RequestParam("bankId") long bankId,
             BankAccount bankAccount,
             Model model
-    ) {
+    ) throws BankIsNotFoundException {
         bankAccountService.create(bankAccount, clientId, bankId);
         model.addAttribute("clientId", clientId);
         model.addAttribute("bank", bankService.findBankDtoById(bankId));

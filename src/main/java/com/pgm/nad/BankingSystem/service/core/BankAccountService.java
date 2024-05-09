@@ -1,4 +1,4 @@
-package com.pgm.nad.BankingSystem.service;
+package com.pgm.nad.BankingSystem.service.core;
 
 import com.pgm.nad.BankingSystem.dto.BankAccountDto;
 import com.pgm.nad.BankingSystem.model.Bank;
@@ -7,6 +7,14 @@ import com.pgm.nad.BankingSystem.model.BankAccount;
 import java.util.List;
 
 public interface BankAccountService {
+
+    /**
+     * A method that extracts a list of all bank accounts from the database
+     * and converts them into a list of data transfer objects (DTOs)
+     * for further processing by the controller.
+     *
+     * @return List<BankAccountDto>
+     */
     List<BankAccountDto> findAll();
 
     List<BankAccountDto> findAllByClient(long clientId);

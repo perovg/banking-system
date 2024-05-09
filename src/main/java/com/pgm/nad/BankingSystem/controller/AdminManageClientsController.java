@@ -1,8 +1,8 @@
 package com.pgm.nad.BankingSystem.controller;
 
 import com.pgm.nad.BankingSystem.dto.BankAccountDto;
-import com.pgm.nad.BankingSystem.service.BankAccountService;
-import com.pgm.nad.BankingSystem.service.ClientService;
+import com.pgm.nad.BankingSystem.service.core.BankAccountService;
+import com.pgm.nad.BankingSystem.service.core.ClientService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

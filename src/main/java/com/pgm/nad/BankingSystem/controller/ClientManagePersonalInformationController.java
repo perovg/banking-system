@@ -1,9 +1,10 @@
 package com.pgm.nad.BankingSystem.controller;
 
 import com.pgm.nad.BankingSystem.model.Client;
-import com.pgm.nad.BankingSystem.service.BankAccountService;
-import com.pgm.nad.BankingSystem.service.BankService;
-import com.pgm.nad.BankingSystem.service.ClientService;
+import com.pgm.nad.BankingSystem.service.core.BankAccountService;
+import com.pgm.nad.BankingSystem.service.core.BankService;
+import com.pgm.nad.BankingSystem.service.core.ClientService;
+import com.pgm.nad.BankingSystem.service.core.NullClientException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,7 +33,7 @@ public class ClientManagePersonalInformationController {
     }
 
     @PostMapping("/update")
-    public String updateInfo(Client client, Model model) {
+    public String updateInfo(Client client, Model model) throws NullClientException {
         if (client.getName().isEmpty() || client.getSurname().isEmpty()) {
             model.addAttribute("client", clientService.findClientById(client.getClientId()));
             return "clientManagePersonalInformation/clientUpdateInfo";

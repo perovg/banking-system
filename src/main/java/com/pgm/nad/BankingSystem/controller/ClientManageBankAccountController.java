@@ -1,9 +1,10 @@
 package com.pgm.nad.BankingSystem.controller;
 
 import com.pgm.nad.BankingSystem.dto.BankAccountDto;
-import com.pgm.nad.BankingSystem.service.BankAccountService;
-import com.pgm.nad.BankingSystem.service.BankService;
-import com.pgm.nad.BankingSystem.service.ClientService;
+import com.pgm.nad.BankingSystem.service.core.BankAccountService;
+import com.pgm.nad.BankingSystem.service.core.BankIsNotFoundException;
+import com.pgm.nad.BankingSystem.service.core.BankService;
+import com.pgm.nad.BankingSystem.service.core.ClientService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,7 +28,7 @@ public class ClientManageBankAccountController {
             @RequestParam("clientId") long clientId,
             @RequestParam("accountId") long accountId,
             Model model
-    ) {
+    ) throws BankIsNotFoundException {
         BankAccountDto bankAccount = bankAccountService.findBankAccountDtoById(accountId);
         model.addAttribute("account", bankAccount);
         model.addAttribute("client", clientService.findClientDtoById(clientId));
@@ -75,7 +76,7 @@ public class ClientManageBankAccountController {
             @RequestParam("clientId") long clientId,
             @RequestParam("accountId") long accountId,
             Model model
-    ) {
+    ) throws BankIsNotFoundException {
         model.addAttribute("clientId", clientId);
         model.addAttribute("bankId", bankId);
         model.addAttribute("accountId", accountId);
@@ -113,7 +114,7 @@ public class ClientManageBankAccountController {
             @RequestParam("clientId") long clientId,
             @RequestParam("accountId") long accountId,
             Model model
-    ) {
+    ) throws BankIsNotFoundException {
         model.addAttribute("clientId", clientId);
         model.addAttribute("accountId", accountId);
         model.addAttribute("bankId", bankId);

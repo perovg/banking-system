@@ -1,9 +1,11 @@
-package com.pgm.nad.BankingSystem.service;
+package com.pgm.nad.BankingSystem.service.impl;
 
 import com.pgm.nad.BankingSystem.dto.ClientDto;
 import com.pgm.nad.BankingSystem.mapper.ClientMapper;
 import com.pgm.nad.BankingSystem.model.Client;
 import com.pgm.nad.BankingSystem.repository.ClientRepository;
+import com.pgm.nad.BankingSystem.service.core.ClientService;
+import com.pgm.nad.BankingSystem.service.core.NullClientException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -34,7 +36,10 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public long save(Client client) {
+    public long save(Client client) throws NullClientException {
+        if (client == null) {
+            throw new NullClientException("Client is null");
+        }
         long clientId = generateClientId();
         client.setClientId(clientId);
         clientRepository.save(client);
@@ -59,7 +64,10 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public void update(Client client) {
+    public void update(Client client) throws NullClientException {
+        if (client == null) {
+            throw new NullClientException("Client is null");
+        }
         clientRepository.save(client);
     }
 
