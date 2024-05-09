@@ -83,7 +83,7 @@ public class BankServiceImpl implements BankService {
     public void save(Bank bank) throws NullBankNameException {
         System.out.println(bank.getInterestDepositRate());
         if (existsByName(bank.getName()) || existsById(bank.getBankId())) {
-            long id = random.nextLong(1000, 9999);
+            long id = Long.valueOf(bank.getBankId()) != null ? bank.getBankId() : random.nextLong(1000, 9999);
             while (existsById(id)) {
                 id = random.nextLong(1000, 9999);
             }
