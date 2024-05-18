@@ -9,8 +9,6 @@ app-build:
     - common
     - cpu
   script:
-    #- apt update
-    #- apt install openjdk-17-jdk
     - cd $CI_PROJECT_DIR
     - echo $JAVA_HOME
     - java -version
