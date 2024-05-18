@@ -1,14 +1,13 @@
-#information:
-  #image: maven:3-openjdk-8
-  #stage: test
-  #script:
-    #- echo $JAVA_HOME
-    #- whereis java
-    #- readlink -f $(which java)
+information:
+  image: maven:3-openjdk-8
+  stage: test
+  script:
+    - echo $JAVA_HOME
+    - echo $MAVEN_HOME
 
 before_script:
     - chmod +x mvnw
-    
+
 app-build:
   image: maven:3-openjdk-8
   stage: build
