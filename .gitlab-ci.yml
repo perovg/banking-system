@@ -16,7 +16,9 @@ app-build:
     paths:
       - $CI_PROJECT_DIR
 
-deploy:
+app-deploy:
+  tags:
+    - common
   stage: deploy
   script:
     - ls -l /builds/tp2024-projects/project-3
