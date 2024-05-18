@@ -1,0 +1,9 @@
+app-build:
+  image: eclipse-temurin:17-jdk-alpine
+  stage: build
+  script:
+    - cd $CI_PROJECT_DIR
+    - mvnw.cmd clean package -DskipTests
+  artifacts:
+    paths:
+      - $CI_PROJECT_DIR
