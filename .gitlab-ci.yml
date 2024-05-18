@@ -3,7 +3,7 @@ information:
   stage: test
   script:
     #- echo $JAVA_HOME
-    - whereis java
+    #- whereis java
     - readlink -f $(which java)
 
 #app-build:
