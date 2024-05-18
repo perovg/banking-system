@@ -3,7 +3,7 @@ app-build:
   stage: build
   script:
     - cd $CI_PROJECT_DIR
-    - mvnw.cmd clean package -DskipTests
+    - ./mvnw clean package -DskipTests
   artifacts:
     paths:
       - $CI_PROJECT_DIR
