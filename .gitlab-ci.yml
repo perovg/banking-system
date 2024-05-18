@@ -6,14 +6,15 @@ app-build:
   stage: build
   tags:
     - common
+    - dind
   script:
-    - apt update
-    - apt install openjdk-17-jdk
+    #- apt update
+    #- apt install openjdk-17-jdk
     - cd $CI_PROJECT_DIR
     - echo $JAVA_HOME
     - java -version
     - ls -l /usr/local/
-    #- ./mvnw clean package -DskipTests
+    - ./mvnw clean package -DskipTests
   artifacts:
     paths:
       - $CI_PROJECT_DIR
