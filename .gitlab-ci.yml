@@ -10,15 +10,10 @@ app-build:
     - cd $CI_PROJECT_DIR
     - echo $JAVA_HOME
     - java -version
-    - ls -l /usr/local/
     - ./mvnw clean package -DskipTests
   artifacts:
     paths:
       - $CI_PROJECT_DIR
-
-app-deploy:
-  tags:
-    - common
-  stage: deploy
-  script:
-    - ls -l /builds/tp2024-projects/project-3
+  after_script:
+    - pwd
+    - ls -l 
