@@ -2,8 +2,9 @@ information:
   image: maven:3-openjdk-8
   stage: test
   script:
-    - echo $JAVA_HOME
-
+    #- echo $JAVA_HOME
+    - whereis java
+    - readlink -f $(which java)
 
 #app-build:
   #image: maven:3-openjdk-8
