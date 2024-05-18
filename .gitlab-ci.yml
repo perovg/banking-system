@@ -9,8 +9,9 @@ app-build:
   script:
     - cd $CI_PROJECT_DIR
     - echo $JAVA_HOME
-    - java -version 
-    - ./mvnw clean package -DskipTests
+    - java -version
+    - ls -l /usr/lib/jvm/
+    #- ./mvnw clean package -DskipTests
   artifacts:
     paths:
       - $CI_PROJECT_DIR
