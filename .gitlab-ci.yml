@@ -1,9 +1,17 @@
+before_script:
+    - chmod +x mvnw
+
 app-build:
-  image: maven:3-openjdk-8
+  image: openjdk:17-oracle
   stage: build
+  tags:
+    - common
   script:
     - cd $CI_PROJECT_DIR
     - ./mvnw clean package -DskipTests
   artifacts:
     paths:
       - $CI_PROJECT_DIR
+  after_script:
+    - pwd
+    - ls -l target
