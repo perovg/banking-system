@@ -35,6 +35,8 @@ app-test:
 
 build:
   stage: deploy
+  tags:
+    - common
   image:
     name: gcr.io/kaniko-project/executor:v1.14.0-debug
     entrypoint: [""]
