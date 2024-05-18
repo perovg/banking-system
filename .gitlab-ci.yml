@@ -6,7 +6,7 @@ app-build:
   stage: build
   tags:
     - common
-    - dind
+    - cpu
   script:
     #- apt update
     #- apt install openjdk-17-jdk
