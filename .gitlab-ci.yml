@@ -1,3 +1,7 @@
+stages:
+  - build
+  - deploy
+
 before_script:
     - chmod +x mvnw
 
@@ -15,3 +19,31 @@ app-build:
   after_script:
     - pwd
     - ls -l target
+
+docker-build:
+  # Use the official docker image.
+  image: docker:cli
+  tags:
+    - dind
+  stage: deploy
+  services:
+    - docker:dind
+  variables:
+    DOCKER_IMAGE_NAME: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
+  before_script:
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+  # All branches are tagged with $DOCKER_IMAGE_NAME (defaults to commit ref slug)
+  # Default branch is also tagged with `latest`
+  script:
+    - cd $CI_PROJECT_DIR
+    - docker build --pull -t "$DOCKER_IMAGE_NAME" .
+    - docker push "$DOCKER_IMAGE_NAME"
+    - |
+      if [[ "$CI_COMMIT_BRANCH" == "$CI_DEFAULT_BRANCH" ]]; then
+        docker tag "$DOCKER_IMAGE_NAME" "$CI_REGISTRY_IMAGE:latest"
+        docker push "$CI_REGISTRY_IMAGE:latest"
+      fi
+  rules:
+    - if: $CI_COMMIT_BRANCH
+      exists:
+        - Dockerfile
