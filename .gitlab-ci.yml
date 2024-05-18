@@ -8,7 +8,8 @@ app-build:
     - common
   script:
     - cd $CI_PROJECT_DIR
-    - ./mvnw clean package -DskipTests
+    - echo $JAVA_HOME
+    #- ./mvnw clean package -DskipTests
   artifacts:
     paths:
       - $CI_PROJECT_DIR
