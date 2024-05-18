@@ -1,17 +1,18 @@
-information:
-  image: maven:3-openjdk-8
-  stage: test
-  script:
+#information:
+  #image: maven:3-openjdk-8
+  #stage: test
+  #script:
     #- echo $JAVA_HOME
     #- whereis java
-    - readlink -f $(which java)
+    #- readlink -f $(which java)
 
-#app-build:
-  #image: maven:3-openjdk-8
-  #stage: build
-  #script:
-    #- cd $CI_PROJECT_DIR
-    #- ./mvnw clean package -DskipTests
-  #artifacts:
-    #paths:
-      #- $CI_PROJECT_DIR
+app-build:
+  image: maven:3-openjdk-8
+  stage: build
+  tags: common
+  script:
+    - cd $CI_PROJECT_DIR
+    - ./mvnw clean package -DskipTests
+  artifacts:
+    paths:
+      - $CI_PROJECT_DIR
