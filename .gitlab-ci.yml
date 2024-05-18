@@ -7,8 +7,8 @@ app-build:
   tags:
     - common
   script:
-    - sudo apt update
-    - sudo apt install openjdk-17-jdk
+    - apt update
+    - apt install openjdk-17-jdk
     - cd $CI_PROJECT_DIR
     - echo $JAVA_HOME
     - java -version
