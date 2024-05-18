@@ -3,7 +3,6 @@ before_script:
 
 app-build:
   image: openjdk:17-oracle
-  #image: maven:3-openjdk-8
   stage: build
   tags:
     - common
