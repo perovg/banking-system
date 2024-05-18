@@ -16,4 +16,4 @@ app-build:
       - $CI_PROJECT_DIR
   after_script:
     - pwd
-    - ls -l 
+    - ls -l target
