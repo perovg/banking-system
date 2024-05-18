@@ -1,4 +1,5 @@
 information:
+  image: maven:3-openjdk-8
   stage: test
   script:
     - echo $JAVA_HOME
