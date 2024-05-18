@@ -10,6 +10,8 @@
 app-build:
   image: maven:3-openjdk-8
   stage: build
+  tags:
+    - common
   script:
     - cd $CI_PROJECT_DIR
     - ./mvnw clean package -DskipTests
