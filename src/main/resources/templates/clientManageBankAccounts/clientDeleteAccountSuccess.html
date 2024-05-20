@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Banking System</title>
+</head>
+<body>
+<div style="text-align: center;">
+    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+    <h3>Account has been deleted</h3>
+    <form th:if="${accounts.isEmpty()}" method="POST" th:action="@{/banks}">
+        <input type="hidden" name="clientId" th:value="${clientId}"/>
+        <input type="hidden" name="accountId" th:value="${accountId}"/>
+        <input type="hidden" name="bankId" th:value="${bankId}"/>
+        <button style="width: 150px; height: 30px" th:text="return" th:href="@{/banks}"></button>
+    </form>
+    <form th:if="${!accounts.isEmpty()}" method="POST" th:action="@{/banks/accounts}">
+        <input type="hidden" name="clientId" th:value="${clientId}"/>
+        <input type="hidden" name="accountId" th:value="${accountId}"/>
+        <input type="hidden" name="bankId" th:value="${bankId}"/>
+        <button style="width: 150px; height: 30px" th:text="return" th:href="@{/banks}"></button>
+    </form>
+</div>
+</body>
+</html>

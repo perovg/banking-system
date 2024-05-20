@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Banking System</title>
+</head>
+<body>
+<form method="GET" th:action="@{/admin}">
+    <button style="width: 170px; height: 25px; float: right">exit</button>
+</form>
+<br>
+<div style="text-align: center;">
+    <h1>Manage clients</h1>
+    <table th:if="${!clients.isEmpty()}" border="1" style="display: inline-block;">
+        <tr>
+            <th th:text="Id" style="width: 100px; border-color: black; height: 30px" align="left"></th>
+            <th th:text="Name" style="width: 100px; border-color: black; height: 30px" align="left"></th>
+            <th th:text="Surname" style="width: 100px; border-color: black; height: 30px" align="left"></th>
+            <th th:text="Passport" style="width: 100px; border-color: black; height: 30px" align="left"></th>
+            <th th:text="Address" style="width: 100px; border-color: black; height: 30px" align="left"></th>
+            <th style="width: 100px; border-color: black; height: 30px"></th>
+        </tr>
+        <tr th:each="client : ${clients}" th:if="${client.clientId != 700000000}">
+            <form method="POST" th:action="@{/admin/clients/client}" th:object="${client}">
+                <td th:text="${client.clientId}" style="width: 100px; border-color: black; height: 30px"></td>
+                <td th:text="${client.name} " style="width: 100px; border-color: black; height: 30px"></td>
+                <td th:text="${client.surname}" style="width: 100px; border-color: black; height: 30px"></td>
+                <td th:text="${client.passport} " style="width: 100px; border-color: black; height: 30px"></td>
+                <td th:text="${client.address} " style="width: 100px; border-color: black; height: 30px"></td>
+                <td style="width: 100px; border-color: black; height: 30px">
+                    <input type="hidden" name="clientId" th:value="${client.clientId}"/>
+                    <button style="width: 100px; height: 30px; background-color: cornflowerblue" th:href="@{/admin/clients/client}">manage</button>
+                </td>
+            </form>
+        </tr>
+    </table>
+</div>
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Banking System</title>
+</head>
+<body>
+<form method="POST" th:action="@{/banks}">
+    <input type="hidden" name="clientId" th:value="${clientId}"/>
+    <button style="width: 170px; height: 25px; float: right">return to main catalog</button>
+</form>
+<div style="text-align: center;">
+    <br><br>
+    <h1 th:text="${bank.name}"></h1>
+    <br><br><br>
+    <h2>Create new </h2>
+    <form method="post" th:action="@{/banks/accounts/create/conditions}">
+        <input type="hidden" name="clientId" th:value="${clientId}"/>
+        <input type="hidden" name="bankId" th:value="${bank.bankId}"/>
+        <button style="background-color: cornflowerblue">conditions</button>
+    </form>
+    <br>
+    <form method="POST" th:action="@{/banks/add_bank/create_account/success}" th:object="${account}">
+        <input type="hidden" name="clientId" th:value="${clientId}"/>
+        <input type="hidden" name="bankId" th:value="${bank.bankId}"/>
+        <fieldset style="display: inline-block; width: 150px">
+            <legend>Choose account type:</legend>
+            <table>
+                <tr>
+                    <input style="float: left" type="radio" th:field="*{type}" value="DEBIT" id="debit"
+                           onchange="checkSelection()"/>
+                    <label style="float: left" for="debit">Debit</label><br>
+                </tr>
+                <tr>
+                    <input style="float: left" type="radio" th:field="*{type}" value="DEPOSIT" id="deposit"
+                           onchange="checkSelection()"/>
+                    <label style="float: left" for="deposit">Deposit</label><br>
+                </tr>
+                <tr>
+                    <input style="float: left" type="radio" th:field="*{type}" value="CREDIT" id="credit"
+                           onchange="checkSelection()"/>
+                    <label style="float: left" for="credit">Credit</label>
+                </tr>
+            </table>
+        </fieldset>
+        <br><br>
+        <button id="submitBtn" disabled style="width: 180px; height: 25px; background-color: cornflowerblue">open
+        </button>
+    </form>
+    <script>
+        function checkSelection() {
+            const submitButton = document.getElementById('submitBtn');
+            const radioInputs = document.querySelectorAll('input[type="radio"]');
+            const selectedInput = Array.from(radioInputs).some(input => input.checked);
+
+            submitButton.disabled = !selectedInput;
+        }
+    </script>
+</div>
+</body>
+</html>

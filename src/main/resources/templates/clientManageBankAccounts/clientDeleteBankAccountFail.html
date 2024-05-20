@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Banking System</title>
+</head>
+<body>
+<div style="text-align: center;">
+    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+    <h3>Failed to delete account</h3>
+    <a>To delete, your account balance must be 0,00</a><br><br>
+    <form method="POST" th:action="@{/banks/accounts/account}">
+        <input type="hidden" name="clientId" th:value="${clientId}"/>
+        <input type="hidden" name="accountId" th:value="${accountId}"/>
+        <input type="hidden" name="bankId" th:value="${bankId}"/>
+        <button style="width: 150px; height: 30px" th:text="return" th:href="@{/banks/accounts/account}"></button>
+    </form>
+</div>
+</body>
+</html>

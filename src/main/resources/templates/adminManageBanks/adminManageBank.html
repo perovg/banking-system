@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>BankingSystem</title>
+</head>
+<body>
+<form method="POST" th:action="@{/admin/banks/bank}" th:object="${bank}">
+    <div style="text-align: center;">
+        <h1>Manage bank</h1>
+        <label>
+            <span style="color: red; ">*</span>Name:
+        </label>
+        <br>
+        <label>
+            <input th:field="*{name}" type="text" id="nameInput" onkeyup="success()">
+        </label>
+        <br><br>
+        <label for="creditPeriod">
+            <span style="color: red; ">*</span>Enter credit period <br> (sec, >= 100):
+        </label>
+        <br>
+        <label>
+            <input th:field="*{creditPeriod}" type="text" id="creditPeriodInput" onkeyup="success()"/>
+        </label>
+        <br><br>
+        <label for="interestCreditRate">
+            <span style="color: red; ">*</span>Enter interest credit rate <br> (% / credit period):
+        </label>
+        <br>
+        <label>
+            <input th:field="*{interestCreditRate}" type="text" id="interestCreditRateInput" onkeyup="success()"/>
+        </label>
+        <br><br>
+        <label for="creditLimit">
+            <span style="color: red; ">*</span>Enter credit limit <br> ( >= 10000):
+        </label>
+        <br>
+        <label>
+            <input th:field="*{creditLimit}" type="text" id="creditLimitInput" onkeyup="success()"/>
+        </label>
+        <br><br>
+        <label for="depositPeriod">
+            <span style="color: red; ">*</span>Enter deposit period <br> (sec, >= 100):
+        </label>
+        <br>
+        <label>
+            <input th:field="*{depositPeriod}" type="text" id="depositPeriodInput" onkeyup="success()"/>
+        </label>
+        <br><br>
+        <label for="interestDepositRate">
+            <span style="color: red; ">*</span>Enter interest deposit rate <br> (% / deposit period):
+        </label>
+        <br>
+        <label>
+            <input th:field="*{interestDepositRate}" type="text" id="interestDepositRateInput" onkeyup="success()"/>
+        </label>
+        <br><br>
+        <input type="hidden" name="bankId" th:value="${bank.bankId}"/>
+        <button id="button" style="width: 170px; height: 25px; background-color: cornflowerblue">update</button>
+    </div>
+</form>
+<br><br><br><br><br><br><br>
+<form method="POST" th:action="@{/admin/banks/bank/delete}">
+    <input type="hidden" name="bankId" th:value="${bank.bankId}"/>
+    <button style="width: 170px; height: 25px; float: left; background-color: red">delete</button>
+</form>
+<form method="GET" th:action="@{/admin/banks}">
+    <button style="width: 170px; height: 25px; float: right">exit</button>
+</form>
+<script>
+    function success() {
+        document.getElementById('button').disabled = !check();
+    }
+
+    function check() {
+        if (document.getElementById("nameInput").value === "") {
+            return false;
+        }
+        if (isNaN(parseInt(document.getElementById("creditPeriodInput").value)) || document.getElementById("creditPeriodInput").value < 100) {
+            return false;
+        }
+        if (isNaN(parseFloat(document.getElementById("interestCreditRateInput").value)) || document.getElementById("interestCreditRateInput").value <= 0) {
+            return false;
+        }
+        if (isNaN(parseInt(document.getElementById("creditLimitInput").value)) || document.getElementById("creditLimitInput").value < 10000) {
+            return false;
+        }
+        if (isNaN(parseInt(document.getElementById("depositPeriodInput").value)) || document.getElementById("depositPeriodInput").value < 100) {
+            return false;
+        }
+        return !(isNaN(parseFloat(document.getElementById("interestDepositRateInput").value)) || document.getElementById("interestDepositRateInput").value <= 0);
+
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Banking System</title>
+</head>
+<body>
+<form method="POST" th:action="@{/info}">
+    <input type="hidden" name="clientId" th:value="${client.clientId}"/>
+    <button style="width: 200px; height: 25px; float: right">exit</button>
+</form>
+<form method="POST" th:action="@{/info/update}" th:object="${client}">
+    <br><br><br><br><br><br><br><br>
+    <div style="text-align: center;">
+        <h1>Update information</h1>
+        <br>
+        <label for="clientId"></label>
+        <label>
+            <input th:field="*{clientId}" type="hidden"/>
+        </label>
+        <br>
+        <label for="clientName">
+            <span style="color: red; ">*</span>Name:
+        </label>
+        <br>
+        <label>
+            <input th:field="*{name}" type="text" id="nameInput" onkeyup="success()"/>
+        </label>
+        <br>
+        <label for="clientSurname">
+            <span style="color: red; ">*</span>Surname:
+        </label>
+        <br>
+        <label>
+            <input th:field="*{surname}" type="text" id="surnameInput" onkeyup="success()"/>
+        </label>
+        <br>
+        <label for="clientPassport">Passport:</label>
+        <br>
+        <label>
+            <input th:field="*{passport}" type="text"/>
+        </label>
+        <br>
+        <label for="clientAddress">Address:</label>
+        <br>
+        <label>
+            <input th:field="*{address}" type="text"/>
+        </label>
+        <br><br>
+        <button id="button" style="width: 170px; height: 25px; background-color: cornflowerblue">update</button>
+    </div>
+</form>
+<script>
+    function success() {
+        document.getElementById('button').disabled = !check();
+    }
+
+    function check() {
+        if(document.getElementById("nameInput").value === "") {
+            return false;
+        }
+        return document.getElementById("surnameInput").value !== "";
+
+    }
+</script>
+</body>
+</html>

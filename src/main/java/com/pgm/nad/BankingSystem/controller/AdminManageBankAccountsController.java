@@ -1,0 +1,46 @@
+package com.pgm.nad.BankingSystem.controller;
+
+import com.pgm.nad.BankingSystem.dto.BankAccountDto;
+import com.pgm.nad.BankingSystem.service.core.BankAccountService;
+import com.pgm.nad.BankingSystem.service.core.ClientService;
+import com.pgm.nad.BankingSystem.service.core.exceptions.BankAccountServiceException;
+import com.pgm.nad.BankingSystem.service.core.exceptions.ClientServiceException;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+@Controller
+@RequestMapping("/admin/accounts")
+@RequiredArgsConstructor
+public class AdminManageBankAccountsController {
+    private final BankAccountService bankAccountService;
+    private final ClientService clientService;
+
+    @GetMapping("")
+    public String manageClientsPage(Model model) {
+        model.addAttribute("accounts", bankAccountService.findAll());
+        return "adminManageBankAccounts/adminManageBankAccounts";
+    }
+
+    @PostMapping("/account/edit")
+    public String manageAccountPage(@RequestParam("accountId") long accountId, Model model)
+            throws BankAccountServiceException, ClientServiceException {
+        BankAccountDto bankAccount = bankAccountService.findBankAccountDtoById(accountId);
+        model.addAttribute("account", bankAccount);
+        model.addAttribute("client", clientService.findClientDtoById(bankAccount.clientId()));
+        return "adminManageBankAccounts/adminManageBankAccount";
+    }
+
+    @PostMapping("/account/block")
+    public String blockAndUnBlockBankAccount(@RequestParam("accountId") long accountId, Model model)
+            throws BankAccountServiceException, ClientServiceException {
+        BankAccountDto bankAccount = bankAccountService.blockAndUnblock(accountId);
+        model.addAttribute("account", bankAccount);
+        model.addAttribute("client", clientService.findClientDtoById(bankAccount.clientId()));
+        return "adminManageBankAccounts/adminManageBankAccount";
+    }
+}

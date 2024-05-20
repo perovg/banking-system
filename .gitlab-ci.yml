@@ -1,0 +1,49 @@
+stages:
+  - build
+  - test
+  - deploy
+
+before_script:
+    - chmod +x mvnw
+
+app-build:
+  image: openjdk:17-oracle
+  stage: build
+  tags:
+    - common
+  script:
+    - cd $CI_PROJECT_DIR
+    - ./mvnw clean package -DskipTests
+  artifacts:
+    paths:
+      - $CI_PROJECT_DIR
+  after_script:
+    - pwd
+    - ls -l target
+
+app-test:
+  image: openjdk:17-oracle
+  stage: test
+  tags:
+    - common
+  script:
+    - cd $CI_PROJECT_DIR
+    - ./mvnw test -DskipTests
+  artifacts:
+    paths:
+      - $CI_PROJECT_DIR
+
+build:
+  stage: deploy
+  tags:
+    - common
+  image:
+    name: gcr.io/kaniko-project/executor:v1.14.0-debug
+    entrypoint: [""]
+  script:
+    - /kaniko/executor
+      --context "${CI_PROJECT_DIR}"
+      --dockerfile "${CI_PROJECT_DIR}/Dockerfile"
+      --destination "${CI_REGISTRY_IMAGE}:${CI_COMMIT_TAG}"
+#  rules:
+#    - if: $CI_COMMIT_TAG # commented out to test pipeline

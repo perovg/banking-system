@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>BankingSystem</title>
+</head>
+<body>
+<br><br><br><br><br><br><br>
+<div style="text-align: center;">
+    <h1>Sign In</h1>
+    <form method="POST" th:action="@{/banks}">
+        <a>Your id:</a><br>
+        <label for="clientId"></label>
+        <input type="text" name="clientId" th:href="*{clientId}" id="clientId" onkeyup="check()"/>
+        <br><br>
+        <button id="signInButton" disabled style="width: 150px; height: 25px; background-color: cornflowerblue">sign in
+        </button>
+    </form>
+    <form method="GET" th:action="@{/signUp}">
+        <h4>I don't have an account</h4>
+        <button style="width: 150px; height: 25px; background-color: cornflowerblue">registration</button>
+    </form>
+</div>
+<script>
+    function check() {
+        document.getElementById("signInButton").disabled =
+            !(typeof parseInt(document.getElementById("clientId").value) == "number" &&
+                document.getElementById("clientId").value >= 700000000 &&
+                document.getElementById("clientId").value < 800000000);
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Banking System</title>
+</head>
+<body>
+<form method="POST" th:action="@{/banks/accounts/account}">
+    <input type="hidden" name="clientId" th:value="${clientId}"/>
+    <input type="hidden" name="accountId" th:value="${accountId}"/>
+    <input type="hidden" name="bankId" th:value="${bankId}"/>
+    <button style="width: 100px; height: 30px; float: right" th:text="cancel"
+            th:href="@{/banks/accounts/account}"></button>
+</form>
+<br><br><br><br><br><br><br><br><br><br><br>
+<div style="text-align: center;">
+    <h2>Withdraw</h2>
+    <form method="POST" th:action="@{/banks/accounts/account/withdraw}">
+        <a>Enter withdraw amount:</a>
+        <br><br>
+        <a th:text="'Balance: ' + ${#numbers.formatDecimal(balance, 1, 2)}"></a>
+        <br>
+        <label for="amount"></label>
+        <input type="text" name="amount" th:href="*{amount}" id="amount" onkeyup="check()"/>
+        <br><br>
+        <input type="hidden" name="clientId" th:value="${clientId}"/>
+        <input type="hidden" name="accountId" th:value="${accountId}"/>
+        <input type="hidden" name="bankId" th:value="${bankId}"/>
+        <button id="button" style="width: 170px; height: 25px; background-color: cornflowerblue" disabled>withdraw</button>
+    </form>
+</div>
+<script>
+    const balance = [[${balance}]];
+    const creditLimit = [[${creditLimit}]];
+    const type = [[${type}]];
+
+    function check() {
+        document.getElementById("button").disabled = document.getElementById("amount").value <= 0 ||
+            document.getElementById("amount").value > balance + creditLimit ||
+            isNaN(parseFloat(document.getElementById("amount").value));
+    }
+</script>
+</body>
+</html>

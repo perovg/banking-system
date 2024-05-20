@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Banking System</title>
+</head>
+<body>
+<div style="text-align: center;">
+    <form method="POST" th:action="@{/banks/accounts}">
+        <input type="hidden" name="clientId" th:value="${client.clientId}"/>
+        <input type="hidden" name="bankId" th:value="${bank.bankId}"/>
+        <button style="width: 100px; height: 30px; background-color: cornflowerblue" th:text="${bank.name}"></button>
+    </form>
+    <br><br>
+    <h1 th:text="${bank.name}"></h1>
+    <h3>Information about your bank account</h3>
+
+    <table border="1" style="display: inline-block;">
+        <tr>
+            <td style="width: 200px; border-color: black; height: 30px">Account id:</td>
+            <td th:text="${account.bankAccountId}" style="width: 100px; border-color: black; height: 30px"></td>
+        </tr>
+        <tr>
+            <td style="width: 200px; border-color: black; height: 30px">Type:</td>
+            <td th:text="${account.type}" style="width: 100px; border-color: black; height: 30px"></td>
+        </tr>
+        <tr>
+            <td style="width: 200px; border-color: black; height: 30px">Balance:</td>
+            <td th:text="${#numbers.formatDecimal(account.balance, 1, 2)}"
+                style="width: 100px; border-color: black; height: 30px"></td>
+        </tr>
+        <tr th:if="${type != 'DEBIT'}">
+            <td style="width: 200px; border-color: black; height: 30px">Interest rate:</td>
+            <td th:text="${account.interestRate}" style="width: 100px; border-color: black; height: 30px"></td>
+        </tr>
+        <tr th:if="${type == 'DEPOSIT'}">
+            <td style="width: 200px; border-color: black; height: 30px">Remaining term:</td>
+            <td th:text="(${account.periodEnd} - ${realTime})"
+                style="width: 100px; border-color: black; height: 30px"></td>
+        </tr>
+        <tr th:if="${type == 'CREDIT'}">
+            <td style="width: 200px; border-color: black; height: 30px">Credit limit:</td>
+            <td th:text="${bank.creditLimit}" style="width: 100px; border-color: black; height: 30px"></td>
+        </tr>
+        <tr th:if="${type == 'CREDIT'}">
+            <td style="width: 200px; border-color: black; height: 30px">Credit period:</td>
+            <td th:text="${bank.creditPeriod}" style="width: 100px; border-color: black; height: 30px"></td>
+        </tr>
+    </table>
+
+    <h3 th:if="${account.blocked()}" style="text-decoration: underline">Account is blocked</h3>
+
+    <h3 th:if="${!account.blocked()}">Operations with account</h3>
+    <form th:if="${!account.blocked()}" method="POST" th:action="@{/banks/accounts/account/topUpForm}">
+        <input type="hidden" name="clientId" th:value="${client.clientId}"/>
+        <input type="hidden" name="accountId" th:value="${account.bankAccountId}"/>
+        <input type="hidden" name="bankId" th:value="${bank.bankId}"/>
+        <button style="width: 300px; height: 25px">top up</button>
+    </form>
+    <br>
+    <form th:if="${account.balance > -bank.creditLimit && account.periodEnd <= realTime && !account.blocked()}"
+          method="POST" th:action="@{/banks/accounts/account/withdrawForm}">
+        <input type="hidden" name="clientId" th:value="${client.clientId}"/>
+        <input type="hidden" name="accountId" th:value="${account.bankAccountId}"/>
+        <input type="hidden" name="bankId" th:value="${bank.bankId}"/>
+        <button style="width: 300px; height: 25px">withdraw</button>
+    </form>
+    <br>
+    <form th:if="${account.balance > -bank.creditLimit && account.periodEnd <= realTime && !account.blocked()}"
+          method="POST" th:action="@{/banks/accounts/account/transferForm}">
+        <input type="hidden" name="clientId" th:value="${client.clientId}"/>
+        <input type="hidden" name="accountId" th:value="${account.bankAccountId}"/>
+        <input type="hidden" name="bankId" th:value="${bank.bankId}"/>
+        <button style="width: 300px; height: 25px">transfer by account number</button>
+    </form>
+    <br><br><br>
+    <form th:if="${account.periodEnd <= realTime}" method="POST" th:action="@{/banks/accounts/account/delete}">
+        <input type="hidden" name="clientId" th:value="${client.clientId}"/>
+        <input type="hidden" name="accountId" th:value="${account.bankAccountId}"/>
+        <input type="hidden" name="bankId" th:value="${bank.bankId}"/>
+        <button style="width: 300px; height: 25px; background-color: red">delete</button>
+    </form>
+    <br>
+    <form th:if="${type == 'DEPOSIT' && account.periodEnd <= realTime && !account.blocked()}" method="POST"
+          th:action="@{/banks/accounts/account/reopen}">
+        <input type="hidden" name="clientId" th:value="${client.clientId}"/>
+        <input type="hidden" name="accountId" th:value="${account.bankAccountId}"/>
+        <input type="hidden" name="bankId" th:value="${bank.bankId}"/>
+        <button style="width: 300px; height: 25px; background-color: cornflowerblue">reopen</button>
+    </form>
+</div>
+</body>
+</html>
